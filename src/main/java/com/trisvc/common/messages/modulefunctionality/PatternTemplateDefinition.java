@@ -1,13 +1,11 @@
-package com.trisvc.common.messages.module;
-
-import java.io.IOException;
+package com.trisvc.common.messages.modulefunctionality;
 
 public class PatternTemplateDefinition {
 
 	private String patternIn;
 	private String templateOut;
 
-	public PatternTemplateDefinition(String patternIn, String templateOut) throws IOException {
+	public PatternTemplateDefinition(String patternIn, String templateOut)  {
 
 		this.patternIn = patternIn;
 		this.templateOut = templateOut;

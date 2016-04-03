@@ -62,7 +62,7 @@ public class DataType {
 		logger.trace("Pattern'"+p.getPattern()+"': "+matcher.groupCount() +" matches found");
 		
 		Writer out = new StringWriter();
-		Map groups = new HashMap();
+		Map<String,String> groups = new HashMap<String,String>();
 		for (int i=1; i<=matcher.groupCount(); i++){
 			logger.trace("Group: "+matcher.group(i));
 			groups.put("_"+(i-1), matcher.group(i));   			

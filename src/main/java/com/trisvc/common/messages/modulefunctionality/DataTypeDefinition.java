@@ -1,15 +1,15 @@
-package com.trisvc.common.messages.module;
+package com.trisvc.common.messages.modulefunctionality;
 
 import java.util.List;
 
-import com.trisvc.common.datatypes.PatternTemplate;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 public class DataTypeDefinition {
 
 	private String dataTypeName;
-	private List<PatternTemplate> definition;
+	private List<PatternTemplateDefinition> definition;
 
-	public DataTypeDefinition(String dataTypeName, List<PatternTemplate> definition) {
+	public DataTypeDefinition(String dataTypeName, List<PatternTemplateDefinition> definition) {
 		this.dataTypeName = dataTypeName;
 		this.definition = definition;
 	}
@@ -25,11 +25,12 @@ public class DataTypeDefinition {
 		this.dataTypeName = dataTypeName;
 	}
 
-	public List<PatternTemplate> getDefinition() {
+	@XmlElementWrapper( name="definitions" )
+	public List<PatternTemplateDefinition> getDefinition() {
 		return definition;
 	}
 
-	public void setDefinition(List<PatternTemplate> definition) {
+	public void setDefinition(List<PatternTemplateDefinition> definition) {
 		this.definition = definition;
 	}
 
