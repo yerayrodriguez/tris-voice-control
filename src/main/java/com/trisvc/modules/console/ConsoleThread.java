@@ -8,7 +8,7 @@ import org.freedesktop.dbus.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.common.BaseThread;
-import com.trisvc.common.Message;
+import com.trisvc.common.TObject;
 import com.trisvc.common.Signal;
 
 public class ConsoleThread extends BaseThread {
@@ -22,14 +22,17 @@ public class ConsoleThread extends BaseThread {
 		try {
 
 			DBusConnection conn = DBusConnection.getConnection(DBusConnection.SESSION);
-			Message textCommandMessage = (Message) conn.getRemoteObject("textcommand.messages.trisvc.com",
-					"/com/trisvc/messages/TextCommand", Message.class);
-
+			TObject textCommandMessage = (TObject) conn.getRemoteObject("textcommand.messages.trisvc.com",
+					"/com/trisvc/messages/TextCommand", TObject.class);
+			TObject textCommandMessage2 = (TObject) conn.getRemoteObject("braincommand.messages.trisvc.com",
+					"/com/trisvc/messages/BrainCommand", TObject.class);
 			String line;
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
 				String returnValue = textCommandMessage.send(line);
+				String returnValue2 = textCommandMessage2.send(line);
 				System.out.println(returnValue);
+				System.out.println(returnValue2);
 				System.out.flush();
 
 				if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {

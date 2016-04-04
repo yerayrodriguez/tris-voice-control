@@ -30,6 +30,16 @@ public abstract class BaseThread implements Runnable{
 		return DBusConnection.getConnection(DBusConnection.SESSION);
 	}
 	
+	protected void exportObject(TObject object) throws DBusException{
+		String objectName = object.getClass().getName();
+		getDBusConnection().requestBusName(objectName+".object.trisvc.com");
+		getDBusConnection().exportObject("/com/trisvc/messages/"+objectName, object);			
+	}
+	
+	protected void unExportObject(Class c) throws DBusException{
+		getDBusConnection().unExportObject("/com/trisvc/messages/"+c.getName());
+	}
+	
 	@Override
 	public void run(){
 		try {

@@ -1,8 +1,8 @@
-package com.trisvc.modules.heart;
+package com.trisvc.modules.brain;
 
-import com.trisvc.common.Message;
+import com.trisvc.common.TObject;
 
-public class TextCommandMessage implements Message {
+public class BrainRead implements TObject {
 
 	@Override
 	public boolean isRemote() {

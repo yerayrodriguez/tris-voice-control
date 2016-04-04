@@ -7,6 +7,7 @@ public class Launcher {
 
 	public static void main(String[] args) {
 		startThread("com.trisvc.modules.heart.HeartThread");	
+	
 		ThreadUtil.sleep();
 		startThread("com.trisvc.modules.console.ConsoleThread","prueba");
 
