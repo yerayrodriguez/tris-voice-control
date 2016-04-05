@@ -1,4 +1,4 @@
-package com.trisvc.common.messages.modulefunctionality;
+package com.trisvc.common.messages.moduleregister;
 
 public class PatternTemplateDefinition {
 

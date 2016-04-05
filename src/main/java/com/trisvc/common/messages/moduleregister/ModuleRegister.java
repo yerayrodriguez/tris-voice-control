@@ -1,4 +1,4 @@
-package com.trisvc.common.messages.modulefunctionality;
+package com.trisvc.common.messages.moduleregister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +12,19 @@ import com.trisvc.common.messages.Message;
 import com.trisvc.common.messages.MessageType;
 
 @XmlRootElement(name = "message")
-public class ModuleFunctionality extends Message{
+public class ModuleRegister extends Message{
 
 	private String moduleName;
 	private List<DataTypeDefinition> datatype;
 	private List<ModuleCommand> commands;
 
-	public ModuleFunctionality(String moduleName, List<DataTypeDefinition> datatype, List<ModuleCommand> commands) {
+	public ModuleRegister(String moduleName, List<DataTypeDefinition> datatype, List<ModuleCommand> commands) {
 		this.moduleName = moduleName;
 		this.datatype = datatype;
 		this.commands = commands;
 	}
 
-	public ModuleFunctionality() {
+	public ModuleRegister() {
 	}
 
 	public String getModuleName() {
@@ -62,7 +62,7 @@ public class ModuleFunctionality extends Message{
 	@Override
 	public MessageType getType() {
 		// TODO Auto-generated method stub
-		return MessageType.ModuleFunctionality;
+		return MessageType.ModuleRegister;
 	}
 	
 	// TODO
@@ -71,7 +71,7 @@ public class ModuleFunctionality extends Message{
 
 	private static JAXBContext initContext() {
 		try {
-			return JAXBContext.newInstance(Message.class, ModuleFunctionality.class);
+			return JAXBContext.newInstance(Message.class, ModuleRegister.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class ModuleFunctionality extends Message{
 	
 	public static void main(String[] args) {
 		// MessagePrueba prueba = new MessagePrueba();
-		ModuleFunctionality message = new ModuleFunctionality();
+		ModuleRegister message = new ModuleRegister();
 		message.setModuleName("pruebamodulo");
 		List<DataTypeDefinition> listDataTypes = new ArrayList<DataTypeDefinition>();
 		
@@ -130,10 +130,10 @@ public class ModuleFunctionality extends Message{
 
 		try {
 
-			String text = Message.marshal(ModuleFunctionality.context, message);
+			String text = Message.marshal(ModuleRegister.context, message);
 			System.out.println(text);
-			ModuleFunctionality m2 = (ModuleFunctionality) Message.unmarshal(ModuleFunctionality.context, text);
-			String text2 = Message.marshal(ModuleFunctionality.context, m2);
+			ModuleRegister m2 = (ModuleRegister) Message.unmarshal(ModuleRegister.context, text);
+			String text2 = Message.marshal(ModuleRegister.context, m2);
 			if (text.equals(text2)){
 				System.out.println("OK");
 			}else{

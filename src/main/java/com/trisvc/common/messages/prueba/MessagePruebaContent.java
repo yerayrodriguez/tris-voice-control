@@ -1,4 +1,4 @@
-package com.trisvc.common.messages;
+package com.trisvc.common.messages.prueba;
 
 
 

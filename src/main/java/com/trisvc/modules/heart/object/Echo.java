@@ -10,7 +10,7 @@ public class Echo implements BaseObject {
 	}
 
 	@Override
-	public String send(String msg) {
+	public String send(String type, String msg) {
 		return msg;
 	}
 

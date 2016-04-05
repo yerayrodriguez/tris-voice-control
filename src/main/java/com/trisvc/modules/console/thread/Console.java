@@ -10,6 +10,7 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import com.trisvc.common.BaseThread;
 import com.trisvc.common.BaseObject;
 import com.trisvc.common.Signal;
+import com.trisvc.common.messages.MessageType;
 import com.trisvc.modules.heart.object.Echo;
 
 public class Console extends BaseThread {
@@ -27,7 +28,7 @@ public class Console extends BaseThread {
 			String line;
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
-				String returnValue = textCommandMessage.send(line);
+				String returnValue = textCommandMessage.send(MessageType.Echo.getType(),line);
 
 				System.out.println(returnValue);
 	

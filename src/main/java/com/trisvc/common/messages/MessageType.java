@@ -3,7 +3,9 @@ package com.trisvc.common.messages;
 
 public enum MessageType {
 
-	ModuleFunctionality ("ModuleFunctionality"), PruebaType ("PruebaType");
+	ModuleRegister ("ModuleRegister"), 
+	Echo ("Echo"),
+	PruebaType ("PruebaType");
 
 	private final String type;
 
@@ -16,5 +18,8 @@ public enum MessageType {
 	public String getType ( ) {
 		return type;
 	}
+
+	
+
 
 }

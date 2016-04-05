@@ -1,8 +1,11 @@
-package com.trisvc.common.messages;
+package com.trisvc.common.messages.prueba;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.trisvc.common.messages.Message;
+import com.trisvc.common.messages.MessageType;
 
 @XmlRootElement(name = "message")
 public class MessagePrueba extends Message {

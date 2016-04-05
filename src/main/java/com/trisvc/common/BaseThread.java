@@ -43,20 +43,20 @@ public abstract class BaseThread implements Runnable{
 	}
 	
 	protected void exportObject(BaseObject object) throws DBusException{
-		getDBusConnection().requestBusName(object.getClass().getSimpleName()+".object.trisvc.com");
-		getDBusConnection().exportObject("/com/trisvc/messages/"+object.getClass().getSimpleName(), object);			
+		getDBusConnection().requestBusName("com.trisvc.object."+object.getClass().getSimpleName());
+		getDBusConnection().exportObject("/com/trisvc/object/"+object.getClass().getSimpleName(), object);			
 	}
 	
 	@SuppressWarnings("rawtypes")
 	protected void unExportObject(Class c) throws DBusException{
-		getDBusConnection().unExportObject("/com/trisvc/messages/"+c.getSimpleName());
+		getDBusConnection().unExportObject("/com/trisvc/object/"+c.getSimpleName());
 	}
 	
 	protected BaseObject getRemoteObject(Class c){
 		BaseObject o;
 		try {
-			o = (BaseObject) getDBusConnection().getRemoteObject(c.getSimpleName()+".object.trisvc.com",
-					"/com/trisvc/messages/"+c.getSimpleName(), BaseObject.class);
+			o = (BaseObject) getDBusConnection().getRemoteObject("com.trisvc.object."+c.getSimpleName(),
+					"/com/trisvc/object/"+c.getSimpleName(), BaseObject.class);
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,7 +4,11 @@ import org.freedesktop.dbus.DBusInterface;
 
 public interface BaseObject extends DBusInterface{
 	
-	public String send (String message);	
+	//TODO
+	//get rid off type
+	//now i'm using it to deserialize message
+	//but this information is also inside message
+	public String send (String type, String message);	
 	
 	//TODO
 	//Think how to implement getName()

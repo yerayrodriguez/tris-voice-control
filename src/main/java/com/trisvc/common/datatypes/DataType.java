@@ -12,6 +12,9 @@ import java.util.regex.Matcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.trisvc.common.messages.moduleregister.DataTypeDefinition;
+import com.trisvc.common.messages.moduleregister.PatternTemplateDefinition;
+
 import freemarker.template.TemplateException;
 
 public class DataType {
@@ -19,6 +22,8 @@ public class DataType {
 	private Logger logger; 
 
 	private String name;
+	//TODO
+	//¿Change for a hashmap <Pattern, Template>?
 	private List<PatternTemplate> list = new ArrayList<PatternTemplate>();
 	
 	public DataType(String name, List<PatternTemplate> list){
@@ -26,6 +31,42 @@ public class DataType {
 		this.list = list;
 		logger = LogManager.getLogger(this.getClass().getName()+":"+name);
 		logger.debug("Creating DataType "+name);
+	}
+	
+	public DataType(DataTypeDefinition d){
+		
+		List<PatternTemplate> l = new ArrayList<PatternTemplate>();
+		
+		for (PatternTemplateDefinition p: d.getDefinition()){
+			l.add(new PatternTemplate(p));
+		}
+		
+		this.name = d.getDataTypeName();
+		this.list = l;
+		logger = LogManager.getLogger(this.getClass().getName()+":"+name);
+		logger.debug("Creating DataType "+name);
+	}
+	
+	public void addPatternTemplate(PatternTemplate p){
+		//TODO
+		//Check if is repeated or implement as a HashMap
+		this.list.add(p);
+	}
+	
+	public void addPatternTemplateDefinition(PatternTemplateDefinition p){
+		addPatternTemplate(new PatternTemplate(p));
+	}
+	
+	public void addPatternTemplateList(List<PatternTemplate> l){
+		for (PatternTemplate p: l){
+			addPatternTemplate(p);
+		}
+	}
+	
+	public void addPatternTemplateDefinitionList(List<PatternTemplateDefinition> l){
+		for (PatternTemplateDefinition p: l){
+			addPatternTemplateDefinition(p);
+		}
 	}
 	
 	public String getName(){
