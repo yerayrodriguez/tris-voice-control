@@ -12,6 +12,8 @@ public abstract class BaseThread implements Runnable{
 	private Logger logger;
 	
 	protected String moduleId;
+	
+	private static DBusConnection connection = initializeDBusConnection();
 
 	
 	public void setModuleId(String id){
@@ -26,18 +28,41 @@ public abstract class BaseThread implements Runnable{
 		logger = LogManager.getLogger(this.getClass().getName()+":"+this.moduleId);
 	}	
 	
-	protected DBusConnection getDBusConnection() throws DBusException{
-		return DBusConnection.getConnection(DBusConnection.SESSION);
+	private static DBusConnection initializeDBusConnection() {
+		try {
+			return DBusConnection.getConnection(DBusConnection.SESSION);
+		} catch (DBusException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	protected void exportObject(TObject object) throws DBusException{
-		String objectName = object.getClass().getName();
-		getDBusConnection().requestBusName(objectName+".object.trisvc.com");
-		getDBusConnection().exportObject("/com/trisvc/messages/"+objectName, object);			
+	protected static DBusConnection getDBusConnection(){
+		return connection;
 	}
 	
+	protected void exportObject(BaseObject object) throws DBusException{
+		getDBusConnection().requestBusName(object.getClass().getSimpleName()+".object.trisvc.com");
+		getDBusConnection().exportObject("/com/trisvc/messages/"+object.getClass().getSimpleName(), object);			
+	}
+	
+	@SuppressWarnings("rawtypes")
 	protected void unExportObject(Class c) throws DBusException{
-		getDBusConnection().unExportObject("/com/trisvc/messages/"+c.getName());
+		getDBusConnection().unExportObject("/com/trisvc/messages/"+c.getSimpleName());
+	}
+	
+	protected BaseObject getRemoteObject(Class c){
+		BaseObject o;
+		try {
+			o = (BaseObject) getDBusConnection().getRemoteObject(c.getSimpleName()+".object.trisvc.com",
+					"/com/trisvc/messages/"+c.getSimpleName(), BaseObject.class);
+		} catch (DBusException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return o;
 	}
 	
 	@Override
@@ -63,12 +88,9 @@ public abstract class BaseThread implements Runnable{
 
 				getLogger().info("Halt signal received");
 				close();
-				try {
+
 					getDBusConnection().disconnect();
-				} catch (DBusException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 
 			}
 

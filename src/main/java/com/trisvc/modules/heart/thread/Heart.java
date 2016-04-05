@@ -1,20 +1,19 @@
-package com.trisvc.modules.heart;
+package com.trisvc.modules.heart.thread;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.common.BaseThread;
-import com.trisvc.common.Channel;
 import com.trisvc.common.ThreadUtil;
+import com.trisvc.modules.heart.object.Echo;
 
-public class HeartThread extends BaseThread {	
+public class Heart extends BaseThread {	
 
 	private static final long WAIT_CLOSE_MS = 1000;
 	
 	@Override
 	public void execute() {
 		try {
-			getDBusConnection().requestBusName("textcommand.messages.trisvc.com");
-			getDBusConnection().exportObject("/com/trisvc/messages/TextCommand", new Channel());
+			exportObject(new Echo());
 		} catch (DBusException e) {
 			e.printStackTrace();
 		}
@@ -24,7 +23,7 @@ public class HeartThread extends BaseThread {
 	@Override
 	protected void close() {
 		try {
-			getDBusConnection().unExportObject("/com/trisvc/messages/TextCommand");
+			unExportObject(Echo.class);
 			//TODO
 			//Think a way to wait for others thread finish
 			ThreadUtil.sleep(WAIT_CLOSE_MS);

@@ -1,8 +1,8 @@
-package com.trisvc.modules.brain;
+package com.trisvc.modules.brain.object;
 
-import com.trisvc.common.TObject;
+import com.trisvc.common.BaseObject;
 
-public class BrainWrite implements TObject {
+public class BrainWrite implements BaseObject {
 
 	@Override
 	public boolean isRemote() {
@@ -15,5 +15,6 @@ public class BrainWrite implements TObject {
 		// TODO Auto-generated method stub
 		return "Comando Aceptado";
 	}
+
 
 }

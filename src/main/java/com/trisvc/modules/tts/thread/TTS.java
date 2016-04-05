@@ -1,8 +1,8 @@
-package com.trisvc.modules.tts;
+package com.trisvc.modules.tts.thread;
 
 import com.trisvc.common.BaseThread;
 
-public class TTSThread extends BaseThread{
+public class TTS extends BaseThread{
 
 	@Override
 	protected void execute() {

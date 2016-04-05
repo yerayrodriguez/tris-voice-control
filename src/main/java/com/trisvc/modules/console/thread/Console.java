@@ -1,4 +1,4 @@
-package com.trisvc.modules.console;
+package com.trisvc.modules.console.thread;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,10 +8,11 @@ import org.freedesktop.dbus.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.common.BaseThread;
-import com.trisvc.common.TObject;
+import com.trisvc.common.BaseObject;
 import com.trisvc.common.Signal;
+import com.trisvc.modules.heart.object.Echo;
 
-public class ConsoleThread extends BaseThread {
+public class Console extends BaseThread {
 	
 	private volatile boolean stop = false;
 	
@@ -21,18 +22,15 @@ public class ConsoleThread extends BaseThread {
 	public void execute() {
 		try {
 
-			DBusConnection conn = DBusConnection.getConnection(DBusConnection.SESSION);
-			TObject textCommandMessage = (TObject) conn.getRemoteObject("textcommand.messages.trisvc.com",
-					"/com/trisvc/messages/TextCommand", TObject.class);
-			TObject textCommandMessage2 = (TObject) conn.getRemoteObject("braincommand.messages.trisvc.com",
-					"/com/trisvc/messages/BrainCommand", TObject.class);
+			BaseObject textCommandMessage = getRemoteObject(Echo.class);
+
 			String line;
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
 				String returnValue = textCommandMessage.send(line);
-				String returnValue2 = textCommandMessage2.send(line);
+
 				System.out.println(returnValue);
-				System.out.println(returnValue2);
+	
 				System.out.flush();
 
 				if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {
