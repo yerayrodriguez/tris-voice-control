@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.freedesktop.dbus.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 
-import com.trisvc.common.BaseThread;
 import com.trisvc.common.BaseObject;
+import com.trisvc.common.BaseThread;
 import com.trisvc.common.Signal;
 import com.trisvc.common.messages.MessageType;
+import com.trisvc.modules.brain.object.Memory;
 import com.trisvc.modules.heart.object.Echo;
 
 public class Console extends BaseThread {
@@ -24,6 +24,7 @@ public class Console extends BaseThread {
 		try {
 
 			BaseObject textCommandMessage = getRemoteObject(Echo.class);
+			BaseObject memory = getRemoteObject(Memory.class);
 
 			String line;
 			System.out.print("Comando: ");
@@ -37,6 +38,9 @@ public class Console extends BaseThread {
 				if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {
 					sendHaltSignal();
 					break;
+				}
+				if (line.equals("memoryDump")){
+					memory.send(MessageType.MemoryDump.getType(), "");
 				}
 				System.out.print("Comando: ");
 			}

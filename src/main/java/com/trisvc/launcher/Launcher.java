@@ -10,6 +10,8 @@ public class Launcher {
 	
 		ThreadUtil.sleep();
 		startThread("com.trisvc.modules.console.thread.Console","prueba");
+		startThread("com.trisvc.modules.brain.thread.Brain");
+
 
 	}
 	

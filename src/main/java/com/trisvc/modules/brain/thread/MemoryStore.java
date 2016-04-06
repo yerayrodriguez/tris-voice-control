@@ -1,5 +1,6 @@
 package com.trisvc.modules.brain.thread;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.trisvc.common.datatypes.DataType;
 import com.trisvc.common.messages.moduleregister.DataTypeDefinition;
+import com.trisvc.common.messages.moduleregister.DataTypeDefinitionList;
 
 public class MemoryStore {
 
@@ -16,6 +18,7 @@ public class MemoryStore {
 	private volatile static MemoryStore instance = null;
 
 	protected MemoryStore() {
+		loadDataTypes();
 	}
 
 	// Lazy Initialization (If required then only)
@@ -34,6 +37,7 @@ public class MemoryStore {
 	private static void initializeConfiguration() {
 		logger.debug("Creating memory store");
 		instance = new MemoryStore();
+		
 
 	}
 	
@@ -58,8 +62,31 @@ public class MemoryStore {
 		
 	}	
 	
+	public void addDataTypeDefinitions(DataTypeDefinitionList l){
+		
+		addDataTypeDefinitions(l.getDatatype());
+
+	}	
+	
 	public void memoryDump(){
-		--
+		dumpDataTypes();
+	}
+	
+	public void dumpDataTypes(){
+		for (DataType d: dataTypes.values()){
+			d.dump();
+		}
+	}
+	
+	private void loadDataTypes(){
+		logger.debug("Loading default datatypes");
+		File file = new File("./config/datatypes.xml");
+		DataTypeDefinitionList d = DataTypeDefinitionList.unmarshal(file);
+		addDataTypeDefinitions(d);
+	}
+	
+	public static void main(String[] args) {
+		MemoryStore.getInstance().memoryDump();
 	}
 	
 }

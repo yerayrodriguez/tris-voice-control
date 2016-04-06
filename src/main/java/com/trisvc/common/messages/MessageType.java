@@ -5,6 +5,7 @@ public enum MessageType {
 
 	ModuleRegister ("ModuleRegister"), 
 	Echo ("Echo"),
+	MemoryDump ("MemoryDump"),
 	PruebaType ("PruebaType");
 
 	private final String type;

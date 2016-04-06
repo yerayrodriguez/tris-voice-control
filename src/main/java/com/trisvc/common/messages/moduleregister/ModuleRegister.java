@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.trisvc.common.messages.Message;
@@ -15,10 +15,10 @@ import com.trisvc.common.messages.MessageType;
 public class ModuleRegister extends Message{
 
 	private String moduleName;
-	private List<DataTypeDefinition> datatype;
+	private DataTypeDefinitionList datatype;
 	private List<ModuleCommand> commands;
 
-	public ModuleRegister(String moduleName, List<DataTypeDefinition> datatype, List<ModuleCommand> commands) {
+	public ModuleRegister(String moduleName, DataTypeDefinitionList datatype, List<ModuleCommand> commands) {
 		this.moduleName = moduleName;
 		this.datatype = datatype;
 		this.commands = commands;
@@ -35,12 +35,12 @@ public class ModuleRegister extends Message{
 		this.moduleName = name;
 	}
 
-	@XmlElementWrapper( name="datatypes" )
-	public List<DataTypeDefinition> getDatatype() {
+    @XmlElement(name="datatypes")
+	public DataTypeDefinitionList getDatatype() {
 		return datatype;
 	}
 
-	public void setDatatype(List<DataTypeDefinition> datatype) {
+	public void setDatatype(DataTypeDefinitionList datatype) {
 		this.datatype = datatype;
 	}
 	
@@ -109,7 +109,7 @@ public class ModuleRegister extends Message{
 		tipo2.setDefinition(definition2);
 		listDataTypes.add(tipo2);		
 		
-		message.setDatatype(listDataTypes);
+		message.setDatatype(new DataTypeDefinitionList(listDataTypes));
 		
 		
 		List<ModuleCommand> listcommands = new ArrayList<ModuleCommand>();

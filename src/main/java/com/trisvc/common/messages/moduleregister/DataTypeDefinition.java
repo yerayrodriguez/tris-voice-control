@@ -6,11 +6,11 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 public class DataTypeDefinition {
 
-	private String dataTypeName;
+	private String name;
 	private List<PatternTemplateDefinition> definition;
 
-	public DataTypeDefinition(String dataTypeName, List<PatternTemplateDefinition> definition) {
-		this.dataTypeName = dataTypeName;
+	public DataTypeDefinition(String name, List<PatternTemplateDefinition> definition) {
+		this.name = name;
 		this.definition = definition;
 	}
 
@@ -18,11 +18,11 @@ public class DataTypeDefinition {
 	}
 
 	public String getDataTypeName() {
-		return dataTypeName;
+		return name;
 	}
 
-	public void setDataTypeName(String dataTypeName) {
-		this.dataTypeName = dataTypeName;
+	public void setDataTypeName(String name) {
+		this.name = name;
 	}
 
 	@XmlElementWrapper( name="definitions" )
@@ -36,7 +36,7 @@ public class DataTypeDefinition {
 
 	@Override
 	public String toString() {
-		return "DataTypeDefinition [dataTypeName=" + dataTypeName + ", definition=" + definition + "]";
+		return "DataTypeDefinition [name=" + name + ", definition=" + definition + "]";
 	}
 
 }

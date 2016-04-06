@@ -1,0 +1,28 @@
+<datatypes>
+	<datatype>
+		<dataTypeName>Tipo1</dataTypeName>
+		<definitions>
+			<definition>
+				<pattern>in t1p1</pattern>
+				<template>out t1p1</template>
+			</definition>
+			<definition>
+				<pattern>in t1p2</pattern>
+				<template>out t1p2</template>
+			</definition>
+		</definitions>
+	</datatype>
+	<datatype>
+		<dataTypeName>Tipo2</dataTypeName>
+		<definitions>
+			<definition>
+				<pattern>in t2p1</pattern>
+				<template>out t2p1</template>
+			</definition>
+			<definition>
+				<pattern>in t2p2</pattern>
+				<template>out t2p2</template>
+			</definition>
+		</definitions>
+	</datatype>
+</datatypes>

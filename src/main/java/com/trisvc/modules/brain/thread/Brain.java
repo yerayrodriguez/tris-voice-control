@@ -13,7 +13,7 @@ public class Brain extends BaseThread {
 	@Override
 	public void execute() {
 		try {
-			loadDataTypes();
+			
 			exportObject(new Memory());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,5 +37,6 @@ public class Brain extends BaseThread {
 			System.exit(0);
 
 	}
+
 
 }

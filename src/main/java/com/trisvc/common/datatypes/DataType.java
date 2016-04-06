@@ -118,6 +118,13 @@ public class DataType {
 		return out.toString();
 	}
 	
+	public void dump(){
+		System.out.println("DataType: "+this.getName());
+		for (PatternTemplate p: list){
+			p.dump();
+		}
+	}
+	
 	public static void main(String[] args) {				
 
 		LogManager.getLogger("entrada").debug("empezando");

@@ -2,6 +2,7 @@ package com.trisvc.modules.brain.object;
 
 import com.trisvc.common.BaseObject;
 import com.trisvc.common.messages.MessageType;
+import com.trisvc.modules.brain.thread.MemoryStore;
 
 public class Memory implements BaseObject {
 
@@ -21,11 +22,12 @@ public class Memory implements BaseObject {
 	}
 	
 	private String moduleRegister(String msg){
-		
+		return "";
 	}
 	
-	private void memoryDump(){
-		--
+	private String memoryDump(){
+		MemoryStore.getInstance().memoryDump();
+		return "";
 	}
 
 

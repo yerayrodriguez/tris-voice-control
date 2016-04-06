@@ -28,7 +28,7 @@ public class PatternTemplate {
 	}
 	
 	public PatternTemplate(PatternTemplateDefinition p) {
-		this(p.getPatternIn(), p.getTemplateOut());
+		this(p.getPattern(), p.getTemplate());
 	}
 
 	public String getPattern() {
@@ -58,5 +58,9 @@ public class PatternTemplate {
 		}	
 	}
 
+	public void dump(){
+		System.out.println("Pattern: "+getPattern());
+		System.out.println("Template: "+getTemplate());
+	}
 
 }

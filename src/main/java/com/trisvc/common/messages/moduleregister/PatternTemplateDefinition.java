@@ -2,37 +2,37 @@ package com.trisvc.common.messages.moduleregister;
 
 public class PatternTemplateDefinition {
 
-	private String patternIn;
-	private String templateOut;
+	private String pattern;
+	private String template;
 
-	public PatternTemplateDefinition(String patternIn, String templateOut)  {
+	public PatternTemplateDefinition(String pattern, String template)  {
 
-		this.patternIn = patternIn;
-		this.templateOut = templateOut;
+		this.pattern = pattern;
+		this.template = template;
 	}
 
 	public PatternTemplateDefinition() {
 	}
 
-	public String getPatternIn() {
-		return patternIn;
+	public String getPattern() {
+		return pattern;
 	}
 
-	public void setPatternIn(String patternIn) {
-		this.patternIn = patternIn;
+	public void setPattern(String patternIn) {
+		this.pattern = patternIn;
 	}
 
-	public String getTemplateOut() {
-		return templateOut;
+	public String getTemplate() {
+		return template;
 	}
 
-	public void setTemplateOut(String templateOut) {
-		this.templateOut = templateOut;
+	public void setTemplate(String templateOut) {
+		this.template = templateOut;
 	}
 
 	@Override
 	public String toString() {
-		return "PatternTemplateDefinition [patternIn=" + patternIn + ", templateOut=" + templateOut + "]";
+		return "PatternTemplateDefinition [pattern=" + pattern + ", template=" + template + "]";
 	}
 
 }
