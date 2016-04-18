@@ -28,7 +28,7 @@ public class MessagePrueba extends Message {
 
 	@Override
 	public MessageType getType() {
-		return MessageType.PruebaType;
+		return MessageType.PruebaTypeMessage;
 	}
 
 	public MessagePruebaContent getContent() {

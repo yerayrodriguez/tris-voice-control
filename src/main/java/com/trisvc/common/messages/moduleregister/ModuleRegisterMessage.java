@@ -12,19 +12,19 @@ import com.trisvc.common.messages.Message;
 import com.trisvc.common.messages.MessageType;
 
 @XmlRootElement(name = "message")
-public class ModuleRegister extends Message{
+public class ModuleRegisterMessage extends Message{
 
 	private String moduleName;
 	private DataTypeDefinitionList datatype;
 	private List<ModuleCommand> commands;
 
-	public ModuleRegister(String moduleName, DataTypeDefinitionList datatype, List<ModuleCommand> commands) {
+	public ModuleRegisterMessage(String moduleName, DataTypeDefinitionList datatype, List<ModuleCommand> commands) {
 		this.moduleName = moduleName;
 		this.datatype = datatype;
 		this.commands = commands;
 	}
 
-	public ModuleRegister() {
+	public ModuleRegisterMessage() {
 	}
 
 	public String getModuleName() {
@@ -62,7 +62,7 @@ public class ModuleRegister extends Message{
 	@Override
 	public MessageType getType() {
 		// TODO Auto-generated method stub
-		return MessageType.ModuleRegister;
+		return MessageType.ModuleRegisterMessage;
 	}
 	
 	// TODO
@@ -71,7 +71,7 @@ public class ModuleRegister extends Message{
 
 	private static JAXBContext initContext() {
 		try {
-			return JAXBContext.newInstance(Message.class, ModuleRegister.class);
+			return JAXBContext.newInstance(Message.class, ModuleRegisterMessage.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class ModuleRegister extends Message{
 	
 	public static void main(String[] args) {
 		// MessagePrueba prueba = new MessagePrueba();
-		ModuleRegister message = new ModuleRegister();
+		ModuleRegisterMessage message = new ModuleRegisterMessage();
 		message.setModuleName("pruebamodulo");
 		List<DataTypeDefinition> listDataTypes = new ArrayList<DataTypeDefinition>();
 		
@@ -130,10 +130,10 @@ public class ModuleRegister extends Message{
 
 		try {
 
-			String text = Message.marshal(ModuleRegister.context, message);
+			String text = Message.marshal(ModuleRegisterMessage.context, message);
 			System.out.println(text);
-			ModuleRegister m2 = (ModuleRegister) Message.unmarshal(ModuleRegister.context, text);
-			String text2 = Message.marshal(ModuleRegister.context, m2);
+			ModuleRegisterMessage m2 = (ModuleRegisterMessage) Message.unmarshal(ModuleRegisterMessage.context, text);
+			String text2 = Message.marshal(ModuleRegisterMessage.context, m2);
 			if (text.equals(text2)){
 				System.out.println("OK");
 			}else{

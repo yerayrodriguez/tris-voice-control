@@ -3,10 +3,11 @@ package com.trisvc.common.messages;
 
 public enum MessageType {
 
-	ModuleRegister ("ModuleRegister"), 
-	Echo ("Echo"),
-	MemoryDump ("MemoryDump"),
-	PruebaType ("PruebaType");
+	ModuleRegisterMessage ("ModuleRegisterMessage"), 
+	TTSMessage("TTSMessage"),
+	EchoMessage ("Echo"),
+	MemoryDumpMessage ("MemoryDumpMessage"),
+	PruebaTypeMessage ("PruebaTypeMessage");
 
 	private final String type;
 

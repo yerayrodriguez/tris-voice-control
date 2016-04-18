@@ -12,6 +12,7 @@ import com.trisvc.common.Signal;
 import com.trisvc.common.messages.MessageType;
 import com.trisvc.modules.brain.object.Memory;
 import com.trisvc.modules.heart.object.Echo;
+import com.trisvc.modules.tts.pico.object.TTS;
 
 public class Console extends BaseThread {
 	
@@ -25,11 +26,12 @@ public class Console extends BaseThread {
 
 			BaseObject textCommandMessage = getRemoteObject(Echo.class);
 			BaseObject memory = getRemoteObject(Memory.class);
+			BaseObject tts = getRemoteObject(TTS.class);
 
 			String line;
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
-				String returnValue = textCommandMessage.send(MessageType.Echo.getType(),line);
+				String returnValue = tts.send(MessageType.TTSMessage.getType(),line);
 
 				System.out.println(returnValue);
 	
@@ -40,7 +42,7 @@ public class Console extends BaseThread {
 					break;
 				}
 				if (line.equals("memoryDump")){
-					memory.send(MessageType.MemoryDump.getType(), "");
+					memory.send(MessageType.MemoryDumpMessage.getType(), "");
 				}
 				System.out.print("Comando: ");
 			}
