@@ -1,6 +1,5 @@
 package com.trisvc.common.messages.tts;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.trisvc.common.messages.Message;
@@ -38,12 +37,6 @@ public class TTSMessage extends Message<TTSMessageContent> {
 		return content;
 	}	
 
-	@Override
-	public JAXBContext getJAXBContext() {
-		return TTSMessage.context;
-	}
-
-	static final JAXBContext context = MessageUtil.initContext(TTSMessage.class, TTSMessageContent.class);
 
 	public static void main(String[] args) {
 

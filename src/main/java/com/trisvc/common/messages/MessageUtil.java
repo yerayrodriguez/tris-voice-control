@@ -8,12 +8,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import com.trisvc.common.messages.tts.TTSMessage;
+import com.trisvc.common.messages.tts.TTSMessageContent;
+
 public class MessageUtil {
 
-	public static <T extends Message> String marshal(T t) {
+	public static <T extends Message<?>> String marshal(T t) {
 		Marshaller marshaller;
 		try {
-			marshaller = t.getJAXBContext().createMarshaller();
+			marshaller = messageContext.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 			StringWriter stringWriter = new StringWriter();
@@ -27,13 +30,12 @@ public class MessageUtil {
 
 	}
 
-
-	public static <T> T unmarshal(JAXBContext context, String stringObject) {
+	public static <T> T unmarshal(String stringObject) {
 		Unmarshaller unmarshaller;
 		try {
-			unmarshaller = context.createUnmarshaller();
+			unmarshaller = messageContext.createUnmarshaller();
 			StringReader reader = new StringReader(stringObject);
-			return (T)unmarshaller.unmarshal(reader);
+			return (T) unmarshaller.unmarshal(reader);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,28 +43,26 @@ public class MessageUtil {
 		}
 
 	}
+
+	public static <T extends Message> T unmarshal(Class<T> c, String xmlText) {
 	
-	public static <T extends Message> T unmarshal(Class<T> c, String xmlText){
-		try {
-			return (T) MessageUtil.unmarshal(c.newInstance().getJAXBContext(), xmlText);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+			return (T) MessageUtil.unmarshal(xmlText);
+
 	}
-	
-	public static <T extends Message, C extends MessageContent> JAXBContext initContext(Class<T> c, Class<C> d) {
+
+	public static <T> JAXBContext initContext() {
 		try {
-			return JAXBContext.newInstance(Message.class, c, MessageContent.class, d);
+			return JAXBContext.newInstance(
+					Message.class, 
+					TTSMessage.class, 
+					TTSMessageContent.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
+
+	static final JAXBContext messageContext = initContext();
 
 }

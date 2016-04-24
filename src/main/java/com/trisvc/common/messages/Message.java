@@ -1,8 +1,8 @@
 package com.trisvc.common.messages;
 
-import javax.xml.bind.JAXBContext;
+import javax.xml.bind.annotation.XmlAnyElement;
 
-public abstract class Message<T> {
+public abstract class Message<T extends MessageContent> {
 
 	public Message() {
 	}
@@ -39,17 +39,14 @@ public abstract class Message<T> {
 		this.messageID = messageID;
 	}
 	
+	@XmlAnyElement
 	public abstract T getContent();
-	
-	public abstract void setContent(T t);	
 
-	public abstract JAXBContext getJAXBContext();
+	public abstract void setContent(T t);	
 
 	@Override
 	public String toString() {
 		return MessageUtil.marshal(this);
 	}
-	
-
 
 }
