@@ -1,7 +1,7 @@
 package com.trisvc.launcher;
 
-import com.trisvc.common.BaseThread;
-import com.trisvc.common.ThreadUtil;
+import com.trisvc.core.BaseThread;
+import com.trisvc.core.ThreadUtil;
 
 public class Launcher {
 

@@ -3,9 +3,9 @@ package com.trisvc.modules.tts.pico.object;
 import java.io.File;
 import java.io.IOException;
 
-import com.trisvc.common.BaseObject;
-import com.trisvc.common.ExecuteShellCommand;
-import com.trisvc.common.PlaySoundFile;
+import com.trisvc.core.BaseObject;
+import com.trisvc.core.ExecuteShellCommand;
+import com.trisvc.core.PlaySoundFile;
 
 public class TTS implements BaseObject {
 

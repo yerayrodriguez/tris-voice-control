@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
-import com.trisvc.common.BaseObject;
-import com.trisvc.common.BaseThread;
-import com.trisvc.common.Signal;
-import com.trisvc.common.messages.MessageType;
+import com.trisvc.core.BaseObject;
+import com.trisvc.core.BaseThread;
+import com.trisvc.core.Signal;
+import com.trisvc.core.messages.MessageType;
 import com.trisvc.modules.brain.object.Memory;
 import com.trisvc.modules.heart.object.Echo;
 import com.trisvc.modules.tts.pico.object.TTS;

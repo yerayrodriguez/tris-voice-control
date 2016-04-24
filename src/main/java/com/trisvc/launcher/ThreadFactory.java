@@ -1,6 +1,6 @@
 package com.trisvc.launcher;
 
-import com.trisvc.common.BaseThread;
+import com.trisvc.core.BaseThread;
 
 public class ThreadFactory {
 	

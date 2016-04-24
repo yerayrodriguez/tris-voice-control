@@ -1,6 +1,6 @@
 package com.trisvc.modules.heart.object;
 
-import com.trisvc.common.BaseObject;
+import com.trisvc.core.BaseObject;
 
 public class Echo implements BaseObject {
 
