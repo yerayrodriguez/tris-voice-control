@@ -1,4 +1,4 @@
-package com.trisvc.common.messages.moduleregister;
+package com.trisvc.common.messages.register;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,21 +10,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.trisvc.common.messages.Message;
 import com.trisvc.common.messages.MessageType;
+import com.trisvc.common.messages.register.structures.DataTypeConfig;
+import com.trisvc.common.messages.register.structures.DataTypeDefinition;
+import com.trisvc.common.messages.register.structures.DataTypeDefinitionList;
+import com.trisvc.common.messages.register.structures.ModuleCommand;
+import com.trisvc.common.messages.register.structures.PatternTemplateDefinition;
 
 @XmlRootElement(name = "message")
-public class ModuleRegisterMessage extends Message{
+public class RegisterMessage extends Message{
 
 	private String moduleName;
 	private DataTypeDefinitionList datatype;
 	private List<ModuleCommand> commands;
 
-	public ModuleRegisterMessage(String moduleName, DataTypeDefinitionList datatype, List<ModuleCommand> commands) {
+	public RegisterMessage(String moduleName, DataTypeDefinitionList datatype, List<ModuleCommand> commands) {
 		this.moduleName = moduleName;
 		this.datatype = datatype;
 		this.commands = commands;
 	}
 
-	public ModuleRegisterMessage() {
+	public RegisterMessage() {
 	}
 
 	public String getModuleName() {
@@ -62,7 +67,7 @@ public class ModuleRegisterMessage extends Message{
 	@Override
 	public MessageType getType() {
 		// TODO Auto-generated method stub
-		return MessageType.ModuleRegisterMessage;
+		return MessageType.RegisterMessageType;
 	}
 	
 	// TODO
@@ -71,7 +76,7 @@ public class ModuleRegisterMessage extends Message{
 
 	private static JAXBContext initContext() {
 		try {
-			return JAXBContext.newInstance(Message.class, ModuleRegisterMessage.class);
+			return JAXBContext.newInstance(Message.class, RegisterMessage.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +86,7 @@ public class ModuleRegisterMessage extends Message{
 	
 	public static void main(String[] args) {
 		// MessagePrueba prueba = new MessagePrueba();
-		ModuleRegisterMessage message = new ModuleRegisterMessage();
+		RegisterMessage message = new RegisterMessage();
 		message.setModuleName("pruebamodulo");
 		List<DataTypeDefinition> listDataTypes = new ArrayList<DataTypeDefinition>();
 		
@@ -130,10 +135,10 @@ public class ModuleRegisterMessage extends Message{
 
 		try {
 
-			String text = Message.marshal(ModuleRegisterMessage.context, message);
+			String text = Message.marshal(RegisterMessage.context, message);
 			System.out.println(text);
-			ModuleRegisterMessage m2 = (ModuleRegisterMessage) Message.unmarshal(ModuleRegisterMessage.context, text);
-			String text2 = Message.marshal(ModuleRegisterMessage.context, m2);
+			RegisterMessage m2 = (RegisterMessage) Message.unmarshal(RegisterMessage.context, text);
+			String text2 = Message.marshal(RegisterMessage.context, m2);
 			if (text.equals(text2)){
 				System.out.println("OK");
 			}else{

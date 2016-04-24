@@ -6,12 +6,12 @@ import com.trisvc.common.ThreadUtil;
 public class Launcher {
 
 	public static void main(String[] args) {
-		startThread("com.trisvc.modules.heart.thread.Heart");	
+		//startThread("com.trisvc.modules.heart.thread.Heart");	
 	
-		ThreadUtil.sleep();
-		startThread("com.trisvc.modules.console.thread.Console","prueba");
-		startThread("com.trisvc.modules.brain.thread.Brain");
-		startThread("com.trisvc.modules.tts.pico.thread.PicoTTS");
+		//ThreadUtil.sleep();
+		startThread("com.trisvc.modules.console.thread.Console","prueba2");
+		//startThread("com.trisvc.modules.brain.thread.Brain");
+		//startThread("com.trisvc.modules.tts.pico.thread.PicoTTS");
 
 	}
 	

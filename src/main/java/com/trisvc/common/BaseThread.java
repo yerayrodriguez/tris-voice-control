@@ -30,6 +30,7 @@ public abstract class BaseThread implements Runnable{
 	
 	private static DBusConnection initializeDBusConnection() {
 		try {
+			//return DBusConnection.getConnection("tcp:host=pi,port=55556");
 			return DBusConnection.getConnection(DBusConnection.SESSION);
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block

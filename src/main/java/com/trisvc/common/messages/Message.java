@@ -1,51 +1,55 @@
 package com.trisvc.common.messages;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
-public abstract class Message {
+public abstract class Message<T> {
 
-	public abstract MessageType getType();
-
-	public void setType(MessageType type) throws MessageTypeException {
-		if (!getType().equals(type))
-			throw new MessageTypeException(getType(), type);
+	public Message() {
 	}
 
-	public static String marshal(JAXBContext context, Object object) {
-		Marshaller marshaller;
-		try {
-			marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-			StringWriter stringWriter = new StringWriter();
-			marshaller.marshal(object, stringWriter);
-			return stringWriter.toString();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "";
-
+	public Message(String callerID, String messageID) {
+		this.callerID = callerID;
+		this.messageID = messageID;
 	}
 
-	public static Object unmarshal(JAXBContext context, String stringObject) {
-		Unmarshaller unmarshaller;
-		try {
-			unmarshaller = context.createUnmarshaller();
-			StringReader reader = new StringReader(stringObject);
-			return unmarshaller.unmarshal(reader);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-
+	public void setType(String type) {
 	}
+
+	public String getType() {
+		return this.getClass().getSimpleName();
+	}
+
+	private String callerID;
+
+	public String getCallerID() {
+		return callerID;
+	}
+
+	public void setCallerID(String callerID) {
+		this.callerID = callerID;
+	}
+
+	private String messageID;
+
+	public String getMessageID() {
+		return messageID;
+	}
+
+	public void setMessageID(String messageID) {
+		this.messageID = messageID;
+	}
+	
+	public abstract T getContent();
+	
+	public abstract void setContent(T t);	
+
+	public abstract JAXBContext getJAXBContext();
+
+	@Override
+	public String toString() {
+		return MessageUtil.marshal(this);
+	}
+	
+
 
 }

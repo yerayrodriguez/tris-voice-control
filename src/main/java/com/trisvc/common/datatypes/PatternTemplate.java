@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.common.messages.moduleregister.PatternTemplateDefinition;
+import com.trisvc.common.messages.register.structures.PatternTemplateDefinition;
 
 import freemarker.template.Template;
 

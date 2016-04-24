@@ -1,4 +1,4 @@
-package com.trisvc.common.messages.moduleregister;
+package com.trisvc.common.messages.register.structures;
 
 import java.util.List;
 

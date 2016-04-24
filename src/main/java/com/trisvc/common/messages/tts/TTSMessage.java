@@ -1,24 +1,23 @@
 package com.trisvc.common.messages.tts;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.trisvc.common.messages.Message;
-import com.trisvc.common.messages.MessageType;
-import com.trisvc.common.messages.prueba.MessagePrueba;
+import com.trisvc.common.messages.MessageUtil;
 
 @XmlRootElement(name = "message")
-public class TTSMessage extends Message{
-
-	private String text;		
-
-	public TTSMessage(String text) {
-		super();
-		this.text = text;
-	}
+public class TTSMessage extends Message<TTSMessageContent> {
 	
-	public TTSMessage(){		
+	private TTSMessageContent content;
+	private String text;
+
+	public TTSMessage() {
+		super();
+	}
+
+	public TTSMessage(String callerID, String messageID) {
+		super(callerID, messageID);
 	}
 
 	public String getText() {
@@ -28,44 +27,43 @@ public class TTSMessage extends Message{
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	@Override
-	public String toString() {
-		return "TTSMessage";
-	}
-
-	@Override
-	public MessageType getType() {
-		// TODO Auto-generated method stub
-		return MessageType.TTSMessage;
-	}
 	
-	// TODO
-	// Think other way to implement
-	static final JAXBContext context = initContext();
+	@Override
+	public void setContent(TTSMessageContent content) {
+		this.content = content;
+	}
 
-	private static JAXBContext initContext() {
-		try {
-			return JAXBContext.newInstance(Message.class, TTSMessage.class);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
+	@Override
+	public TTSMessageContent getContent() {
+		return content;
 	}	
-	
+
+	@Override
+	public JAXBContext getJAXBContext() {
+		return TTSMessage.context;
+	}
+
+	static final JAXBContext context = MessageUtil.initContext(TTSMessage.class, TTSMessageContent.class);
+
 	public static void main(String[] args) {
-		
-		TTSMessage t = new TTSMessage("holitas, que tal estas");
-		
+
+		TTSMessage t = new TTSMessage("ejemplo", "sdseee1233");
+		TTSMessageContent c = new TTSMessageContent("contenido");
+		t.setText("Enciende la luz de la habitación");
+		t.setContent(c);
+
 		try {
 
-			String text = Message.marshal(TTSMessage.context, t);
+			String text = t.toString();
 			System.out.println(text);
-			//MessagePrueba m2 = (MessagePrueba) Message.unmarshal(MessagePrueba.context, text);
+			TTSMessage t2 = (TTSMessage) MessageUtil.unmarshal(TTSMessage.class, text);
+			// TTSMessage t2 = new TTSMessage();
+			// t2.unmarshal(text);
+			System.out.println(t2.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
-		
+		}
+
 	}
+
 }

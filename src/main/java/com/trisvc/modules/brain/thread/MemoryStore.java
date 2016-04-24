@@ -9,8 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.trisvc.common.datatypes.DataType;
-import com.trisvc.common.messages.moduleregister.DataTypeDefinition;
-import com.trisvc.common.messages.moduleregister.DataTypeDefinitionList;
+import com.trisvc.common.messages.register.structures.DataTypeDefinition;
+import com.trisvc.common.messages.register.structures.DataTypeDefinitionList;
 
 public class MemoryStore {
 
