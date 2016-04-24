@@ -27,15 +27,7 @@ public class TTSMessage extends Message<TTSMessageContent> {
 		this.text = text;
 	}
 	
-	@Override
-	public void setContent(TTSMessageContent content) {
-		this.content = content;
-	}
 
-	@Override
-	public TTSMessageContent getContent() {
-		return content;
-	}	
 
 
 	public static void main(String[] args) {

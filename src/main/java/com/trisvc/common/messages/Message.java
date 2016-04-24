@@ -1,16 +1,23 @@
 package com.trisvc.common.messages;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public abstract class Message<T extends MessageContent> {
+@XmlRootElement(name = "message")
+public class Message<T extends MessageContent> {
+
+	private String messageID;
+	private String callerID;
+	private T content;
 
 	public Message() {
 	}
 
-	public Message(String callerID, String messageID) {
+	public Message(String callerID, String messageID, T content) {
 		this.callerID = callerID;
 		this.messageID = messageID;
-	}
+		this.content = content;
+	}	
 
 	public void setType(String type) {
 	}
@@ -18,8 +25,6 @@ public abstract class Message<T extends MessageContent> {
 	public String getType() {
 		return this.getClass().getSimpleName();
 	}
-
-	private String callerID;
 
 	public String getCallerID() {
 		return callerID;
@@ -29,8 +34,6 @@ public abstract class Message<T extends MessageContent> {
 		this.callerID = callerID;
 	}
 
-	private String messageID;
-
 	public String getMessageID() {
 		return messageID;
 	}
@@ -38,11 +41,15 @@ public abstract class Message<T extends MessageContent> {
 	public void setMessageID(String messageID) {
 		this.messageID = messageID;
 	}
-	
-	@XmlAnyElement
-	public abstract T getContent();
 
-	public abstract void setContent(T t);	
+	@XmlAnyElement(lax=true)
+	public T getContent(){
+		return content;
+	}
+
+	public void setContent(T content){
+		this.content = content;
+	}
 
 	@Override
 	public String toString() {

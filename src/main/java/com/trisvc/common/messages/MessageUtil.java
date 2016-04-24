@@ -54,7 +54,7 @@ public class MessageUtil {
 		try {
 			return JAXBContext.newInstance(
 					Message.class, 
-					TTSMessage.class, 
+					MessageContent.class,
 					TTSMessageContent.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
