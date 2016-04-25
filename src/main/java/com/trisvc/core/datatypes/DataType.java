@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
+import com.trisvc.core.messages.types.register.structures.PhraseDefinition;
 import com.trisvc.core.messages.types.register.structures.PatternTemplateDefinition;
 
 import freemarker.template.TemplateException;
@@ -33,7 +33,7 @@ public class DataType {
 		logger.debug("Creating DataType "+name);
 	}
 	
-	public DataType(DataTypeDefinition d){
+	public DataType(PhraseDefinition d){
 		
 		List<PatternTemplate> l = new ArrayList<PatternTemplate>();
 		

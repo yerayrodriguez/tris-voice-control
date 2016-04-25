@@ -51,7 +51,7 @@ public class PatternTemplate {
 		compiledPattern = Pattern.compile(getPattern(), Pattern.CASE_INSENSITIVE);
 		try {
 			compiledTemplate = new Template(getTemplate(), new StringReader(getTemplate()),
-			           TemplateConfigFactory.getInstance());
+			           TemplateConfiguration.getInstance());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

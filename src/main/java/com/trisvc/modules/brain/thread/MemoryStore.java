@@ -9,8 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.trisvc.core.datatypes.DataType;
-import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
-import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
+import com.trisvc.core.messages.types.register.structures.PhraseDefinition;
+import com.trisvc.core.messages.types.register.structures.PhraseDefinition;
 
 public class MemoryStore {
 
@@ -46,7 +46,7 @@ public class MemoryStore {
 	//TODO
 	//Aditional dataType must be associated with module
 	//this way, a common dataType could have differente patterns for different modules
-	public void addDataTypeDefinition(DataTypeDefinition d){
+	public void addDataTypeDefinition(PhraseDefinition d){
 		if (dataTypes.containsKey(d.getDataTypeName())){
 			dataTypes.get(d.getDataTypeName()).addPatternTemplateDefinitionList(d.getDefinition());
 		}else{
@@ -54,9 +54,9 @@ public class MemoryStore {
 		}
 	}
 	
-	public void addDataTypeDefinitions(List<DataTypeDefinition> l){
+	public void addDataTypeDefinitions(List<PhraseDefinition> l){
 	
-		for (DataTypeDefinition d: l){
+		for (PhraseDefinition d: l){
 			addDataTypeDefinition(d);
 		}
 		
