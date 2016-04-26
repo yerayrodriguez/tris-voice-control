@@ -2,8 +2,8 @@ package com.trisvc.core.messages.types.register.structures;
 
 public class PatternTemplateDefinition {
 
-	public String pattern;
-	public String template;
+	private String pattern;
+	private String template;
 
 	public PatternTemplateDefinition() {
 		super();
@@ -12,6 +12,22 @@ public class PatternTemplateDefinition {
 	public PatternTemplateDefinition(String pattern, String template) {
 		super();
 		this.pattern = pattern;
+		this.template = template;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
 		this.template = template;
 	}
 

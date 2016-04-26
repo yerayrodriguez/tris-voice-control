@@ -14,10 +14,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.MessageBody;
+import com.trisvc.core.messages.Response;
 import com.trisvc.core.messages.types.parser.ParserMessage;
 import com.trisvc.core.messages.types.parser.ParserResponse;
 import com.trisvc.core.messages.types.register.RegisterMessage;
+import com.trisvc.core.messages.types.register.RegisterResponse;
 import com.trisvc.core.messages.types.tts.TTSMessage;
+import com.trisvc.core.messages.types.tts.TTSResponse;
 
 public class MessageUtil {
 
@@ -28,9 +31,12 @@ public class MessageUtil {
 			// @formatter:off
 			return JAXBContext.newInstance(
 					Message.class, 
+					Response.class,
 					MessageBody.class, 
 					TTSMessage.class,
+					TTSResponse.class,
 					RegisterMessage.class,
+					RegisterResponse.class,
 					ParserMessage.class,
 					ParserResponse.class);
 			// @formatter:on

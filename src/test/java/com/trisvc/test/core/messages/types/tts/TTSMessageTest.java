@@ -1,6 +1,6 @@
 package com.trisvc.test.core.messages.types.tts;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -12,10 +12,17 @@ public class TTSMessageTest {
 
 	@Test
 	public void marshalAndUnmarshallShouldBeEquals() {
-		TTSMessage t = new TTSMessage("Test of text to speech");
-		Message<TTSMessage> m1 = new Message<TTSMessage> ("CallerID", "MessageID",t); 
-		m1.time = MessageUtil.getXMLGregorianCalendar(); 
 		
+	    System.out.println("OS Architecture : " + System.getProperty("os.arch"));
+
+	    System.out.println("OS Name : " + System.getProperty("os.name"));
+
+	    System.out.println("OS Version : " + System.getProperty("os.version"));
+
+	    System.out.println("Data Model : " + System.getProperty("sun.arch.data.model"));		
+
+		Message<TTSMessage> m1 = genTestMessage();
+
 		try {
 			String x1 = m1.toString();
 			@SuppressWarnings("unchecked")
@@ -25,6 +32,16 @@ public class TTSMessageTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Message<TTSMessage> genTestMessage() {
+
+		TTSMessage t = new TTSMessage("Test of text to speech");
+
+		Message<TTSMessage> m = new Message<TTSMessage>("CallerID", "MessageID", t);
+		m.setTime(MessageUtil.getXMLGregorianCalendar());
+
+		return m;
 	}
 
 }

@@ -17,7 +17,7 @@ import com.trisvc.core.messages.types.register.structures.PatternTemplateDefinit
 
 import freemarker.template.TemplateException;
 
-public class DataType {
+public class PhraseTypeHandler {
 	
 	private Logger logger; 
 
@@ -26,22 +26,22 @@ public class DataType {
 	//¿Change for a hashmap <Pattern, Template>?
 	private List<PatternTemplate> list = new ArrayList<PatternTemplate>();
 	
-	public DataType(String name, List<PatternTemplate> list){
+	public PhraseTypeHandler(String name, List<PatternTemplate> list){
 		this.name = name;
 		this.list = list;
 		logger = LogManager.getLogger(this.getClass().getName()+":"+name);
 		logger.debug("Creating DataType "+name);
 	}
 	
-	public DataType(PhraseDefinition d){
+	public PhraseTypeHandler(PhraseDefinition d){
 		
 		List<PatternTemplate> l = new ArrayList<PatternTemplate>();
 		
-		for (PatternTemplateDefinition p: d.getDefinition()){
+		for (PatternTemplateDefinition p: d.getPatterns()){
 			l.add(new PatternTemplate(p));
 		}
 		
-		this.name = d.getDataTypeName();
+		this.name = d.getName();
 		this.list = l;
 		logger = LogManager.getLogger(this.getClass().getName()+":"+name);
 		logger.debug("Creating DataType "+name);
@@ -142,7 +142,7 @@ public class DataType {
 		}
 
 		
-		DataType horas = new DataType("TIME", l);
+		PhraseTypeHandler horas = new PhraseTypeHandler("TIME", l);
 
 		String prueba = "a las 5 menos 10 ";
 		horas.eval(prueba);

@@ -6,16 +6,24 @@ import com.trisvc.core.messages.MessageBody;
 
 @XmlRootElement
 public class TTSMessage extends MessageBody {
-	
-	public String textToSpeech;
+
+	private String textToSpeech;
 
 	public TTSMessage() {
 		super();
 	}
-	
+
 	public TTSMessage(String textToSpeech) {
 		super();
 		this.textToSpeech = textToSpeech;
-	}	
+	}
+
+	public String getTextToSpeech() {
+		return textToSpeech;
+	}
+
+	public void setTextToSpeech(String textToSpeech) {
+		this.textToSpeech = textToSpeech;
+	}
 
 }

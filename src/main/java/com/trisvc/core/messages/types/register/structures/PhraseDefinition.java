@@ -7,11 +7,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 public class PhraseDefinition {
 
-	@XmlAttribute
-	public String name;
-
-	@XmlElementWrapper(name = "patterns")
-	public List<PatternTemplateDefinition> patterns;
+	private String name;
+	private List<PatternTemplateDefinition> patterns;
 
 	public PhraseDefinition() {
 		super();
@@ -20,6 +17,24 @@ public class PhraseDefinition {
 	public PhraseDefinition(String name, List<PatternTemplateDefinition> patterns) {
 		super();
 		this.name = name;
+		this.patterns = patterns;
+	}
+
+	@XmlAttribute
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@XmlElementWrapper(name = "patterns")
+	public List<PatternTemplateDefinition> getPatterns() {
+		return patterns;
+	}
+
+	public void setPatterns(List<PatternTemplateDefinition> patterns) {
 		this.patterns = patterns;
 	}
 

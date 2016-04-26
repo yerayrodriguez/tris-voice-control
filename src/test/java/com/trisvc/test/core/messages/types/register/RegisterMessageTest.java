@@ -22,11 +22,11 @@ public class RegisterMessageTest {
 	public void marshalAndUnmarshallShouldBeEquals() {
 
 		RegisterMessage message = new RegisterMessage();
-		message.moduleName = "pruebamodulo";
+		message.setModuleName("pruebamodulo");
 		List<PhraseDefinition> listDataTypes = new ArrayList<PhraseDefinition>();
 		
 		PhraseDefinition tipo1 = new PhraseDefinition();
-		tipo1.name=("Tipo1");
+		tipo1.setName("Tipo1");
 		
 		List<PatternTemplateDefinition> definition1 = new ArrayList<PatternTemplateDefinition>();
 		PatternTemplateDefinition t1p1 = new PatternTemplateDefinition("in t1p1","out t1p1");
@@ -34,11 +34,11 @@ public class RegisterMessageTest {
 		PatternTemplateDefinition t1p2 = new PatternTemplateDefinition("in t1p2","out t1p2");
 		definition1.add(t1p2);	
 		
-		tipo1.patterns=(definition1);
+		tipo1.setPatterns(definition1);
 		listDataTypes.add(tipo1);
 		
 		PhraseDefinition tipo2 = new PhraseDefinition();
-		tipo2.name=("Tipo2");
+		tipo2.setName("Tipo2");
 		
 		List<PatternTemplateDefinition> definition2 = new ArrayList<PatternTemplateDefinition>();
 		PatternTemplateDefinition t2p1 = new PatternTemplateDefinition("in t2p1","out t2p1");
@@ -46,10 +46,10 @@ public class RegisterMessageTest {
 		PatternTemplateDefinition t2p2 = new PatternTemplateDefinition("in t2p2","out t2p2");
 		definition2.add(t2p2);			
 		
-		tipo2.patterns=(definition2);
+		tipo2.setPatterns(definition2);
 		listDataTypes.add(tipo2);		
 		
-		message.datatypes = listDataTypes;
+		message.setPhraseDefinitions(listDataTypes);
 		
 		
 		List<ModuleCommand> listcommands = new ArrayList<ModuleCommand>();
@@ -66,10 +66,10 @@ public class RegisterMessageTest {
 		ModuleCommand c2 = new ModuleCommand("comando2",lc2);
 		listcommands.add(c2);
 		
-		message.commands = listcommands;
+		message.setCommands(listcommands);
 		
 		Message<RegisterMessage> m1 = new Message<RegisterMessage> ("CallerID", "MessageID",message); 
-		m1.time = MessageUtil.getXMLGregorianCalendar(); 
+		m1.setTime(MessageUtil.getXMLGregorianCalendar()); 
 
 
 		try {

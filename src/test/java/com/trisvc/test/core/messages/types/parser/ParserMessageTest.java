@@ -1,7 +1,8 @@
 package com.trisvc.test.core.messages.types.parser;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.types.parser.ParserMessage;
@@ -11,9 +12,8 @@ public class ParserMessageTest {
 
 	@Test
 	public void marshalAndUnmarshallShouldBeEquals() {
-		ParserMessage p = new ParserMessage("Test of text to parse");
-		Message<ParserMessage> m1 = new Message<ParserMessage> ("CallerID", "MessageID",p); 
-		m1.time = MessageUtil.getXMLGregorianCalendar(); 
+
+		Message<ParserMessage> m1 = genTestMessage();
 		
 		try {
 			String x1 = m1.toString();
@@ -24,6 +24,16 @@ public class ParserMessageTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private Message<ParserMessage> genTestMessage(){
+		
+		ParserMessage p = new ParserMessage("Test of text to parse");
+		
+		Message<ParserMessage> m = new Message<ParserMessage> ("CallerID", "MessageID",p); 
+		m.setTime(MessageUtil.getXMLGregorianCalendar()); 
+		
+		return m;
 	}
 
 }
