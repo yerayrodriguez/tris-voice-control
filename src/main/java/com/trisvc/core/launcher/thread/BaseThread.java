@@ -1,4 +1,4 @@
-package com.trisvc.core;
+package com.trisvc.core.launcher.thread;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,26 +6,30 @@ import org.freedesktop.dbus.DBusConnection;
 import org.freedesktop.dbus.DBusSigHandler;
 import org.freedesktop.dbus.exceptions.DBusException;
 
+import com.trisvc.core.BaseObject;
+import com.trisvc.core.Signal;
+
 public abstract class BaseThread implements Runnable{
 	
 	protected static final String THREAD_DEFAULT_ID = "default";
 	private Logger logger;
 	
-	protected String moduleId;
+	protected String instance;
+	
 	
 	private static DBusConnection connection = initializeDBusConnection();
 
 	
-	public void setModuleId(String id){
+	public void setInstance(String instance){
 		//TODO
 		//Change for constructor
 		//Look at ThreadFactory
-		if (id==null)
-			id = THREAD_DEFAULT_ID;
-		this.moduleId = id;
+		if (instance==null)
+			instance = THREAD_DEFAULT_ID;
+		this.instance = instance;
 		//TODO
 		//Think how to make a more elegant solution
-		logger = LogManager.getLogger(this.getClass().getName()+":"+this.moduleId);
+		logger = LogManager.getLogger(this.getClass().getName()+":"+this.instance);
 	}	
 	
 	private static DBusConnection initializeDBusConnection() {
@@ -43,21 +47,43 @@ public abstract class BaseThread implements Runnable{
 		return connection;
 	}
 	
+	protected void exportObject(BaseObject object, String instance) throws DBusException{
+		if (instance == null || instance.trim().length()==0){
+			instance = "default";
+		}
+		getDBusConnection().requestBusName("com.trisvc.object."+object.getClass().getSimpleName()+"."+instance);
+		getDBusConnection().exportObject("/com/trisvc/object/"+object.getClass().getSimpleName()+"/"+instance, object);			
+	}	
+	
 	protected void exportObject(BaseObject object) throws DBusException{
-		getDBusConnection().requestBusName("com.trisvc.object."+object.getClass().getSimpleName());
-		getDBusConnection().exportObject("/com/trisvc/object/"+object.getClass().getSimpleName(), object);			
+		exportObject(object, null);			
 	}
 	
 	@SuppressWarnings("rawtypes")
 	protected void unExportObject(Class c) throws DBusException{
-		getDBusConnection().unExportObject("/com/trisvc/object/"+c.getSimpleName());
+		unExportObject(c,null);
 	}
 	
+	@SuppressWarnings("rawtypes")
+	protected void unExportObject(Class c, String instance) throws DBusException{
+		if (instance == null || instance.trim().length()==0){
+			instance = "default";
+		}		
+		getDBusConnection().unExportObject("/com/trisvc/object/"+c.getSimpleName()+"/"+instance);
+	}	
+	
 	protected BaseObject getRemoteObject(Class c){
+		return getRemoteObject(c,null);
+	}
+	
+	protected BaseObject getRemoteObject(Class c, String instance){
+		if (instance == null || instance.trim().length()==0){
+			instance = "default";
+		}		
 		BaseObject o;
 		try {
-			o = (BaseObject) getDBusConnection().getRemoteObject("com.trisvc.object."+c.getSimpleName(),
-					"/com/trisvc/object/"+c.getSimpleName(), BaseObject.class);
+			o = (BaseObject) getDBusConnection().getRemoteObject("com.trisvc.object."+c.getSimpleName()+"."+instance,
+					"/com/trisvc/object/"+c.getSimpleName()+"/"+instance, BaseObject.class);
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,8 +125,8 @@ public abstract class BaseThread implements Runnable{
 
 	}
 	
-	public String getModuleId(){
-		return moduleId;
+	public String getInstance(){
+		return instance;
 	}
 	
 	protected Logger getLogger(){

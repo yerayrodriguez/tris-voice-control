@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<launcherConfig>
+    <busAddress>SESSION</busAddress>
+    <location>despacho</location>
+    <modules>
+        <module instance="default">
+            <module>com.trisvc.modules.console.thread.Console</module>
+        </module>
+    </modules>
+</launcherConfig>

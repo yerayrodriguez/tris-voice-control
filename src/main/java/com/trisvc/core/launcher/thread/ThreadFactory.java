@@ -1,16 +1,16 @@
-package com.trisvc.launcher;
+package com.trisvc.core.launcher.thread;
 
-import com.trisvc.core.BaseThread;
+import com.trisvc.core.launcher.config.ModuleToLoad;
 
 public class ThreadFactory {
 	
-	public static BaseThread getThreadBase(String className, String id) {
+	public static BaseThread getThreadBase(ModuleToLoad m) {
 
 		
 
 		Class<?> c = null;
 		try {
-			c = Class.forName(className);
+			c = Class.forName(m.getModule());
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -23,7 +23,7 @@ public class ThreadFactory {
 			//TODO
 			//Change for constructor
 			//Look at BaseThread
-			t.setModuleId(id);
+			t.setInstance(m.getInstance());
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

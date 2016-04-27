@@ -2,8 +2,8 @@ package com.trisvc.modules.heart.thread;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
-import com.trisvc.core.BaseThread;
-import com.trisvc.core.ThreadUtil;
+import com.trisvc.core.launcher.thread.BaseThread;
+import com.trisvc.core.launcher.thread.ThreadUtil;
 import com.trisvc.modules.heart.object.Echo;
 
 public class Heart extends BaseThread {	

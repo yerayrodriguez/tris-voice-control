@@ -1,4 +1,4 @@
-package com.trisvc.core;
+package com.trisvc.core.launcher.thread;
 
 public class ThreadUtil {
 	
