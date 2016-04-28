@@ -6,8 +6,8 @@ import org.freedesktop.dbus.DBusConnection;
 import org.freedesktop.dbus.DBusSigHandler;
 import org.freedesktop.dbus.exceptions.DBusException;
 
-import com.trisvc.core.BaseObject;
 import com.trisvc.core.Signal;
+import com.trisvc.modules.BaseObject;
 
 public abstract class BaseThread implements Runnable{
 	

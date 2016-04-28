@@ -4,6 +4,9 @@
     <location>despacho</location>
     <modules>
         <module instance="default">
+            <module>com.trisvc.modules.tts.pico.thread.PicoTTS</module>
+        </module>
+        <module instance="default">
             <module>com.trisvc.modules.console.thread.Console</module>
         </module>
     </modules>

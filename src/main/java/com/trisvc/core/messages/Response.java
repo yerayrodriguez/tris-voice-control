@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "response")
 @XmlType(propOrder={"success", "information"})
-public class Response<T extends MessageBody> extends Message<T> {
+public class Response extends Message {
 
 	private boolean success = false;
 	private String information;
@@ -14,11 +14,11 @@ public class Response<T extends MessageBody> extends Message<T> {
 		super();
 	}
 
-	public Response(String callerID, String messageID, T body) {
+	public Response(String callerID, String messageID, MessageBody body) {
 		super(callerID, messageID, body);
 	}
 
-	public Response(String callerID, String messageID, T body, boolean success, String information) {
+	public Response(String callerID, String messageID, MessageBody body, boolean success, String information) {
 		super(callerID, messageID, body);
 		this.success = success;
 		this.information = information;

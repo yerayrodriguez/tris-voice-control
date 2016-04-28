@@ -9,18 +9,18 @@ import com.trisvc.core.messages.util.MessageUtil;
 
 @XmlRootElement(name = "message")
 @XmlType(propOrder={"type", "time", "callerID", "messageID", "body"})
-public class Message<T extends MessageBody> {
+public class Message {
 
 	private String messageID;
 	private String callerID;
 	private XMLGregorianCalendar time;
-	private T body;
+	private MessageBody body;
 
 	public Message() {
 		super();
 	}
 
-	public Message(String callerID, String messageID, T body) {
+	public Message(String callerID, String messageID, MessageBody body) {
 		super();
 		this.callerID = callerID;
 		this.messageID = messageID;
@@ -61,17 +61,22 @@ public class Message<T extends MessageBody> {
 	}
 
 	@XmlAnyElement(lax = true)
-	public T getBody() {
+	public MessageBody getBody() {
 		return body;
 	}
 
-	public void setBody(T body) {
+	public void setBody(MessageBody body) {
 		this.body = body;
 	}
 
 	@Override
 	public String toString() {
 		return MessageUtil.marshal(this);
+	}
+	
+	public String packToSend(){
+		this.setTime(MessageUtil.getXMLGregorianCalendar());
+		return toString();
 	}
 
 }

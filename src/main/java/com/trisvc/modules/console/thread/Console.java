@@ -7,11 +7,12 @@ import java.io.InputStreamReader;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
-import com.trisvc.core.BaseObject;
 import com.trisvc.core.Signal;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.types.tts.TTSMessage;
+import com.trisvc.core.messages.util.MessageUtil;
+import com.trisvc.modules.BaseObject;
 import com.trisvc.modules.tts.pico.object.TTS;
 
 public class Console extends BaseThread {
@@ -31,8 +32,13 @@ public class Console extends BaseThread {
 			String line;
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
-				Message<TTSMessage> m = new Message<TTSMessage>();
-				String returnValue = tts.send(type, message);
+				Message m = new Message();
+				TTSMessage t = new TTSMessage();
+				t.setTextToSpeech(line);
+				m.setBody(t);
+				m.setCallerID("prueba");
+				m.setMessageID("sss");
+				String returnValue = tts.send(m.packToSend());
 
 				System.out.println(returnValue);
 	
@@ -43,7 +49,7 @@ public class Console extends BaseThread {
 					break;
 				}
 				if (line.equals("memoryDump")){
-					memory.send(MessageType.MemoryDumpMessage.getType(), "");
+					//memory.send(MessageType.MemoryDumpMessage.getType(), "");
 				}
 				System.out.print("Comando: ");
 			}

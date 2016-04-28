@@ -13,12 +13,12 @@ public class ParserMessageTest {
 	@Test
 	public void marshalAndUnmarshallShouldBeEquals() {
 
-		Message<ParserMessage> m1 = genTestMessage();
+		Message m1 = genTestMessage();
 		
 		try {
 			String x1 = m1.toString();
-			@SuppressWarnings("unchecked")
-			Message<ParserMessage> m2 = (Message<ParserMessage>) MessageUtil.unmarshal(x1);
+			System.out.println(x1);
+			Message m2 = (Message) MessageUtil.unmarshal(x1);
 			String x2 = m2.toString();
 			assertTrue(x1.equals(x2));
 		} catch (Exception e) {
@@ -26,11 +26,11 @@ public class ParserMessageTest {
 		}
 	}
 	
-	private Message<ParserMessage> genTestMessage(){
+	private Message genTestMessage(){
 		
 		ParserMessage p = new ParserMessage("Test of text to parse");
 		
-		Message<ParserMessage> m = new Message<ParserMessage> ("CallerID", "MessageID",p); 
+		Message m = new Message ("CallerID", "MessageID",p); 
 		m.setTime(MessageUtil.getXMLGregorianCalendar()); 
 		
 		return m;

@@ -1,6 +1,6 @@
 package com.trisvc.modules.brain.object;
 
-import com.trisvc.core.BaseObject;
+import com.trisvc.modules.BaseObject;
 import com.trisvc.modules.brain.thread.MemoryStore;
 
 public class Memory implements BaseObject {

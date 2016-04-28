@@ -13,13 +13,12 @@ public class TTSResponseTest {
 	@Test
 	public void marshalAndUnmarshallShouldBeEquals() {
 
-		Response<TTSResponse> m1 = genTestMessage();
+		Response m1 = genTestMessage();
 
 		try {
 			String x1 = m1.toString();
 			System.out.println(x1);
-			@SuppressWarnings("unchecked")
-			Response<TTSResponse> m2 = (Response<TTSResponse>) MessageUtil.unmarshal(x1);
+			Response m2 = (Response) MessageUtil.unmarshal(x1);
 			String x2 = m2.toString();
 			assertTrue(x1.equals(x2));
 		} catch (Exception e) {
@@ -27,11 +26,11 @@ public class TTSResponseTest {
 		}
 	}
 
-	private Response<TTSResponse> genTestMessage() {
+	private Response genTestMessage() {
 
 		TTSResponse t = new TTSResponse();
 
-		Response<TTSResponse> m = new Response<TTSResponse>("CallerID", "MessageID", t, true, "OK");
+		Response m = new Response("CallerID", "MessageID", t, true, "OK");
 		m.setTime(MessageUtil.getXMLGregorianCalendar());
 
 		return m;

@@ -29,7 +29,7 @@ public class Launcher {
 	}
 
 	private static void startThread(ModuleToLoad m) {
-		BaseThread tb = ThreadFactory.getThreadBase(className,id);
+		BaseThread tb = ThreadFactory.getThreadBase(m);
 		Thread t = new Thread(tb);
 		t.start();
 	}

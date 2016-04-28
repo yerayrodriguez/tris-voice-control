@@ -47,7 +47,7 @@ public class MessageUtil {
 		}
 	}
 
-	public static <T extends Message<?>> String marshal(T t) {
+	public static String marshal(Message t) {
 
 		// TODO
 		// create Exception to check callerID, messageID, time
@@ -63,19 +63,21 @@ public class MessageUtil {
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			return null; 
 		}
 
 	}
 
+	//TODO
+	//ask for class to check?
 	@SuppressWarnings("unchecked")
-	public static <T extends Message<?>> T unmarshal(String stringObject) {
+	public static Message unmarshal(String stringObject) {
 		Unmarshaller unmarshaller;
 		try {
 			unmarshaller = messageContext.createUnmarshaller();
 			StringReader reader = new StringReader(stringObject);
 			Object o = unmarshaller.unmarshal(reader);
-			return (T) o;
+			return (Message) o;
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,6 +95,13 @@ public class MessageUtil {
 			e1.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static Response getResponseFromMessage(Message m){
+		Response r = new Response();
+		r.setCallerID(m.getCallerID());
+		r.setMessageID(m.getMessageID());
+		return r;
 	}
 
 }
