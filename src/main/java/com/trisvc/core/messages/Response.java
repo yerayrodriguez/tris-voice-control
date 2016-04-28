@@ -4,10 +4,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "response")
-@XmlType(propOrder={"success", "information"})
+@XmlType(propOrder = { "listener", "success", "information" })
 public class Response extends Message {
 
-	private boolean success = false;
+	private String listener;
+	private boolean success = true;
 	private String information;
 
 	public Response() {
@@ -18,8 +19,10 @@ public class Response extends Message {
 		super(callerID, messageID, body);
 	}
 
-	public Response(String callerID, String messageID, MessageBody body, boolean success, String information) {
+	public Response(String callerID, String messageID, MessageBody body, String listener, boolean success,
+			String information) {
 		super(callerID, messageID, body);
+		this.listener = listener;
 		this.success = success;
 		this.information = information;
 	}
@@ -39,7 +42,13 @@ public class Response extends Message {
 	public void setInformation(String information) {
 		this.information = information;
 	}
-	
-	
+
+	public String getListener() {
+		return listener;
+	}
+
+	public void setListener(String listener) {
+		this.listener = listener;
+	}
 
 }

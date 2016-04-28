@@ -21,6 +21,8 @@ public class LauncherConfigHandler {
 
 		String hostName = null;
 		try {
+			//TODO
+			//convert to static variable
 			hostName = InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) {
 			logger.error("Could not get host name");

@@ -4,7 +4,7 @@ import org.freedesktop.dbus.DBusInterface;
 
 public interface BaseObject extends DBusInterface{
 	
-	public String send (String xmlMessage);	
+	public String send (String xmlMessage);			
 
 }
 

@@ -8,11 +8,11 @@ import com.trisvc.core.launcher.thread.ThreadFactory;
 
 public class Launcher {
 	
-	public static LauncherConfig l = LauncherConfigHandler.load();
+	public static LauncherConfig config = LauncherConfigHandler.load();
 
 	public static void main(String[] args) {
 		
-		for (ModuleToLoad m: l.getModules()){
+		for (ModuleToLoad m: config.getModules()){
 			startThread(m);
 		}
 		

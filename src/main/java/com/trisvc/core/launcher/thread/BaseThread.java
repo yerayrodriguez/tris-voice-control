@@ -8,6 +8,8 @@ import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.Signal;
 import com.trisvc.modules.BaseObject;
+import com.trisvc.modules.BaseObjectWrapper;
+import com.trisvc.modules.RemoteObjectWrapper;
 
 public abstract class BaseThread implements Runnable{
 	
@@ -72,24 +74,26 @@ public abstract class BaseThread implements Runnable{
 		getDBusConnection().unExportObject("/com/trisvc/object/"+c.getSimpleName()+"/"+instance);
 	}	
 	
-	protected BaseObject getRemoteObject(Class c){
+	protected static RemoteObjectWrapper getRemoteObject(Class c){
 		return getRemoteObject(c,null);
 	}
 	
-	protected BaseObject getRemoteObject(Class c, String instance){
+	protected static RemoteObjectWrapper getRemoteObject(Class c, String instance){
 		if (instance == null || instance.trim().length()==0){
 			instance = "default";
 		}		
-		BaseObject o;
+
 		try {
+			BaseObject o;		
 			o = (BaseObject) getDBusConnection().getRemoteObject("com.trisvc.object."+c.getSimpleName()+"."+instance,
 					"/com/trisvc/object/"+c.getSimpleName()+"/"+instance, BaseObject.class);
+			RemoteObjectWrapper r = new RemoteObjectWrapper(o);
+			return r;
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
-		return o;
 	}
 	
 	@Override

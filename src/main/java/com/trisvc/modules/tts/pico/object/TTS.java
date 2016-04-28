@@ -10,28 +10,39 @@ import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.core.messages.types.tts.TTSResponse;
 import com.trisvc.core.messages.util.MessageUtil;
 import com.trisvc.modules.BaseObject;
+import com.trisvc.modules.BaseObjectWrapper;
 
-public class TTS implements BaseObject {
+public class TTS extends BaseObjectWrapper implements BaseObject{
 
+
+	/*@Override
+	public String send(String xmlMessage) {
+		Message m = (Message) MessageUtil.unmarshal(xmlMessage);
+		Response r = send(m);
+		return r.toString();
+	}
+	
 	@Override
 	public boolean isRemote() {
+		//TODO
+		//WTF??
 		return false;
-	}
+	}*/
 
-
-	@Override
+	/*@Override
 	public String send(String xmlMessage) {
 		Message m = (Message) MessageUtil.unmarshal(xmlMessage);	
 			
 		Response r = tts(m);
 
-		return r.packToSend();
-	}
+		return r.toString();
+	}*/
 
 
 	static final String ttsTmpPath = "/tmp/trisvc/tts/";
 	
-	private Response tts (Message m) {
+	
+	public Response send (Message m) {
 		
 		TTSMessage b = (TTSMessage)m.getBody();
 		Response r = MessageUtil.getResponseFromMessage(m);
@@ -71,6 +82,7 @@ public class TTS implements BaseObject {
 		System.out.println(ttsTmpPath+file);
 		
 		new PlaySoundFile(ttsTmpPath+file).start();
+		r.setSuccess(true);
 		return r;
 	}
 

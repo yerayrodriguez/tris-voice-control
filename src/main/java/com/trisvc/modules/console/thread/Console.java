@@ -1,6 +1,5 @@
 package com.trisvc.modules.console.thread;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,9 +9,9 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import com.trisvc.core.Signal;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.messages.Message;
+import com.trisvc.core.messages.Response;
 import com.trisvc.core.messages.types.tts.TTSMessage;
-import com.trisvc.core.messages.util.MessageUtil;
-import com.trisvc.modules.BaseObject;
+import com.trisvc.modules.RemoteObjectWrapper;
 import com.trisvc.modules.tts.pico.object.TTS;
 
 public class Console extends BaseThread {
@@ -27,7 +26,7 @@ public class Console extends BaseThread {
 
 			//BaseObject textCommandMessage = getRemoteObject(Echo.class);
 			//BaseObject memory = getRemoteObject(Memory.class);
-			BaseObject tts = getRemoteObject(TTS.class);
+			RemoteObjectWrapper tts = getRemoteObject(TTS.class);
 
 			String line;
 			System.out.print("Comando: ");
@@ -36,11 +35,9 @@ public class Console extends BaseThread {
 				TTSMessage t = new TTSMessage();
 				t.setTextToSpeech(line);
 				m.setBody(t);
-				m.setCallerID("prueba");
-				m.setMessageID("sss");
-				String returnValue = tts.send(m.packToSend());
+				Response returnValue = tts.send(m);
 
-				System.out.println(returnValue);
+				System.out.println(returnValue.isSuccess());
 	
 				System.out.flush();
 

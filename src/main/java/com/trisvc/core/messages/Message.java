@@ -74,9 +74,5 @@ public class Message {
 		return MessageUtil.marshal(this);
 	}
 	
-	public String packToSend(){
-		this.setTime(MessageUtil.getXMLGregorianCalendar());
-		return toString();
-	}
 
 }
