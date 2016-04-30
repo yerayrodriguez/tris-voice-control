@@ -10,7 +10,7 @@ public class ThreadFactory {
 
 		Class<?> c = null;
 		try {
-			c = Class.forName(m.getModule());
+			c = Class.forName(m.getQualifiedName());
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

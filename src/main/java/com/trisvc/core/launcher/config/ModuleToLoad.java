@@ -4,27 +4,27 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class ModuleToLoad {
 
-	private String module;
+	private String qualifiedName;
 	private String instance;
 
 	public ModuleToLoad() {
 		super();
 	}
 
-	public ModuleToLoad(String module, String instance) {
+	public ModuleToLoad(String qualifiedName, String instance) {
 		super();
-		this.module = module;
+		this.qualifiedName = qualifiedName;
 		this.instance = instance;
 	}
 
-	public String getModule() {
-		if (module == null)
+	public String getQualifiedName() {
+		if (qualifiedName == null)
 			return "";
-		return module.trim();
+		return qualifiedName.trim();
 	}
 
-	public void setModule(String module) {
-		this.module = module;
+	public void setQualifiedName(String qualifiedName) {
+		this.qualifiedName = qualifiedName;
 	}
 
 	@XmlAttribute

@@ -6,11 +6,13 @@ import java.io.InputStreamReader;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
+import com.trisvc.core.PlaySoundFile;
 import com.trisvc.core.Signal;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.Response;
 import com.trisvc.core.messages.types.tts.TTSMessage;
+import com.trisvc.core.messages.types.tts.TTSResponse;
 import com.trisvc.modules.RemoteObjectWrapper;
 import com.trisvc.modules.tts.pico.object.TTS;
 
@@ -35,9 +37,11 @@ public class Console extends BaseThread {
 				TTSMessage t = new TTSMessage();
 				t.setTextToSpeech(line);
 				m.setBody(t);
-				Response returnValue = tts.send(m);
+				Response response = tts.send(m);
 
-				System.out.println(returnValue.isSuccess());
+				if (response.isSuccess()){
+					new PlaySoundFile(((TTSResponse)response.getBody()).getCodedSound()).start();
+				}
 	
 				System.out.flush();
 

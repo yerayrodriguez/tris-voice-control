@@ -1,7 +1,12 @@
 package com.trisvc.core;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -13,38 +18,34 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class PlaySoundFile extends Thread { 
-	 
-    private String filename;
- 
-    private Position curPosition;
- 
+
+    private byte[] bytes;
     private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb 
  
-    enum Position { 
+    /*enum Position { 
         LEFT, RIGHT, NORMAL
-    };
+    };*/
  
-    public PlaySoundFile(String wavfile) { 
-        filename = wavfile;
-        curPosition = Position.NORMAL;
+    public PlaySoundFile(byte[] bytes) { 
+        this.bytes = bytes;
     } 
- 
-    public PlaySoundFile(String wavfile, Position p) { 
-        filename = wavfile;
-        curPosition = p;
-    } 
- 
+    
+    public PlaySoundFile(String encodedBytes){
+    	this.bytes = decode (encodedBytes);
+    }
+    
+	private byte[] decode(String encoded){
+		byte[] decoded = Base64.getDecoder().decode(encoded);
+		return decoded;
+	}    
+  
     public void run() { 
  
-        File soundFile = new File(filename);
-        if (!soundFile.exists()) { 
-            System.err.println("Wave file not found: " + filename);
-            return;
-        } 
+    	InputStream bytesStream = new ByteArrayInputStream(bytes); 
  
         AudioInputStream audioInputStream = null;
         try { 
-            audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            audioInputStream = AudioSystem.getAudioInputStream(bytesStream);
         } catch (UnsupportedAudioFileException e1) { 
             e1.printStackTrace();
             return;
@@ -71,10 +72,10 @@ public class PlaySoundFile extends Thread {
         if (auline.isControlSupported(FloatControl.Type.PAN)) { 
             FloatControl pan = (FloatControl) auline
                     .getControl(FloatControl.Type.PAN);
-            if (curPosition == Position.RIGHT) 
+            /*if (curPosition == Position.RIGHT) 
                 pan.setValue(1.0f);
             else if (curPosition == Position.LEFT) 
-                pan.setValue(-1.0f);
+                pan.setValue(-1.0f);*/
         } 
  
         auline.start();
@@ -96,10 +97,6 @@ public class PlaySoundFile extends Thread {
         } 
  
     } 
-    
-    public static void main(String[] args) {
-		PlaySoundFile p = new PlaySoundFile("/tmp/trisvc/tts/_out.wav");
-		p.start();
-	}
+
 } 
  
