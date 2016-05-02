@@ -14,7 +14,7 @@ import com.trisvc.core.messages.Response;
 import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.core.messages.types.tts.TTSResponse;
 import com.trisvc.modules.RemoteObjectWrapper;
-import com.trisvc.modules.tts.pico.object.TTS;
+import com.trisvc.modules.tts.pico.objects.TTS;
 
 public class Console extends BaseThread {
 	

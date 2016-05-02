@@ -6,7 +6,7 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Root level="info">
+    <Root level="debug">
       <AppenderRef ref="STDOUT"/>
     </Root>
 	<Logger name="com.trisvc.common.NumeralUtil" level="debug" additivity="false">

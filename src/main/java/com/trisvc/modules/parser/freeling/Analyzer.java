@@ -34,7 +34,7 @@ public class Analyzer {
 
     // language detector. Used just to show it. Results are printed  but ignored. 
     // See below.
-    LangIdent lgid = new LangIdent(DATA + "/common/lang_ident/ident.dat");
+    //LangIdent lgid = new LangIdent(DATA + "/common/lang_ident/ident.dat");
 
     Tokenizer tk = new Tokenizer( DATA + LANG + "/tokenizer.dat" );
     Splitter sp = new Splitter( DATA + LANG + "/splitter.dat" );
@@ -50,7 +50,7 @@ public class Analyzer {
     ChartParser parser = new ChartParser(
       DATA + LANG + "/chunker/grammar-chunk.dat" );
     DepTxala dep = new DepTxala( DATA + LANG + "/dep_txala/dependences.dat",
-      parser.getStartSymbol() );
+     parser.getStartSymbol() );
     Nec neclass = new Nec( DATA + LANG + "/nerc/nec/nec-ab-poor1.dat" );
 
     Senses sen = new Senses(DATA + LANG + "/senses.dat" ); // sense dictionary
@@ -59,18 +59,20 @@ public class Analyzer {
     // Make sure the encoding matches your input text (utf-8, iso-8859-15, ...)
     BufferedReader input = new BufferedReader(
       new InputStreamReader( System.in, "utf-8" ) );
-    String line = input.readLine();
+
+    String line = "abre la ventana de la habitación pequeña un cincuenta por ciento.";
+    
 
     // Identify language of the text.  
     // Note that this will identify the language, but will NOT adapt
     // the analyzers to the detected language.  All the processing 
     // in the loop below is done by modules for LANG (set to "es" at
     // the beggining of this class) created above.
-    String lg = lgid.identifyLanguage(line);
-    System.out.println( "-------- LANG_IDENT results -----------" );
-    System.out.println("Language detected (from first line in text): " + lg);
+    //String lg = lgid.identifyLanguage(line);
+    //System.out.println( "-------- LANG_IDENT results -----------" );
+    //System.out.println("Language detected (from first line in text): " + lg);
 
-    while( line != null ) {
+    //while( line != null ) {
       // Extract the tokens from the line of text.
       ListWord l = tk.tokenize( line );
 
@@ -95,11 +97,11 @@ public class Analyzer {
       printResults( ls, "parsed" );
 
       // Dependency parser
-      dep.analyze( ls );
-      printResults( ls, "dep" );
+      //dep.analyze( ls );
+      //printResults( ls, "dep" );
 
-      line = input.readLine();
-    }
+      //line = input.readLine();
+    //}
 
     sp.closeSession(sid);
   }

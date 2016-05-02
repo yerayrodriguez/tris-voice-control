@@ -1,4 +1,4 @@
-package com.trisvc.modules.tts.pico.object;
+package com.trisvc.modules.tts.pico.objects;
 
 import java.io.File;
 import java.io.FileInputStream;

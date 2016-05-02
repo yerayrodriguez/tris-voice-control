@@ -8,9 +8,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.core.datatypes.PhraseTypeHandler;
-import com.trisvc.core.messages.types.register.structures.PhraseDefinition;
-import com.trisvc.core.messages.types.register.structures.PhraseDefinition;
+import com.trisvc.core.datatypes.DataTypeHandler;
+import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
 
 public class MemoryStore {
 
@@ -41,22 +40,22 @@ public class MemoryStore {
 
 	}
 	
-	private Map<String,PhraseTypeHandler> dataTypes = new HashMap<String,PhraseTypeHandler>();
+	private Map<String,DataTypeHandler> dataTypes = new HashMap<String,DataTypeHandler>();
 	
 	//TODO
 	//Aditional dataType must be associated with module
 	//this way, a common dataType could have differente patterns for different modules
-	public void addDataTypeDefinition(PhraseDefinition d){
-		if (dataTypes.containsKey(d.getName())){
-			dataTypes.get(d.getName()).addPatternTemplateDefinitionList(d.getPatterns());
+	public void addDataTypeDefinition(DataTypeDefinition d){
+		if (dataTypes.containsKey(d.getType())){
+			dataTypes.get(d.getType()).addPatternTemplateDefinitionList(d.getPatterns());
 		}else{
-			dataTypes.put(d.getName(), new PhraseTypeHandler(d));
+			dataTypes.put(d.getType(), new DataTypeHandler(d));
 		}
 	}
 	
-	public void addDataTypeDefinitions(List<PhraseDefinition> l){
+	public void addDataTypeDefinitions(List<DataTypeDefinition> l){
 	
-		for (PhraseDefinition d: l){
+		for (DataTypeDefinition d: l){
 			addDataTypeDefinition(d);
 		}
 		
@@ -67,8 +66,8 @@ public class MemoryStore {
 	}
 	
 	public void dumpDataTypes(){
-		for (PhraseTypeHandler d: dataTypes.values()){
-			d.dump();
+		for (DataTypeHandler d: dataTypes.values()){
+			d.dump(); 
 		}
 	}
 	

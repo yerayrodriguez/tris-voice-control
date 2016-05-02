@@ -2,17 +2,17 @@ package com.trisvc.core.messages.types.register.structures;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class PhraseConfig {
+public class DataTypeConfig {
 
 	private String type;
 	private boolean optional;
 	private boolean cacheable;
 
-	public PhraseConfig() {
+	public DataTypeConfig() {
 		super();
 	}
 
-	public PhraseConfig(String type, boolean optional, boolean cacheable) {
+	public DataTypeConfig(String type, boolean optional, boolean cacheable) {
 		super();
 		this.type = type;
 		this.optional = optional;

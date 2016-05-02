@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.core.messages.types.register.structures.PatternTemplateDefinition;
+import com.trisvc.core.messages.types.register.structures.DTPatternDefinition;
 
 import freemarker.template.Template;
 
-public class PatternTemplate {
+public class DTPattern {
 	
 	private Logger logger = LogManager.getLogger(this.getClass().getName());
 
@@ -20,14 +20,14 @@ public class PatternTemplate {
 	private Pattern compiledPattern;
 	private Template compiledTemplate;
 	
-	public PatternTemplate(String pattern, String template) {
+	public DTPattern(String pattern, String template) {
 		logger.trace("Registering pattern '"+pattern+"' and template '"+template+"'");
 		this.pattern = pattern;
 		this.template = template;
 		compile();
 	}
 	
-	public PatternTemplate(PatternTemplateDefinition p) {
+	public DTPattern(DTPatternDefinition p) {
 		this(p.getPattern(), p.getTemplate());
 	}
 
@@ -51,7 +51,7 @@ public class PatternTemplate {
 		compiledPattern = Pattern.compile(getPattern(), Pattern.CASE_INSENSITIVE);
 		try {
 			compiledTemplate = new Template(getTemplate(), new StringReader(getTemplate()),
-			           TemplateConfiguration.getInstance());
+			           FreemarkerConfiguration.getInstance());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

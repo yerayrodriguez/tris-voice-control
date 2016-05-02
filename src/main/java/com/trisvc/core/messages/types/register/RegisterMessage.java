@@ -8,26 +8,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.trisvc.core.messages.MessageBody;
+import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
 import com.trisvc.core.messages.types.register.structures.ModuleCommand;
-import com.trisvc.core.messages.types.register.structures.PhraseDefinition;
 
 @XmlRootElement
-@XmlType(propOrder={"moduleName", "phraseDefinitions", "commands"})
+@XmlType(propOrder = { "moduleName", "dataTypes", "commands" })
 public class RegisterMessage extends MessageBody {
 
 	private String moduleName;
-	private List<PhraseDefinition> phraseDefinitions;
+	private DataTypeDefinitionList dataTypes;
 	private List<ModuleCommand> commands;
 
 	public RegisterMessage() {
 		super();
 	}
 
-	public RegisterMessage(String moduleName, List<PhraseDefinition> phraseDefinitions, List<ModuleCommand> commands) {
+	public RegisterMessage(String moduleName, DataTypeDefinitionList dataTypes, List<ModuleCommand> commands) {
 		super();
 		this.moduleName = moduleName;
-		this.phraseDefinitions = phraseDefinitions;
-		this.commands = commands; 
+		this.dataTypes = dataTypes;
+		this.commands = commands;
 	}
 
 	public String getModuleName() {
@@ -38,14 +38,12 @@ public class RegisterMessage extends MessageBody {
 		this.moduleName = moduleName;
 	}
 
-	@XmlElementWrapper(name = "phraseDefinitions")
-	@XmlElement(name = "definition")
-	public List<PhraseDefinition> getPhraseDefinitions() {
-		return phraseDefinitions;
+	public DataTypeDefinitionList getDataTypes() {
+		return dataTypes;
 	}
 
-	public void setPhraseDefinitions(List<PhraseDefinition> phraseDefinitions) {
-		this.phraseDefinitions = phraseDefinitions;
+	public void setDataTypes(DataTypeDefinitionList dataTypes) {
+		this.dataTypes = dataTypes;
 	}
 
 	@XmlElementWrapper(name = "acceptedCommands")

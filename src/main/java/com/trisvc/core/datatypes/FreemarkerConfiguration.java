@@ -6,12 +6,12 @@ import org.apache.logging.log4j.Logger;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 
-public class TemplateConfiguration {
+public class FreemarkerConfiguration {
 
-	private static Logger logger = LogManager.getLogger(TemplateConfiguration.class.getName());
+	private static Logger logger = LogManager.getLogger(FreemarkerConfiguration.class.getName());
 	private volatile static Configuration instance = null;
 
-	protected TemplateConfiguration() {
+	protected FreemarkerConfiguration() {
 	}
 
 	// Lazy Initialization (If required then only)

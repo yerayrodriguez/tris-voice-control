@@ -1,15 +1,15 @@
 package com.trisvc.core.messages.types.register.structures;
 
-public class PatternTemplateDefinition {
+public class DTPatternDefinition {
 
 	private String pattern;
 	private String template;
 
-	public PatternTemplateDefinition() {
+	public DTPatternDefinition() {
 		super();
 	}
 
-	public PatternTemplateDefinition(String pattern, String template) {
+	public DTPatternDefinition(String pattern, String template) {
 		super();
 		this.pattern = pattern;
 		this.template = template;

@@ -1,10 +1,10 @@
-package com.trisvc.modules.tts.pico.thread;
+package com.trisvc.modules.tts.pico;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
-import com.trisvc.modules.tts.pico.object.TTS;
+import com.trisvc.modules.tts.pico.objects.TTS;
 
 public class PicoTTS extends BaseThread{
 	
