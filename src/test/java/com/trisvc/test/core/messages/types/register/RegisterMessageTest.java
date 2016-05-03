@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.types.register.RegisterMessage;
 import com.trisvc.core.messages.types.register.structures.DTPatternDefinition;
-import com.trisvc.core.messages.types.register.structures.DataTypeConfig;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
 import com.trisvc.core.messages.types.register.structures.ModuleCommand;
@@ -54,15 +53,15 @@ public class RegisterMessageTest {
 
 		List<ModuleCommand> listcommands = new ArrayList<ModuleCommand>();
 
-		List<DataTypeConfig> lc1 = new ArrayList<DataTypeConfig>();
-		lc1.add(new DataTypeConfig("Tipo1", false, false));
-		lc1.add(new DataTypeConfig("Tipo2", true, false));
+		List<String> lc1 = new ArrayList<String>();
+		lc1.add("asdf");
+		lc1.add("sdaf");
 		ModuleCommand c1 = new ModuleCommand("comando1", lc1);
 		listcommands.add(c1);
 
-		List<DataTypeConfig> lc2 = new ArrayList<DataTypeConfig>();
-		lc2.add(new DataTypeConfig("TipoX", false, true));
-		lc2.add(new DataTypeConfig("TipoY", true, true));
+		List<String> lc2 = new ArrayList<String>();
+		lc2.add("asdfasdf");
+		lc2.add("ASDFAS");
 		ModuleCommand c2 = new ModuleCommand("comando2", lc2);
 		listcommands.add(c2);
 

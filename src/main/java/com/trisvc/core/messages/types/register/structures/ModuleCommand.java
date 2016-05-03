@@ -9,16 +9,16 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 public class ModuleCommand {
 
 	private String name;
-	private List<DataTypeConfig> dataTypes;
+	private List<String> commandPattern;
 
 	public ModuleCommand() {
 		super();
 	}
 
-	public ModuleCommand(String name, List<DataTypeConfig> dataTypes) {
+	public ModuleCommand(String name, List<String> commandPattern) {
 		super();
 		this.name = name;
-		this.dataTypes = dataTypes;
+		this.commandPattern = commandPattern;
 	}
 
 	@XmlAttribute
@@ -30,14 +30,16 @@ public class ModuleCommand {
 		this.name = name;
 	}
 
-	@XmlElementWrapper(name = "phrases")
-	@XmlElement(name = "phrase")
-	public List<DataTypeConfig> getDataTypes() {
-		return dataTypes;
+	@XmlElementWrapper(name = "patterns")
+	@XmlElement(name = "pattern")
+	public List<String> getCommandPattern() {
+		return commandPattern;
 	}
 
-	public void setDataTypes(List<DataTypeConfig> dataTypes) {
-		this.dataTypes = dataTypes;
+	public void setCommandPattern(List<String> commandPattern) {
+		this.commandPattern = commandPattern;
 	}
+	
+	
 
 }

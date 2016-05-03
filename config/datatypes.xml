@@ -12,30 +12,42 @@
 			</definition>
 		</definitions>
 	</dataType>
+	<dataType type="LIST_LIST" weight="9500">
+		<definitions>
+			<definition>
+				<pattern>regalos para eli</pattern>
+				<template>regalos para eli</template>
+			</definition>
+			<definition>
+				<pattern>compra</pattern>
+				<template>compra</template>
+			</definition>
+		</definitions>
+	</dataType>
 	<dataType type="PERIOD" weight="9000">
 		<definitions>
 			<definition>
-				<pattern>(\\d{1,2}) hora(?:s)? y (\\d{1,2})\\s*(?:minutos)?</pattern>
+				<pattern>(\d{1,2}) hora(?:s)? y (\d{1,2})\s*(?:minutos)?</pattern>
 				<template>${(_0?number)*60+(_1?number)}</template>
 			</definition>
 			<definition>
-				<pattern>(\\d{1,2}) hora(?:s)? y cuarto</pattern>
+				<pattern>(\d{1,2}) hora(?:s)? y cuarto</pattern>
 				<template>${(_0?number)*60+15}</template>
 			</definition>
 			<definition>
-				<pattern>(\\d{1,2}) hora(?:s)? y (\\d{1,2}) cuartos\\s*(?:de hora)?</pattern>
+				<pattern>(\d{1,2}) hora(?:s)? y (\d{1,2}) cuartos\s*(?:de hora)?</pattern>
 				<template>${(_0?number)*60+(_1?number)*15}</template>
 			</definition>
 			<definition>
-				<pattern>(\\d{1,2}) hora(?:s)? y media</pattern>
+				<pattern>(\d{1,2}) hora(?:s)? y media</pattern>
 				<template>${(_0?number)*60+30}</template>
 			</definition>
 			<definition>
-				<pattern>(\\d{1,2}) hora(?:s)??</pattern>
+				<pattern>(\d{1,2}) hora(?:s)??</pattern>
 				<template>${(_0?number)*60}</template>
 			</definition>
 			<definition>
-				<pattern>(\\d{1,2}) cuarto(?:s)? de hora</pattern>
+				<pattern>(\d{1,2}) cuarto(?:s)? de hora</pattern>
 				<template>${(_0?number)*15}</template>
 			</definition>
 			<definition>
@@ -43,7 +55,7 @@
 				<template>30</template>
 			</definition>
 			<definition>
-				<pattern>(\\d{1,3}) minuto(?:s)?</pattern>
+				<pattern>(\d{1,3}) minuto(?:s)?</pattern>
 				<template>${_0}</template>
 			</definition>
 		</definitions>
@@ -51,27 +63,27 @@
 	<dataType type="TIME" weight="8000">
 		<definitions>
 			<definition>
-				<pattern>la(?:s)? (\\d{1,2}) y (\\d{1,2}) (de la mañana)?</pattern>
+				<pattern>la(?:s)? (\d{1,2}) y (\d{1,2}) (de la mañana)?</pattern>
 				<template>${(_0?number+((_2?has_content)?then(0,12)))?left_pad(2, '0')}:${_1?left_pad(2, '0')}:00</template>
 			</definition>
 			<definition>
-				<pattern>la(?:s)? (\\d{1,2}) y cuarto (de la mañana)?</pattern>
+				<pattern>la(?:s)? (\d{1,2}) y cuarto (de la mañana)?</pattern>
 				<template>${(_0?number+((_2?has_content)?then(0,12)))?left_pad(2, '0')}:15:00</template>
 			</definition>
 			<definition>
-				<pattern>la(?:s)? (\\d{1,2}) y media (de la mañana)?</pattern>
+				<pattern>la(?:s)? (\d{1,2}) y media (de la mañana)?</pattern>
 				<template>${(_0?number+((_2?has_content)?then(0,12)))?left_pad(2, '0')}:30:00</template>
 			</definition>
 			<definition>
-				<pattern>la(?:s)? (\\d{1,2}) (?:en punto) (de la mañana)?</pattern>
+				<pattern>la(?:s)? (\d{1,2})(?: en punto)?( de la mañana)?</pattern>
 				<template>${(_0?number+((_2?has_content)?then(0,12)))?left_pad(2, '0')}:00:00</template>
 			</definition>
 			<definition>
-				<pattern>la(?:s)? (\\d{1,2}) menos (\\d{1,2}) (de la mañana)?</pattern>
+				<pattern>la(?:s)? (\d{1,2}) menos (\d{1,2}) (de la mañana)?</pattern>
 				<template>${(_0?number-1+((_2?has_content)?then(0,12)))?left_pad(2, '0')}:${(60-_1?number)?left_pad(2, '0')}:00</template>
 			</definition>
 			<definition>
-				<pattern>la(?:s)? (\\d) menos cuarto (de la mañana)?</pattern>
+				<pattern>la(?:s)? (\d) menos cuarto (de la mañana)?</pattern>
 				<template>${(_0?number-1+((_2?has_content)?then(0,12)))?left_pad(2, '0')}:45:00</template>
 			</definition>
 		</definitions>
@@ -79,7 +91,7 @@
 	<dataType type="NUMBER" weight="2000">
 		<definitions>
 			<definition>
-				<pattern>(\\d{1,2})</pattern>
+				<pattern>(\d{1,2})</pattern>
 				<template>${_0}</template>
 			</definition>
 		</definitions>

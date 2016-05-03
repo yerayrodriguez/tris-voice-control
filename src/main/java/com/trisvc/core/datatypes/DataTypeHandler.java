@@ -22,13 +22,15 @@ public class DataTypeHandler {
 	private Logger logger; 
 
 	private String type;
+	private Integer weight;
 	//TODO
 	//Change for a hashmap <Pattern, Template>?
 	private List<DTPattern> list = new ArrayList<DTPattern>();
 	
-	public DataTypeHandler(String type, List<DTPattern> list){
+	public DataTypeHandler(String type, Integer weight, List<DTPattern> list){
 		this.type = type;
 		this.list = list;
+		this.weight = weight;
 		logger = LogManager.getLogger(this.getClass().getName()+":"+type);
 		logger.debug("Creating DataType "+type);
 	}
@@ -37,12 +39,13 @@ public class DataTypeHandler {
 		
 		List<DTPattern> l = new ArrayList<DTPattern>();
 		
-		for (DTPatternDefinition p: d.getPatterns()){
+		for (DTPatternDefinition p: d.getDefinitions()){
 			l.add(new DTPattern(p));
 		}
 		
 		this.type = d.getType();
 		this.list = l;
+		this.weight = d.getWeight();
 		logger = LogManager.getLogger(this.getClass().getName()+":"+type);
 		logger.debug("Creating DataType "+type);
 	}
@@ -73,19 +76,21 @@ public class DataTypeHandler {
 		return type;
 	}
 	
+	public Integer getWeight(){
+		return this.weight;
+	}
+	
 	public boolean isValid(String text){
 		return eval(text) != null;
-	}	
+	}	 
 
-	public String eval(String text){
+	public DataTypeResult eval(String text){
 		logger.debug("Evaluating '"+text+"'");
-		//TODO
-		//remove trim and replace, text must be clean to optimize
-		text = text.trim().replaceAll("\\s+", " ");
+
 		for (DTPattern p: list){
-			String r = evalPattern(p,text);
+			DataTypeResult r = evalPattern(p,text);
 			if (r != null){
-				logger.debug("Evaluating '"+text+"' returns '"+r+"'");
+				logger.debug("Evaluating '"+text+"' returns '"+r.getReplaced()+"'");
 				return r;
 			}
 		}
@@ -93,7 +98,7 @@ public class DataTypeHandler {
 		return null;
 	}
 	
-	private String evalPattern(DTPattern p, String text){
+	private DataTypeResult evalPattern(DTPattern p, String text){
 				
 		logger.trace("Checking pattern '"+p.getPattern()+"'");
 
@@ -108,6 +113,9 @@ public class DataTypeHandler {
 		
 		Writer out = new StringWriter();
 		Map<String,String> groups = new HashMap<String,String>();
+		DataTypeResult dtr = new DataTypeResult();
+		dtr.setDetected(matcher.group(0));
+
 		for (int i=1; i<=matcher.groupCount(); i++){
 			logger.trace("Group: "+matcher.group(i));
 			groups.put("_"+(i-1), matcher.group(i));   			
@@ -115,11 +123,13 @@ public class DataTypeHandler {
 		
 		try {
 			p.getCompiledTemplate().process(groups, out);
+			dtr.setReplaced(out.toString());
+			return dtr;
 		} catch (TemplateException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return out.toString();
+		return null;
 	}
 	
 	public void dump(){
@@ -165,7 +175,7 @@ public class DataTypeHandler {
 		}
 
 		
-		DataTypeHandler horas = new DataTypeHandler("TIME", l);
+		DataTypeHandler horas = new DataTypeHandler("TIME", 1,l);
 
 		String prueba = "avísame dentro de 1 hora y 35 minutos";
 		horas.eval(prueba);

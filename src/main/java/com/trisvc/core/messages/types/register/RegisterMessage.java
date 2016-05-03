@@ -16,6 +16,8 @@ import com.trisvc.core.messages.types.register.structures.ModuleCommand;
 public class RegisterMessage extends MessageBody {
 
 	private String moduleName;
+	//TODO
+	//instance
 	private DataTypeDefinitionList dataTypes;
 	private List<ModuleCommand> commands;
 

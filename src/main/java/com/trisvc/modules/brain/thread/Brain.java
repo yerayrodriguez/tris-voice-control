@@ -4,7 +4,7 @@ import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
-import com.trisvc.modules.brain.object.Memory;
+import com.trisvc.modules.brain.object.BrainObject;
 
 public class Brain extends BaseThread {	
 
@@ -14,7 +14,7 @@ public class Brain extends BaseThread {
 	public void execute() {
 		try {
 			
-			exportObject(new Memory());
+			exportObject(new Brain());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -25,7 +25,7 @@ public class Brain extends BaseThread {
 	protected void close() {
 
 			try {
-				unExportObject(Memory.class);
+				unExportObject(Brain.class);
 			} catch (DBusException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

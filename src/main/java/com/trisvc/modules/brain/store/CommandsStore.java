@@ -1,4 +1,4 @@
-package com.trisvc.modules.brain.thread;
+package com.trisvc.modules.brain.store;
 
 import java.io.File;
 import java.util.HashMap;
@@ -10,21 +10,22 @@ import org.apache.logging.log4j.Logger;
 
 import com.trisvc.core.datatypes.DataTypeHandler;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
+import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
 
-public class MemoryStore {
+public class CommandsStore {
 
-	private static Logger logger = LogManager.getLogger(MemoryStore.class.getName());
-	private volatile static MemoryStore instance = null;
+	private static Logger logger = LogManager.getLogger(CommandsStore.class.getName());
+	private volatile static CommandsStore instance = null;
 
-	protected MemoryStore() {
+	protected CommandsStore() {
 		loadDataTypes();
 	}
 
 	// Lazy Initialization (If required then only)
-	public static MemoryStore getInstance() {
+	public static CommandsStore getInstance() {
 		if (instance == null) {
 			// Thread Safe. Might be costly operation in some case
-			synchronized (MemoryStore.class) {
+			synchronized (CommandsStore.class) {
 				if (instance == null) {
 					initializeConfiguration();
 				}
@@ -34,10 +35,8 @@ public class MemoryStore {
 	}
 
 	private static void initializeConfiguration() {
-		logger.debug("Creating memory store");
-		instance = new MemoryStore();
-		
-
+		logger.debug("Creating DataType store");
+		instance = new CommandsStore();
 	}
 	
 	private Map<String,DataTypeHandler> dataTypes = new HashMap<String,DataTypeHandler>();
@@ -47,7 +46,7 @@ public class MemoryStore {
 	//this way, a common dataType could have differente patterns for different modules
 	public void addDataTypeDefinition(DataTypeDefinition d){
 		if (dataTypes.containsKey(d.getType())){
-			dataTypes.get(d.getType()).addPatternTemplateDefinitionList(d.getPatterns());
+			dataTypes.get(d.getType()).addDTPatternDefinitionList(d.getDefinitions());
 		}else{
 			dataTypes.put(d.getType(), new DataTypeHandler(d));
 		}
@@ -59,7 +58,13 @@ public class MemoryStore {
 			addDataTypeDefinition(d);
 		}
 		
-	}		
+	}
+	
+	public void addDataTypeDefinitionList(DataTypeDefinitionList l){
+		
+		addDataTypeDefinitions(l.getDataType());
+		
+	}	
 	
 	public void memoryDump(){
 		dumpDataTypes();
@@ -75,11 +80,11 @@ public class MemoryStore {
 		logger.debug("Loading default datatypes");
 		File file = new File("./config/datatypes.xml");
 		DataTypeDefinitionList d = DataTypeDefinitionList.unmarshal(file);
-		addDataTypeDefinitions(d);
+		addDataTypeDefinitionList(d);
 	}
 	
 	public static void main(String[] args) {
-		MemoryStore.getInstance().memoryDump();
+		CommandsStore.getInstance().memoryDump();
 	}
 	
 }
