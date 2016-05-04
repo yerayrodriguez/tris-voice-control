@@ -31,4 +31,8 @@ public class DataTypeResult {
 		this.replaced = replaced;
 	}
 
+	@Override
+	public String toString() {
+		return "Detected:'"+getDetected()+"' Replaced:'"+getReplaced()+"'";
+	}
 }

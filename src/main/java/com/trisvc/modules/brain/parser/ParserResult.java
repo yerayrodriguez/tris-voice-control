@@ -6,13 +6,13 @@ public class ParserResult {
 
 	private String originalText;
 	private String parsedText;
-	private ArrayList<String> dataTypesFound;
+	private ArrayList<DataTypeFound> dataTypesFound;
 
 	public ParserResult() {
 		super();
 	}
 
-	public ParserResult(String originalText, String parsedText, ArrayList<String> dataTypesFound) {
+	public ParserResult(String originalText, String parsedText, ArrayList<DataTypeFound> dataTypesFound) {
 		super();
 		this.originalText = originalText;
 		this.parsedText = parsedText;
@@ -35,12 +35,24 @@ public class ParserResult {
 		this.parsedText = parsedText;
 	}
 
-	public ArrayList<String> getDataTypesFound() {
+	public ArrayList<DataTypeFound> getDataTypesFound() {
 		return dataTypesFound;
 	}
 
-	public void setDataTypesFound(ArrayList<String> dataTypesFound) {
+	public void setDataTypesFound(ArrayList<DataTypeFound> dataTypesFound) {
 		this.dataTypesFound = dataTypesFound;
+	}
+
+	@Override
+	public String toString() {
+		String aux = System.lineSeparator() +
+				"Original: " + getOriginalText() + System.lineSeparator() + 
+				"Parsed: " + getParsedText()+ System.lineSeparator() + 
+				"List:" + System.lineSeparator();
+		for (DataTypeFound s : getDataTypesFound()) {
+			aux += "- " +s.getDataType()+" - "+ s.getValue() + System.lineSeparator();
+		}
+		return aux;
 	}
 
 }
