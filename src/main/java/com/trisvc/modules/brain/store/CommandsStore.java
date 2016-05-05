@@ -1,9 +1,8 @@
 package com.trisvc.modules.brain.store;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import com.trisvc.core.datatypes.DataTypeHandler;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
+import com.trisvc.core.messages.types.register.structures.ModuleCommand;
 
 public class CommandsStore {
 
@@ -18,7 +18,7 @@ public class CommandsStore {
 	private volatile static CommandsStore instance = null;
 
 	protected CommandsStore() {
-		loadDataTypes();
+		loadTest();
 	}
 
 	// Lazy Initialization (If required then only)
@@ -35,52 +35,64 @@ public class CommandsStore {
 	}
 
 	private static void initializeConfiguration() {
-		logger.debug("Creating DataType store");
+		logger.debug("Creating Command store");
 		instance = new CommandsStore();
 	}
 	
-	private Map<String,DataTypeHandler> dataTypes = new HashMap<String,DataTypeHandler>();
+	//TODO
+	//Think priority of commands on different modules
+	private ArrayList<CommandElement> commands = new ArrayList<CommandElement>();
 	
 	//TODO
 	//Aditional dataType must be associated with module
 	//this way, a common dataType could have differente patterns for different modules
-	public void addDataTypeDefinition(DataTypeDefinition d){
-		if (dataTypes.containsKey(d.getType())){
-			dataTypes.get(d.getType()).addDTPatternDefinitionList(d.getDefinitions());
-		}else{
-			dataTypes.put(d.getType(), new DataTypeHandler(d));
+	//TODO
+	//Instance
+	public void addModulecommand(String module, String instance, ModuleCommand m){
+		for (String s: m.getCommandPattern()){
+			CommandElement c = new CommandElement(module,instance,m.getName(),s);
+			commands.add(c);
 		}
 	}
-	
-	public void addDataTypeDefinitions(List<DataTypeDefinition> l){
-	
-		for (DataTypeDefinition d: l){
-			addDataTypeDefinition(d);
-		}
 		
-	}
-	
-	public void addDataTypeDefinitionList(DataTypeDefinitionList l){
-		
-		addDataTypeDefinitions(l.getDataType());
-		
-	}	
-	
+	//TODO
+	//Remove	
 	public void memoryDump(){
-		dumpDataTypes();
+		dumpModuleCommands();
 	}
 	
-	public void dumpDataTypes(){
-		for (DataTypeHandler d: dataTypes.values()){
-			d.dump(); 
+	//TODO
+	//Remove	
+	public void dumpModuleCommands(){
+		for (CommandElement m: commands){
+			m.dump(); 
 		}
 	}
 	
-	private void loadDataTypes(){
-		logger.debug("Loading default datatypes");
-		File file = new File("./config/datatypes.xml");
-		DataTypeDefinitionList d = DataTypeDefinitionList.unmarshal(file);
-		addDataTypeDefinitionList(d);
+	//TODO
+	//Remove
+	private void loadTest(){
+		
+		List<String> l = null;
+		ModuleCommand m = null;
+		
+		l = new ArrayList<String>();
+		l.add("crea/añade *lista (nueva)");
+		l.add("Crea/añade *lista (nueva/de) [STRING]");				
+		m = new ModuleCommand("create_list",l);
+		addModulecommand("LIST","unique",m);
+		
+		l = new ArrayList<String>();
+		l.add("*que contiene/tiene/elementos *[LIST_LIST]");
+		l.add("comando mostrar contenido [LIST_LIST] [YES_NO] *");				
+		m = new ModuleCommand("list_elements",l);		
+		addModulecommand("LIST","unique",m);
+		
+		l = new ArrayList<String>();
+		l.add("Añade *(lista) *[LIST_LIST] [STRING]");
+		l.add("Añade [STRING] a la lista [LIST_LIST] *");				
+		m = new ModuleCommand("list_elements",l);
+		addModulecommand("LIST","unique",m);
 	}
 	
 	public static void main(String[] args) {

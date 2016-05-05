@@ -83,10 +83,14 @@ public class DataTypeStore {
 
 	}
 
+	//TODO
+	//Remove
 	public void memoryDump() {
 		dumpDataTypes();
 	}
 
+	//TODO
+	//Remove
 	public void dumpDataTypes() {
 		for (DataTypeHandler d : dataTypes.values()) {
 			d.dump();

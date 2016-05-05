@@ -1,4 +1,4 @@
-package com.trisvc.core.datatypes;
+package com.trisvc.modules.brain.parser;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -17,7 +17,7 @@ import com.trisvc.core.messages.types.register.structures.DTPatternDefinition;
 
 import freemarker.template.TemplateException;
 
-public class DataTypeHandler {
+public class CommandHandler {
 	
 	private Logger logger; 
 
@@ -27,7 +27,7 @@ public class DataTypeHandler {
 	//Change for a hashmap <Pattern, Template>?
 	private List<DTPattern> list = new ArrayList<DTPattern>();
 	
-	public DataTypeHandler(String type, Integer weight, List<DTPattern> list){
+	public CommandHandler(String type, Integer weight, List<DTPattern> list){
 		this.type = type;
 		this.list = list;
 		this.weight = weight;
@@ -35,7 +35,7 @@ public class DataTypeHandler {
 		logger.debug("Creating DataType "+type);
 	}
 	
-	public DataTypeHandler(DataTypeDefinition d){ 
+	public CommandHandler(DataTypeDefinition d){ 
 		
 		List<DTPattern> l = new ArrayList<DTPattern>();
 		
