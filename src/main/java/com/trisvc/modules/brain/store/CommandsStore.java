@@ -1,16 +1,13 @@
 package com.trisvc.modules.brain.store;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.core.datatypes.DataTypeHandler;
-import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
-import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
 import com.trisvc.core.messages.types.register.structures.ModuleCommand;
+import com.trisvc.modules.brain.parser.CommandHandler;
 
 public class CommandsStore {
 
@@ -41,19 +38,17 @@ public class CommandsStore {
 	
 	//TODO
 	//Think priority of commands on different modules
-	private ArrayList<CommandElement> commands = new ArrayList<CommandElement>();
+	private ArrayList<CommandHandler> commands = new ArrayList<CommandHandler>();
 	
-	//TODO
-	//Aditional dataType must be associated with module
-	//this way, a common dataType could have differente patterns for different modules
-	//TODO
-	//Instance
 	public void addModulecommand(String module, String instance, ModuleCommand m){
-		for (String s: m.getCommandPattern()){
-			CommandElement c = new CommandElement(module,instance,m.getName(),s);
-			commands.add(c);
-		}
+		CommandHandler c = new CommandHandler(module,instance,m);
+		commands.add(c);
 	}
+	
+	public void addCommandHandler(CommandHandler c){
+			commands.add(c);
+
+	}	
 		
 	//TODO
 	//Remove	
@@ -64,7 +59,7 @@ public class CommandsStore {
 	//TODO
 	//Remove	
 	public void dumpModuleCommands(){
-		for (CommandElement m: commands){
+		for (CommandHandler m: commands){
 			m.dump(); 
 		}
 	}

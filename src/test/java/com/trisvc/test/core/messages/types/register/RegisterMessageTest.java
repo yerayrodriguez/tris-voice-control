@@ -56,13 +56,20 @@ public class RegisterMessageTest {
 		List<String> lc1 = new ArrayList<String>();
 		lc1.add("asdf");
 		lc1.add("sdaf");
-		ModuleCommand c1 = new ModuleCommand("comando1", lc1);
+		List<String> required = new ArrayList<String>();
+		required.add("LIST_LIST");
+		required.add("STRING");
+		required.add("YES_NO");
+		ModuleCommand c1 = new ModuleCommand("comando1", lc1,required);
 		listcommands.add(c1);
 
 		List<String> lc2 = new ArrayList<String>();
 		lc2.add("asdfasdf");
 		lc2.add("ASDFAS");
-		ModuleCommand c2 = new ModuleCommand("comando2", lc2);
+		required = new ArrayList<String>();
+		required.add("LIST_LIST");
+		required.add("STRING");		
+		ModuleCommand c2 = new ModuleCommand("comando2", lc2,required);
 		listcommands.add(c2);
 
 		message.setCommands(listcommands);

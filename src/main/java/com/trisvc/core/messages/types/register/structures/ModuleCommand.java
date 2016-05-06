@@ -10,15 +10,17 @@ public class ModuleCommand {
 
 	private String name;
 	private List<String> commandPattern;
+	private List<String> dataTypesRequired;
 
 	public ModuleCommand() {
 		super();
 	}
 
-	public ModuleCommand(String name, List<String> commandPattern) {
+	public ModuleCommand(String name, List<String> commandPattern, List<String> dataTypesRequired) {
 		super();
 		this.name = name;
 		this.commandPattern = commandPattern;
+		this.dataTypesRequired = dataTypesRequired;
 	}
 
 	@XmlAttribute
@@ -39,7 +41,15 @@ public class ModuleCommand {
 	public void setCommandPattern(List<String> commandPattern) {
 		this.commandPattern = commandPattern;
 	}
-	
-	
+
+	@XmlElementWrapper(name = "dataTypesRequired")
+	@XmlElement(name = "required")
+	public List<String> getDataTypesRequired() {
+		return dataTypesRequired;
+	}
+
+	public void setDataTypesRequired(List<String> dataTypesRequired) {
+		this.dataTypesRequired = dataTypesRequired;
+	}
 
 }

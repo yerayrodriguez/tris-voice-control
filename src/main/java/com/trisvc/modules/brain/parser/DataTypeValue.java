@@ -1,15 +1,15 @@
 package com.trisvc.modules.brain.parser;
 
-public class DataTypeFound {
+public class DataTypeValue {
 	
 	private String dataType;
 	private String value;
 
-	public DataTypeFound() {
+	public DataTypeValue() {
 		super();
 	}
 
-	public DataTypeFound(String dataType, String value) {
+	public DataTypeValue(String dataType, String value) {
 		super();
 		this.dataType = dataType;
 		this.value = value;

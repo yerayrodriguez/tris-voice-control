@@ -1,104 +1,94 @@
 package com.trisvc.modules.brain.parser;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
-import com.trisvc.core.messages.types.register.structures.DTPatternDefinition;
-
-import freemarker.template.TemplateException;
+import com.trisvc.core.datatypes.DataTypeHandler;
+import com.trisvc.core.messages.types.register.structures.ModuleCommand;
 
 public class CommandHandler {
 	
-	private Logger logger; 
+	private Logger logger = null; 
 
-	private String type;
-	private Integer weight;
-	//TODO
-	//Change for a hashmap <Pattern, Template>?
-	private List<DTPattern> list = new ArrayList<DTPattern>();
-	
-	public CommandHandler(String type, Integer weight, List<DTPattern> list){
-		this.type = type;
-		this.list = list;
-		this.weight = weight;
-		logger = LogManager.getLogger(this.getClass().getName()+":"+type);
-		logger.debug("Creating DataType "+type);
-	}
-	
-	public CommandHandler(DataTypeDefinition d){ 
-		
-		List<DTPattern> l = new ArrayList<DTPattern>();
-		
-		for (DTPatternDefinition p: d.getDefinitions()){
-			l.add(new DTPattern(p));
-		}
-		
-		this.type = d.getType();
-		this.list = l;
-		this.weight = d.getWeight();
-		logger = LogManager.getLogger(this.getClass().getName()+":"+type);
-		logger.debug("Creating DataType "+type);
-	}
-	
-	public void addDTPattern(DTPattern p){
-		//TODO
-		//Check if is repeated or implement as a HashMap
-		this.list.add(p);
-	}
-	
-	public void addDTPatternDefinition(DTPatternDefinition p){
-		addDTPattern(new DTPattern(p));
-	}
-	
-	public void addDTPatternList(List<DTPattern> l){
-		for (DTPattern p: l){
-			addDTPattern(p);
-		}
-	}
-	
-	public void addDTPatternDefinitionList(List<DTPatternDefinition> l){
-		for (DTPatternDefinition p: l){
-			addDTPatternDefinition(p);
-		}
-	}
-	
-	public String getType(){
-		return type;
-	}
-	
-	public Integer getWeight(){
-		return this.weight;
-	}
-	
-	public boolean isValid(String text){
-		return eval(text) != null;
-	}	 
+	private String command;
+	private String module;
+	private String instance;
 
-	public DataTypeResult eval(String text){
-		logger.debug("Evaluating '"+text+"'");
+	private List<CommandPattern> patternList = new ArrayList<CommandPattern>();
+	private List<String> dataTypesRequired = new ArrayList<String>();
+	
+	public CommandHandler(String module, String instance, ModuleCommand m){ 		
+		super();
+		this.module = module;
+		this.instance = instance;
+		this.command = m.getName();
+		
+		this.dataTypesRequired = m.getDataTypesRequired();
+		
+		List<CommandPattern> list = new ArrayList<CommandPattern>();
+		
+		for (String pattern: m.getCommandPattern()){
+			list.add(new CommandPattern(pattern));
+		}
 
-		for (DTPattern p: list){
-			DataTypeResult r = evalPattern(p,text);
-			if (r != null){
-				logger.debug("Evaluating '"+text+"' returns '"+r.getReplaced()+"'");
-				return r;
+		this.patternList = list;
+		
+		logger = LogManager.getLogger(this.getClass().getName()+":"+command);
+		logger.debug("Creating Command handler: "+command);			
+	}
+	
+	public String getCommand() {
+		return command;
+	}
+
+	public String getModule() {
+		return module;
+	}
+	
+	public String getInstance() {
+		return instance;
+	}
+
+	public List<CommandPattern> getPatternList() {
+		return patternList;
+	}
+
+	public List<String> getDataTypesRequired() {
+		return dataTypesRequired;
+	}
+
+	public CommandResult eval(DTContext context, ParserResult parserResult){
+		logger.debug("Evaluating command: "+module+"/"+instance+"/"+command);
+
+		CommandResult d = null;
+		
+		for (CommandPattern p: this.getPatternList()){
+			String r = evalPattern(p,parserResult.getParsedText());
+			if (r == null){
+				logger.debug("Evaluating '"+parserResult.getParsedText()+"' returns -null-");
+				continue;
 			}
+			logger.debug("Evaluating '"+parserResult.getParsedText()+"' returns not null value: "+r);
+
+			d = evalDataTypes(context, parserResult, r);
+			if (d != null){
+				return d;
+			}			
 		}
-		logger.debug("Evaluating '"+text+"' returns -null-");
+		
 		return null;
+
 	}
 	
-	private DataTypeResult evalPattern(DTPattern p, String text){
+	private CommandResult evalDataTypes(DTContext context, ParserResult parserResult, String inputText){
+		this.da
+	}
+	
+	private String evalPattern(CommandPattern p, String text){
 				
 		logger.trace("Checking pattern '"+p.getPattern()+"'");
 
@@ -111,32 +101,20 @@ public class CommandHandler {
 		
 		logger.trace("Pattern'"+p.getPattern()+"': "+matcher.groupCount() +" matches found");
 		
-		Writer out = new StringWriter();
-		Map<String,String> groups = new HashMap<String,String>();
-		DataTypeResult dtr = new DataTypeResult();
-		dtr.setDetected(matcher.group(0));
-
-		for (int i=1; i<=matcher.groupCount(); i++){
-			logger.trace("Group: "+matcher.group(i));
-			groups.put("_"+(i-1), matcher.group(i));   			
+		String result = "";
+		
+		if (matcher.groupCount()>1){
+			return matcher.group(1);   			
 		}
 		
-		try {
-			p.getCompiledTemplate().process(groups, out);
-			dtr.setReplaced(out.toString());
-			return dtr;
-		} catch (TemplateException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return ""; //Matchets but there is not group to return
 	}
 	
 	//TODO
 	//Remove	
 	public void dump(){
-		System.out.println("DataType: "+this.getType());
-		for (DTPattern p: list){
+		System.out.println("Command: "+this.getCommand());
+		for (CommandPattern p: this.getPatternList()){
 			p.dump();
 		}
 	}
@@ -144,29 +122,29 @@ public class CommandHandler {
 	public static void main(String[] args) {				
 
 		LogManager.getLogger("entrada").debug("empezando");
-		List<DTPattern> l = new ArrayList<DTPattern>();
+		List<CommandPattern> l = new ArrayList<CommandPattern>();
 		try{
 			
-			l.add(new DTPattern("(\\d{1,2}) hora(?:s)? y (\\d{1,2})\\s*(?:minutos)?",
+			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y (\\d{1,2})\\s*(?:minutos)?",
 					"${(_0?number)*60+(_1?number)}"));
 						
-			l.add(new DTPattern("(\\d{1,2}) hora(?:s)? y cuarto",
+			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y cuarto",
 					"${(_0?number)*60+15}"));
-			l.add(new DTPattern("(\\d{1,2}) hora(?:s)? y (\\d{1,2}) cuartos\\s*(?:de hora)?",
+			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y (\\d{1,2}) cuartos\\s*(?:de hora)?",
 					"${(_0?number)*60+(_1?number)*15}"));		
-			l.add(new DTPattern("(\\d{1,2}) hora(?:s)? y media",
+			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y media",
 					"${(_0?number)*60+30}"));
-			l.add(new DTPattern("(\\d{1,2}) hora(?:s)?",
+			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)?",
 					"${(_0?number)*60}"));	
 			
 			
 
 			
-			l.add(new DTPattern("(\\d{1,2}) cuarto(?:s)? de hora",
+			l.add(new CommandPattern("(\\d{1,2}) cuarto(?:s)? de hora",
 					"${(_0?number)*15}"));	
-			l.add(new DTPattern("media hora",
+			l.add(new CommandPattern("media hora",
 					"30"));
-			l.add(new DTPattern("(\\d{1,3}) minuto(?:s)?",
+			l.add(new CommandPattern("(\\d{1,3}) minuto(?:s)?",
 					"${_0}"));
 		
 		

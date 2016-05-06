@@ -27,7 +27,7 @@ public class ParserText {
 		text = text.trim().replaceAll("\\s+", " ");
 		ParserResult pr = new ParserResult();
 		pr.setOriginalText(text);
-		pr.setDataTypesFound(new ArrayList<DataTypeFound>());
+		pr.setDataTypesFound(new ArrayList<DataTypeValue>());
 		
 		DataTypeResult result = null;
 		logger.debug("Parcing text: "+text);
@@ -41,7 +41,7 @@ public class ParserText {
 				logger.trace("Parcing text. Actual state: ");
 				logger.trace(result);				
 				text = text.replace(result.getDetected(), "["+d.getType()+"]");
-				pr.getDataTypesFound().add(new DataTypeFound(d.getType(),result.getReplaced()));
+				pr.getDataTypesFound().add(new DataTypeValue(d.getType(),result.getReplaced()));
 				
 				logger.trace("Parcing text: "+text);
 				result = d.eval(text);
