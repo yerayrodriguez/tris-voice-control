@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.trisvc.core.datatypes.DataTypeHandler;
+import com.trisvc.core.NumeralUtil;
 import com.trisvc.core.messages.types.register.structures.ModuleCommand;
 
 public class CommandHandler {
@@ -111,12 +111,26 @@ public class CommandHandler {
 		d.setInstance(this.getInstance());
 		d.setModule(this.getModule());
 		d.setValues(commandValues);
+		
+		inputText = correctInputText(inputText, parserResult);
 
 		commandValues.add(new DataTypeValue("STRING", inputText));
 
 		return d;
 
 	}
+	
+	private String correctInputText(String text, ParserResult parserResult){
+	
+		for (DataTypeValue dtf: parserResult.getDataTypesFound()){
+			text = text.replace("["+dtf.getDataType()+"]", dtf.getValue());
+		}
+		
+		return text;
+		
+	}
+	
+	
 
 	private void fillDataTypeList(List<DataTypeValue> result, List<DataTypeValue> source) {
 		if (source == null)
@@ -169,16 +183,21 @@ public class CommandHandler {
 		LogManager.getLogger("entrada").debug("empezando");
 
 		List<String> commandPattern = new ArrayList<String>();
-		commandPattern.add("(?:avisa|avísame|.*alarma)(?:.*)\\[PERIOD\\]");
+		commandPattern.add("añade(?:.*lista)?(?:.*\\[LIST_LIST\\])? (.*)");
 		List<String> dataTypesRequired = new ArrayList<String>();
-		dataTypesRequired.add("PERIOD");
+		dataTypesRequired.add("LIST_LIST");
 		ModuleCommand m = new ModuleCommand("create_list", commandPattern, dataTypesRequired);
 		
 		CommandHandler c = new CommandHandler("example","default",m);
 		
-		ParserResult p = ParserText.process("avísame dentro de 5 minutos");
+		ParserResult p = ParserText.process(NumeralUtil.convert("añade  cuatro papas"));
 		
-		CommandResult r=c.eval(null, p);
+		DTContext dtc = new DTContext("example","default");
+		List<DataTypeValue> ldt = new ArrayList<DataTypeValue>();
+		ldt.add(new DataTypeValue("LIST_LIST","compra"));
+		dtc.addContextElement(new DataTypeValue("LIST_LIST","compra"));
+		
+		CommandResult r=c.eval(dtc, p);
 
 			System.out.println(r);
 
