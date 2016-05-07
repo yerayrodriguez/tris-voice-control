@@ -11,8 +11,8 @@ import com.trisvc.core.datatypes.DataTypeHandler;
 import com.trisvc.core.messages.types.register.structures.ModuleCommand;
 
 public class CommandHandler {
-	
-	private Logger logger = null; 
+
+	private static Logger logger = LogManager.getLogger(CommandHandler.class.getName());;
 
 	private String command;
 	private String module;
@@ -20,27 +20,27 @@ public class CommandHandler {
 
 	private List<CommandPattern> patternList = new ArrayList<CommandPattern>();
 	private List<String> dataTypesRequired = new ArrayList<String>();
-	
-	public CommandHandler(String module, String instance, ModuleCommand m){ 		
+
+	public CommandHandler(String module, String instance, ModuleCommand m) {
 		super();
 		this.module = module;
 		this.instance = instance;
 		this.command = m.getName();
-		
+
 		this.dataTypesRequired = m.getDataTypesRequired();
-		
+
 		List<CommandPattern> list = new ArrayList<CommandPattern>();
-		
-		for (String pattern: m.getCommandPattern()){
+
+		for (String pattern : m.getCommandPattern()) {
 			list.add(new CommandPattern(pattern));
 		}
 
 		this.patternList = list;
+
 		
-		logger = LogManager.getLogger(this.getClass().getName()+":"+command);
-		logger.debug("Creating Command handler: "+command);			
+		logger.debug("Creating Command handler: " + command);
 	}
-	
+
 	public String getCommand() {
 		return command;
 	}
@@ -48,7 +48,7 @@ public class CommandHandler {
 	public String getModule() {
 		return module;
 	}
-	
+
 	public String getInstance() {
 		return instance;
 	}
@@ -61,121 +61,127 @@ public class CommandHandler {
 		return dataTypesRequired;
 	}
 
-	public CommandResult eval(DTContext context, ParserResult parserResult){
-		logger.debug("Evaluating command: "+module+"/"+instance+"/"+command);
+	public CommandResult eval(DTContext context, ParserResult parserResult) {
+		logger.debug("Evaluating command: " + module + "/" + instance + "/" + command);
 
 		CommandResult d = null;
-		
-		for (CommandPattern p: this.getPatternList()){
-			String r = evalPattern(p,parserResult.getParsedText());
-			if (r == null){
-				logger.debug("Evaluating '"+parserResult.getParsedText()+"' returns -null-");
+
+		for (CommandPattern p : this.getPatternList()) {
+			String r = evalPattern(p, parserResult.getParsedText());
+			if (r == null) {
+				logger.debug("Evaluating '" + parserResult.getParsedText() + "' returns -null-");
 				continue;
 			}
-			logger.debug("Evaluating '"+parserResult.getParsedText()+"' returns not null value: "+r);
+			logger.debug("Evaluating '" + parserResult.getParsedText() + "' returns not null value: " + r);
 
 			d = evalDataTypes(context, parserResult, r);
-			if (d != null){
+			if (d != null) {
 				return d;
-			}			
+			}
 		}
-		
+
 		return null;
 
 	}
-	
-	private CommandResult evalDataTypes(DTContext context, ParserResult parserResult, String inputText){
-		this.da
+
+	private CommandResult evalDataTypes(DTContext context, ParserResult parserResult, String inputText) {
+
+		List<DataTypeValue> commandValues = new ArrayList<DataTypeValue>();
+		for (String dataTypeRequired : this.getDataTypesRequired()) {
+			commandValues.add(new DataTypeValue(dataTypeRequired, null));
+		}
+
+		fillDataTypeList(commandValues, parserResult.getDataTypesFound());
+
+		if (context != null) {
+			if (context.getModule().equals(this.getModule()) && context.getInstance().equals(this.getInstance())) {
+				fillDataTypeList(commandValues, context.getElements());
+			}
+		}
+
+		for (DataTypeValue resultDTV : commandValues) {
+			if (resultDTV.getValue() == null) {
+				return null;
+			}
+		}
+
+		CommandResult d = new CommandResult();
+
+		d.setCommand(this.getCommand());
+		d.setInstance(this.getInstance());
+		d.setModule(this.getModule());
+		d.setValues(commandValues);
+
+		commandValues.add(new DataTypeValue("STRING", inputText));
+
+		return d;
+
 	}
-	
-	private String evalPattern(CommandPattern p, String text){
-				
-		logger.trace("Checking pattern '"+p.getPattern()+"'");
+
+	private void fillDataTypeList(List<DataTypeValue> result, List<DataTypeValue> source) {
+		if (source == null)
+			return;
+
+		for (DataTypeValue sourceDTV : source) {
+			String dataType = sourceDTV.getDataType();
+			String value = sourceDTV.getValue();
+
+			for (DataTypeValue resultDTV : result) {
+				if (resultDTV.getValue() == null && resultDTV.getDataType().equals(dataType)) {
+					resultDTV.setValue(value);
+					break;
+				}
+			}
+		}
+	}
+
+	private String evalPattern(CommandPattern p, String text) {
+
+		logger.trace("Checking pattern '" + p.getPattern() + "'");
 
 		Matcher matcher = p.getCompiledPattern().matcher(text);
-	
-		if (matcher.find()==false){
-			logger.trace("Pattern'"+p.getPattern()+"': No matches found");
+
+		if (matcher.find() == false) {
+			logger.trace("Pattern'" + p.getPattern() + "': No matches found");
 			return null;
 		}
-		
-		logger.trace("Pattern'"+p.getPattern()+"': "+matcher.groupCount() +" matches found");
-		
-		String result = "";
-		
-		if (matcher.groupCount()>1){
-			return matcher.group(1);   			
+
+		logger.trace("Pattern'" + p.getPattern() + "': " + matcher.groupCount() + " matches found");
+
+		if (matcher.groupCount() > 0) {
+			return matcher.group(1).trim();
 		}
-		
-		return ""; //Matchets but there is not group to return
+
+		return ""; // Matchets but there is not group to return
 	}
-	
-	//TODO
-	//Remove	
-	public void dump(){
-		System.out.println("Command: "+this.getCommand());
-		for (CommandPattern p: this.getPatternList()){
+
+	// TODO
+	// Remove
+	public void dump() {
+		System.out.println("Command: " + this.getCommand());
+		for (CommandPattern p : this.getPatternList()) {
 			p.dump();
 		}
 	}
-	
-	public static void main(String[] args) {				
+
+	public static void main(String[] args) {
 
 		LogManager.getLogger("entrada").debug("empezando");
-		List<CommandPattern> l = new ArrayList<CommandPattern>();
-		try{
-			
-			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y (\\d{1,2})\\s*(?:minutos)?",
-					"${(_0?number)*60+(_1?number)}"));
-						
-			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y cuarto",
-					"${(_0?number)*60+15}"));
-			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y (\\d{1,2}) cuartos\\s*(?:de hora)?",
-					"${(_0?number)*60+(_1?number)*15}"));		
-			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)? y media",
-					"${(_0?number)*60+30}"));
-			l.add(new CommandPattern("(\\d{1,2}) hora(?:s)?",
-					"${(_0?number)*60}"));	
-			
-			
 
-			
-			l.add(new CommandPattern("(\\d{1,2}) cuarto(?:s)? de hora",
-					"${(_0?number)*15}"));	
-			l.add(new CommandPattern("media hora",
-					"30"));
-			l.add(new CommandPattern("(\\d{1,3}) minuto(?:s)?",
-					"${_0}"));
+		List<String> commandPattern = new ArrayList<String>();
+		commandPattern.add("(?:avisa|avísame|.*alarma)(?:.*)\\[PERIOD\\]");
+		List<String> dataTypesRequired = new ArrayList<String>();
+		dataTypesRequired.add("PERIOD");
+		ModuleCommand m = new ModuleCommand("create_list", commandPattern, dataTypesRequired);
 		
+		CommandHandler c = new CommandHandler("example","default",m);
 		
-
-
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-
+		ParserResult p = ParserText.process("avísame dentro de 5 minutos");
 		
-		DataTypeHandler horas = new DataTypeHandler("TIME", 1,l);
+		CommandResult r=c.eval(null, p);
 
-		String prueba = "avísame dentro de 1 hora y 35 minutos";
-		horas.eval(prueba);
-		prueba = "avísame dentro de 1 hora y 35 ";
-		horas.eval(prueba);
-	/*	   try {
-
-			Writer out = new OutputStreamWriter(System.out);
-			   Map root = new HashMap();
-		        root.put("a", "1");	
-		        root.put("b", "2");			
-			t.process(root, out);
-
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+			System.out.println(r);
 
 	}
-
 
 }

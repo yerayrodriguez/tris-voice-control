@@ -14,7 +14,7 @@ public class ParserText {
 	
 	private static Logger logger = LogManager.getLogger(ParserText.class.getName());
 
-	public ParserText() {
+	private ParserText() {
 		// TODO Auto-generated constructor stub
 		
 	}
@@ -22,7 +22,7 @@ public class ParserText {
 	//TODO
 	//I don't know if this implementation could be a problem
 	//now the order or datatypes in the parsed text and the list are not the same
-	public static void process (String text){
+	public static ParserResult process (String text){
 		
 		text = text.trim().replaceAll("\\s+", " ");
 		ParserResult pr = new ParserResult();
@@ -51,6 +51,7 @@ public class ParserText {
 		pr.setParsedText(text);
 		
 		logger.debug("Parcing text result: "+pr);
+		return pr;
 		
 	}
 	

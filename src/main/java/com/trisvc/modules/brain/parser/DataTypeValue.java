@@ -1,5 +1,8 @@
 package com.trisvc.modules.brain.parser;
 
+
+//TODO
+//get rid off this class, and use a hashmap<String, String>
 public class DataTypeValue {
 	
 	private String dataType;

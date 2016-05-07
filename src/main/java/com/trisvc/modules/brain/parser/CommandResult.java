@@ -52,6 +52,13 @@ public class CommandResult {
 		this.values = values;
 	}
 
-
+	public String toString() {
+		String s = "Module: " + module + System.lineSeparator() + "Instance: " + instance + System.lineSeparator()
+				+ "Command: " + command + System.lineSeparator() + "Values: " + System.lineSeparator();
+		for (DataTypeValue value : values) {
+			s = s + "   - " + value.getDataType() + ": " + value.getValue() + System.lineSeparator();
+		}
+		return s;
+	}
 
 }
