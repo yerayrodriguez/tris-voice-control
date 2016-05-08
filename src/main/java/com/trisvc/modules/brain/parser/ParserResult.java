@@ -1,18 +1,18 @@
 package com.trisvc.modules.brain.parser;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ParserResult {
 
 	private String originalText;
 	private String parsedText;
-	private ArrayList<DataTypeValue> dataTypesFound;
+	private List<DataTypeValue> dataTypesFound;
 
 	public ParserResult() {
 		super();
 	}
 
-	public ParserResult(String originalText, String parsedText, ArrayList<DataTypeValue> dataTypesFound) {
+	public ParserResult(String originalText, String parsedText, List<DataTypeValue> dataTypesFound) {
 		super();
 		this.originalText = originalText;
 		this.parsedText = parsedText;
@@ -35,11 +35,11 @@ public class ParserResult {
 		this.parsedText = parsedText;
 	}
 
-	public ArrayList<DataTypeValue> getDataTypesFound() {
+	public List<DataTypeValue> getDataTypesFound() {
 		return dataTypesFound;
 	}
 
-	public void setDataTypesFound(ArrayList<DataTypeValue> dataTypesFound) {
+	public void setDataTypesFound(List<DataTypeValue> dataTypesFound) {
 		this.dataTypesFound = dataTypesFound;
 	}
 

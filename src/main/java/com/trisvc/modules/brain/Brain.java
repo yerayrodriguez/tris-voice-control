@@ -1,9 +1,10 @@
-package com.trisvc.modules.brain.thread;
+package com.trisvc.modules.brain;
 
 import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
+import com.trisvc.core.messages.types.register.RegisterMessage;
 import com.trisvc.modules.brain.object.BrainObject;
 
 public class Brain extends BaseThread {	
@@ -14,7 +15,7 @@ public class Brain extends BaseThread {
 	public void execute() {
 		try {
 			
-			exportObject(new Brain());
+			exportObject(new BrainObject(),"Brain");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,6 +37,11 @@ public class Brain extends BaseThread {
 			getLogger().info("Exit");
 			System.exit(0);
 
+	}
+
+	@Override
+	protected RegisterMessage getRegisterMessage() {
+		return null;
 	}
 
 

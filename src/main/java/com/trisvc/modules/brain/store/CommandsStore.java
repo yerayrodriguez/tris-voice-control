@@ -40,7 +40,13 @@ public class CommandsStore {
 	//Think priority of commands on different modules
 	private ArrayList<CommandHandler> commands = new ArrayList<CommandHandler>();
 	
-	public void addModulecommand(String module, String instance, ModuleCommand m){
+	public void addModuleCommands(String module, String instance, List<ModuleCommand> l){
+		for (ModuleCommand m: l){
+			addModuleCommand(module,instance,m);
+		}
+	}
+	
+	public void addModuleCommand(String module, String instance, ModuleCommand m){
 		CommandHandler c = new CommandHandler(module,instance,m);
 		commands.add(c);
 	}
@@ -48,8 +54,12 @@ public class CommandsStore {
 	public void addCommandHandler(CommandHandler c){
 			commands.add(c);
 
-	}	
+	}
 		
+	public ArrayList<CommandHandler> getCommands() {
+		return commands;
+	}
+
 	//TODO
 	//Remove	
 	public void memoryDump(){
@@ -68,7 +78,7 @@ public class CommandsStore {
 	//Remove
 	private void loadTest(){
 		
-		List<String> l = null;
+		/*List<String> l = null;
 		ModuleCommand m = null;
 		
 		l = new ArrayList<String>();
@@ -87,7 +97,7 @@ public class CommandsStore {
 		l.add("Añade *(lista) *[LIST_LIST] [STRING]");
 		l.add("Añade [STRING] a la lista [LIST_LIST] *");				
 		m = new ModuleCommand("list_elements",l);
-		addModulecommand("LIST","unique",m);
+		addModulecommand("LIST","unique",m);*/
 	}
 	
 	public static void main(String[] args) {

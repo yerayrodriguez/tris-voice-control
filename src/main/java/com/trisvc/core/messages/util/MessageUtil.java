@@ -15,6 +15,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.MessageBody;
 import com.trisvc.core.messages.Response;
+import com.trisvc.core.messages.types.invoke.InvokeMessage;
+import com.trisvc.core.messages.types.invoke.InvokeResponse;
 import com.trisvc.core.messages.types.parser.ParserMessage;
 import com.trisvc.core.messages.types.parser.ParserResponse;
 import com.trisvc.core.messages.types.register.RegisterMessage;
@@ -38,7 +40,9 @@ public class MessageUtil {
 					RegisterMessage.class,
 					RegisterResponse.class,
 					ParserMessage.class,
-					ParserResponse.class);
+					ParserResponse.class,
+					InvokeMessage.class,
+					InvokeResponse.class);
 			// @formatter:on
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block

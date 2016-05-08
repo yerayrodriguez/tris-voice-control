@@ -28,7 +28,7 @@ public class ParserMessageTest {
 	
 	private Message genTestMessage(){
 		
-		ParserMessage p = new ParserMessage("Test of text to parse");
+		ParserMessage p = new ParserMessage("Test of text to parse",null);
 		
 		Message m = new Message ("CallerID", "MessageID",p); 
 		m.setTime(MessageUtil.getXMLGregorianCalendar()); 

@@ -53,6 +53,11 @@ public class DataTypeHandler {
 	public void addDTPattern(DTPattern p){
 		//TODO
 		//Check if is repeated or implement as a HashMap
+		//TODO
+		//must be a relation between module and datatype patterns to be able 
+		//to update all patterns
+		//For instance, now there is not way to remove a pattern, think on todo list 
+		//module, which need to remove list names.
 		this.list.add(p);
 	}
 	
@@ -180,9 +185,10 @@ public class DataTypeHandler {
 		DataTypeHandler horas = new DataTypeHandler("TIME", 1,l);
 
 		String prueba = "avísame dentro de 1 hora y 35 minutos";
-		horas.eval(prueba);
-		prueba = "avísame dentro de 1 hora y 35 ";
-		horas.eval(prueba);
+		DataTypeResult dt = horas.eval(prueba);
+		System.out.println(dt.getDetected()+" "+dt.getReplaced());
+		//prueba = "avísame dentro de 1 hora y 35 ";
+		//horas.eval(prueba);
 	/*	   try {
 
 			Writer out = new OutputStreamWriter(System.out);

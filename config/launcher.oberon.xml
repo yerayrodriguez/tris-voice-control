@@ -5,6 +5,12 @@
     <location>despacho</location>
     <modules>
         <module instance="default">
+            <qualifiedName>com.trisvc.modules.brain.Brain</qualifiedName>
+        </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.echo.Echo</qualifiedName>
+        </module>
+        <module instance="default">
             <qualifiedName>com.trisvc.modules.console.Console</qualifiedName>
         </module>
         <module instance="default">

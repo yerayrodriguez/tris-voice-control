@@ -19,16 +19,6 @@ public class Launcher {
 		for (ModuleToLoad m: config.getModules()){
 			startThread(m);
 		}
-		
-		//TODO
-		//create bus first?, sleep tiene sentido?;
-		
-		//startThread("com.trisvc.modules.heart.thread.Heart");	
-	
-		//ThreadUtil.sleep();
-		//startThread("com.trisvc.modules.console.thread.Console","prueba2");
-		//startThread("com.trisvc.modules.brain.thread.Brain");
-		//startThread("com.trisvc.modules.tts.pico.thread.PicoTTS");
 
 	}
 

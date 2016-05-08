@@ -1,35 +1,32 @@
 package com.trisvc.core.messages.types.parser;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.trisvc.core.messages.MessageBody;
+import com.trisvc.modules.brain.parser.CommandResult;
 
 @XmlRootElement
 public class ParserResponse extends MessageBody {
 
-	private List<String> phrases;
+	// TODO
+	// think a way to reuse this object and avoid use ParserResult
+	private CommandResult commandResult;
 
 	public ParserResponse() {
 		super();
 	}
 
-	public ParserResponse(List<String> phrases) {
+	public ParserResponse(CommandResult commandResult) {
 		super();
-		this.phrases = phrases;
+		this.commandResult = commandResult;
 	}
 
-	@XmlElementWrapper(name = "phrases")
-	@XmlElement(name = "phrase")
-	public List<String> getPhrases() {
-		return phrases;
+	public CommandResult getCommandResult() {
+		return commandResult;
 	}
 
-	public void setPhrases(List<String> phrases) {
-		this.phrases = phrases;
+	public void setCommandResult(CommandResult commandResult) {
+		this.commandResult = commandResult;
 	}
 
 }

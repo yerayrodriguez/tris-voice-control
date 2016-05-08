@@ -4,6 +4,7 @@ import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
+import com.trisvc.core.messages.types.register.RegisterMessage;
 import com.trisvc.modules.todo.object.ToDoObject;
 
 public class ToDo extends BaseThread {	
@@ -33,6 +34,11 @@ public class ToDo extends BaseThread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected RegisterMessage getRegisterMessage() {
+		
 	}
 
 }

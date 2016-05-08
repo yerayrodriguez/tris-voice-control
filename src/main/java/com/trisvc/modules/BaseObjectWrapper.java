@@ -16,7 +16,8 @@ public class BaseObjectWrapper {
 		try {
 			//TODO
 			//use static variable
-			r.setListener(InetAddress.getLocalHost().getHostName());
+			String host = InetAddress.getLocalHost().getHostName();
+			r.setListener(host);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
