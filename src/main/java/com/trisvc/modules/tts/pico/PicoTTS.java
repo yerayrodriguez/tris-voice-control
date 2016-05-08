@@ -4,7 +4,8 @@ import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
-import com.trisvc.modules.tts.pico.objects.TTS;
+import com.trisvc.core.messages.types.register.RegisterMessage;
+import com.trisvc.modules.tts.pico.objects.PicoTTSObject;
 
 public class PicoTTS extends BaseThread{
 	
@@ -14,7 +15,7 @@ public class PicoTTS extends BaseThread{
 	protected void execute() {
 		try {
 			
-			exportObject(new TTS());
+			exportObject(new PicoTTSObject(), "TTS");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -24,7 +25,7 @@ public class PicoTTS extends BaseThread{
 	@Override
 	protected void close() {
 		try {
-			unExportObject(TTS.class);
+			unExportObject(PicoTTSObject.class);
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,6 +36,11 @@ public class PicoTTS extends BaseThread{
 		getLogger().info("Exit");
 		System.exit(0);
 		
+	}
+
+	@Override
+	protected RegisterMessage getRegisterMessage() {
+		return null;
 	}
 
 

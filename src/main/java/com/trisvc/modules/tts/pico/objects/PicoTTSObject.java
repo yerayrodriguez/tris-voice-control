@@ -20,7 +20,7 @@ import com.trisvc.core.messages.util.MessageUtil;
 import com.trisvc.modules.BaseObject;
 import com.trisvc.modules.BaseObjectWrapper;
 
-public class TTS extends BaseObjectWrapper implements BaseObject{
+public class PicoTTSObject extends BaseObjectWrapper implements BaseObject{
 
 	private Logger logger = LogManager.getLogger(this.getClass().getName());
 	static final String ttsTmpPath = "/tmp/trisvc/tts/";

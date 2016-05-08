@@ -12,7 +12,7 @@
 			</definition>
 		</definitions>
 	</dataType>
-	<dataType type="LIST_LIST" weight="9500">
+	<dataType type="TODO_LIST" weight="9500">
 		<definitions>
 			<definition>
 				<pattern>regalos para eli</pattern>

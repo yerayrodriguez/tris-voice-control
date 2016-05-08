@@ -1,4 +1,4 @@
-package com.trisvc.modules.console.thread;
+package com.trisvc.modules.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,10 +11,10 @@ import com.trisvc.core.Signal;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.Response;
+import com.trisvc.core.messages.types.register.RegisterMessage;
 import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.core.messages.types.tts.TTSResponse;
 import com.trisvc.modules.RemoteObjectWrapper;
-import com.trisvc.modules.tts.pico.objects.TTS;
 
 public class Console extends BaseThread {
 	
@@ -28,7 +28,7 @@ public class Console extends BaseThread {
 
 			//BaseObject textCommandMessage = getRemoteObject(Echo.class);
 			//BaseObject memory = getRemoteObject(Memory.class);
-			RemoteObjectWrapper tts = getRemoteObject(TTS.class);
+			RemoteObjectWrapper tts = getRemoteObject("TTS");
 
 			String line;
 			System.out.print("Comando: ");
@@ -81,5 +81,10 @@ public class Console extends BaseThread {
 
 	@Override
 	protected void close() {}
+	
+	@Override
+	protected RegisterMessage getRegisterMessage() {
+		return null;
+	}	
 
 }

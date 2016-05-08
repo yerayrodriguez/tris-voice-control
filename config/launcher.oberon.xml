@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <launcherConfig>
-    <busAddress>tcp:host=pi,port=55556</busAddress>
+	 <busAddress>SESSION</busAddress>
+    <busAddress2>tcp:host=pi,port=55556</busAddress2>
     <location>despacho</location>
     <modules>
         <module instance="default">
-            <qualifiedName>com.trisvc.modules.console.thread.Console</qualifiedName>
+            <qualifiedName>com.trisvc.modules.console.Console</qualifiedName>
         </module>
         <module instance="default">
-            <qualifiedName>com.trisvc.modules.tts.pico.thread.PicoTTS</qualifiedName>
+            <qualifiedName>com.trisvc.modules.tts.pico.PicoTTS</qualifiedName>
         </module>
     </modules>
 </launcherConfig>

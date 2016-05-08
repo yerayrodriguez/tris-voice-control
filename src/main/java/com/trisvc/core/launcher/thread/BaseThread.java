@@ -8,6 +8,10 @@ import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.Signal;
 import com.trisvc.core.launcher.Launcher;
+import com.trisvc.core.messages.Message;
+import com.trisvc.core.messages.Response;
+import com.trisvc.core.messages.types.register.RegisterMessage;
+import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.modules.BaseObject;
 import com.trisvc.modules.RemoteObjectWrapper;
 
@@ -54,17 +58,24 @@ public abstract class BaseThread implements Runnable {
 		return connection;
 	}
 
-	protected void exportObject(BaseObject object, String instance) throws DBusException {
+	protected void exportObject(BaseObject object, String module, String instance) throws DBusException {
 		if (instance == null || instance.trim().length() == 0) {
 			instance = "default";
 		}
-		getDBusConnection().requestBusName("com.trisvc.object." + object.getClass().getSimpleName() + "." + instance);
-		getDBusConnection().exportObject("/com/trisvc/object/" + object.getClass().getSimpleName() + "/" + instance,
+		if (module == null || module.trim().length() == 0){
+			module = object.getClass().getSimpleName();
+		}
+		getDBusConnection().requestBusName("com.trisvc.module." + module + "." + instance);
+		getDBusConnection().exportObject("/com/trisvc/module/" + module + "/" + instance,
 				object);
 	}
+	
+	protected void exportObject(BaseObject object, String module) throws DBusException {
+		exportObject(object, module ,null);
+	}	
 
 	protected void exportObject(BaseObject object) throws DBusException {
-		exportObject(object, null);
+		exportObject(object, null,null);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -77,14 +88,14 @@ public abstract class BaseThread implements Runnable {
 		if (instance == null || instance.trim().length() == 0) {
 			instance = "default";
 		}
-		getDBusConnection().unExportObject("/com/trisvc/object/" + c.getSimpleName() + "/" + instance);
+		getDBusConnection().unExportObject("/com/trisvc/module/" + c.getSimpleName() + "/" + instance);
 	}
 
-	protected static RemoteObjectWrapper getRemoteObject(Class c) {
-		return getRemoteObject(c, null);
+	protected static RemoteObjectWrapper getRemoteObject(String moduleName) {
+		return getRemoteObject(moduleName, null);
 	}
 
-	protected static RemoteObjectWrapper getRemoteObject(Class c, String instance) {
+	protected static RemoteObjectWrapper getRemoteObject(String moduleName, String instance) {
 		if (instance == null || instance.trim().length() == 0) {
 			instance = "default";
 		}
@@ -92,8 +103,8 @@ public abstract class BaseThread implements Runnable {
 		try {
 			BaseObject o;
 			o = (BaseObject) getDBusConnection().getRemoteObject(
-					"com.trisvc.object." + c.getSimpleName() + "." + instance,
-					"/com/trisvc/object/" + c.getSimpleName() + "/" + instance, BaseObject.class);
+					"com.trisvc.module." + moduleName + "." + instance,
+					"/com/trisvc/module/" + moduleName + "/" + instance, BaseObject.class);
 			RemoteObjectWrapper r = new RemoteObjectWrapper(o);
 			return r;
 		} catch (DBusException e) {
@@ -107,6 +118,9 @@ public abstract class BaseThread implements Runnable {
 	public void run() {
 		try {
 			registerHaltSignal();
+			if (!registerModule(getRegisterMessage())){
+				return;
+			}
 			execute();
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block
@@ -117,6 +131,23 @@ public abstract class BaseThread implements Runnable {
 	abstract protected void execute();
 
 	abstract protected void close();
+	
+	abstract protected RegisterMessage getRegisterMessage();
+	
+	protected boolean registerModule (RegisterMessage rm){
+		if (rm == null)
+			return true;
+		
+		RemoteObjectWrapper brain = getRemoteObject("Brain");
+		Message m = new Message();
+		m.setBody(rm);
+		Response response = brain.send(m);	
+		if (!response.isSuccess()){
+			logger.error("Could not register module");
+			return false;
+		}
+		return true;
+	}
 
 	private void registerHaltSignal() throws DBusException {
 		getDBusConnection().addSigHandler(Signal.HaltSignal.class, new DBusSigHandler<Signal.HaltSignal>() {
