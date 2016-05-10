@@ -3,6 +3,9 @@ package com.trisvc.modules.brain.object;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.trisvc.core.NumeralUtil;
 import com.trisvc.core.datatypes.DataTypeHandler;
 import com.trisvc.core.datatypes.DataTypeResult;
@@ -23,18 +26,29 @@ import com.trisvc.modules.brain.store.CommandsStore;
 import com.trisvc.modules.brain.store.DataTypeStore;
 
 public class BrainObject extends BaseObjectWrapper implements BaseObject {
+	
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
 
 	public Response send(Message m) {
+		logger.debug("Received message");
+		logger.debug(m.toString());
+		
+		Response r = null;
+		
 		switch (m.getType()) {
 		case "RegisterMessage":
-			return moduleRegister(m);
+			r =  moduleRegister(m);
+			break;
 		case "MemoryDumpMessage":
-			return memoryDump(m);
+			r =  memoryDump(m);
+			break;
 		case "ParserMessage":
-			return parser(m);
-		default:
-			return null;
+			r =  parser(m);
+			break;
 		}
+		
+		logger.debug(r.toString());
+		return r;
 	}
 
 	private Response moduleRegister(Message m) {

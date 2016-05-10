@@ -1,4 +1,4 @@
-package com.trisvc.modules.todo.object;
+package com.trisvc.modules.todo;
 
 import java.util.HashMap;
 import java.util.List;

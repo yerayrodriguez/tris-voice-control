@@ -5,7 +5,6 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
 import com.trisvc.core.messages.types.register.RegisterMessage;
-import com.trisvc.modules.tts.pico.objects.PicoTTSObject;
 
 public class PicoTTS extends BaseThread{
 	

@@ -41,6 +41,11 @@ public class Console extends BaseThread {
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
 				
+				if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {
+					sendHaltSignal();
+					break;
+				}				
+				
 				Response response = null;
 				Message m = null;
 				//Parse
@@ -78,10 +83,7 @@ public class Console extends BaseThread {
 				
 				System.out.flush();
 
-				if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {
-					sendHaltSignal();
-					break;
-				}
+
 				if (line.equals("memoryDump")){
 					//memory.send(MessageType.MemoryDumpMessage.getType(), "");
 				}

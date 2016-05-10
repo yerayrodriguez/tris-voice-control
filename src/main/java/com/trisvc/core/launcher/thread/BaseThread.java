@@ -65,8 +65,8 @@ public abstract class BaseThread implements Runnable {
 		if (module == null || module.trim().length() == 0){
 			module = object.getClass().getSimpleName();
 		}
-		getDBusConnection().requestBusName("com.trisvc.module." + module + "." + instance);
-		getDBusConnection().exportObject("/com/trisvc/module/" + module + "/" + instance,
+		getDBusConnection().requestBusName("com.trisvc.modules." + module + "." + instance);
+		getDBusConnection().exportObject("/com/trisvc/modules/" + module + "/" + instance,
 				object);
 	}
 	
@@ -88,7 +88,7 @@ public abstract class BaseThread implements Runnable {
 		if (instance == null || instance.trim().length() == 0) {
 			instance = "default";
 		}
-		getDBusConnection().unExportObject("/com/trisvc/module/" + c.getSimpleName() + "/" + instance);
+		getDBusConnection().unExportObject("/com/trisvc/modules/" + c.getSimpleName() + "/" + instance);
 	}
 
 	protected static RemoteObjectWrapper getRemoteObject(String moduleName) {
@@ -103,8 +103,8 @@ public abstract class BaseThread implements Runnable {
 		try {
 			BaseObject o;
 			o = (BaseObject) getDBusConnection().getRemoteObject(
-					"com.trisvc.module." + moduleName + "." + instance,
-					"/com/trisvc/module/" + moduleName + "/" + instance, BaseObject.class);
+					"com.trisvc.modules." + moduleName + "." + instance,
+					"/com/trisvc/modules/" + moduleName + "/" + instance, BaseObject.class);
 			RemoteObjectWrapper r = new RemoteObjectWrapper(o);
 			return r;
 		} catch (DBusException e) {

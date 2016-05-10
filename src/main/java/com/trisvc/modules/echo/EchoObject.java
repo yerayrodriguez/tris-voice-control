@@ -1,4 +1,4 @@
-package com.trisvc.modules.echo.objects;
+package com.trisvc.modules.echo;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
