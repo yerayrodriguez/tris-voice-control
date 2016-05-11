@@ -36,7 +36,7 @@ public class ToDo extends BaseThread {
 	}
 
 	@Override
-	protected RegisterMessage getRegisterMessage() {
+	protected RegisterMessage genRegisterMessage() {
 		
 	}
 

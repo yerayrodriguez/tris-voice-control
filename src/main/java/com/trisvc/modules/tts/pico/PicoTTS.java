@@ -38,7 +38,7 @@ public class PicoTTS extends BaseThread{
 	}
 
 	@Override
-	protected RegisterMessage getRegisterMessage() {
+	protected RegisterMessage genRegisterMessage() {
 		return null;
 	}
 

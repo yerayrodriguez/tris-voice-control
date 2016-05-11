@@ -97,6 +97,11 @@ public class Console extends BaseThread {
 	}
 	
 	private void TTS(String text){
+		
+		if (text == null || text.trim().length() == 0){
+			poner un pi
+		}
+		
 		Message m = new Message();
 		TTSMessage tm = new TTSMessage();
 		tm.setTextToSpeech(text);
@@ -134,7 +139,7 @@ public class Console extends BaseThread {
 	protected void close() {}
 	
 	@Override
-	protected RegisterMessage getRegisterMessage() {
+	protected RegisterMessage genRegisterMessage() {
 		return null;
 	}	
 

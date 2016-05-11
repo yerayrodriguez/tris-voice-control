@@ -40,7 +40,7 @@ public class Brain extends BaseThread {
 	}
 
 	@Override
-	protected RegisterMessage getRegisterMessage() {
+	protected RegisterMessage genRegisterMessage() {
 		return null;
 	}
 

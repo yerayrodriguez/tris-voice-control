@@ -6,7 +6,10 @@ import java.util.List;
 import org.freedesktop.dbus.DBusConnection;
 import org.freedesktop.dbus.UInt32;
 import org.freedesktop.dbus.exceptions.DBusException;
+import org.mpris.MediaPlayer2.Playlists;
+import org.mpris.MediaPlayer2.Struct1;
 
+import com.trisvc.core.NumeralUtil;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
 import com.trisvc.core.messages.types.register.RegisterMessage;
@@ -18,6 +21,7 @@ import com.trisvc.core.messages.types.register.structures.ModuleCommand;
 public class Clementine extends BaseThread{
 	
 	private static final long WAIT_CLOSE_MS = 1000;
+	private List<Struct1> channelList = null;
 
 	@Override
 	protected void execute() {
@@ -44,10 +48,10 @@ public class Clementine extends BaseThread{
 	}
 
 	@Override
-	protected RegisterMessage getRegisterMessage() {
+	protected RegisterMessage genRegisterMessage() {
 		
 		final String CLEMENTINE_LIST = "CLEMENTINE_LIST";
-		final Integer WEIGHT = 9500;
+		final Integer WEIGHT = 9400;
 		
 		List<String> patternList0 = new ArrayList<String>();
 		patternList0.add("(?:pon|sintoniza|enciende)(?:.*)(\\["+CLEMENTINE_LIST+"\\])");
@@ -76,13 +80,15 @@ public class Clementine extends BaseThread{
 		commandList.add(c2);
 		commandList.add(c3);		
 				
-		DTPatternDefinition d1 = new DTPatternDefinition();
-		d1.setPattern("radio nacional");
-		d1.setTemplate("radio nacional");
-		
 		List<DTPatternDefinition> definitions = new ArrayList<DTPatternDefinition>();
-		definitions.add(d1);
-		
+		channelList = getListOfChannels();
+		for (Struct1 s: channelList){
+			DTPatternDefinition d = new DTPatternDefinition();
+			d.setPattern(NumeralUtil.convert(s.b));
+			d.setTemplate(NumeralUtil.convert(s.b));
+			definitions.add(d);
+		}
+
 		DataTypeDefinition channelList = new DataTypeDefinition(CLEMENTINE_LIST,WEIGHT,definitions);
 		
 		List<DataTypeDefinition> dataTypeList = new ArrayList<DataTypeDefinition>();
@@ -93,33 +99,24 @@ public class Clementine extends BaseThread{
 		RegisterMessage message = new RegisterMessage();
 		message.setModuleName("Clementine");
 		message.setCommands(commandList);
-		message.setDataTypes(dataTypes);
-		
-		getListOfChannels();
+		message.setDataTypes(dataTypes);		
 
 		return message;
 	}
 	
-	private List<String> getListOfChannels(){
-		
-		List<String> list = new ArrayList<String>();
+	private List<Struct1> getListOfChannels(){		
 		
 		try {
 			DBusConnection conn = DBusConnection.getConnection(DBusConnection.SESSION);
-			PlayListInterface object = (PlayListInterface)conn.getRemoteObject("org.mpris.clementine", "/org/mpris/MediaPlayer2");
-			List<PlayListsStruct> structList = object.GetPlaylists(new UInt32(0), new UInt32(100), "", true);
-			
-			for (PlayListsStruct p: structList){
-				list.add(p.listName);
-				System.out.println(p.listName);
-			}
+			Playlists object = (Playlists)conn.getRemoteObject("org.mpris.clementine", "/org/mpris/MediaPlayer2");
+			return object.GetPlaylists(new UInt32(0), new UInt32(100), "", true);					
 			
 		} catch (DBusException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		
-		return list;
+		return null;
 		
 	}
 	

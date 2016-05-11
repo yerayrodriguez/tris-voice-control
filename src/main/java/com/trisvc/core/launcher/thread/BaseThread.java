@@ -11,7 +11,6 @@ import com.trisvc.core.launcher.Launcher;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.Response;
 import com.trisvc.core.messages.types.register.RegisterMessage;
-import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.modules.BaseObject;
 import com.trisvc.modules.RemoteObjectWrapper;
 
@@ -21,6 +20,7 @@ public abstract class BaseThread implements Runnable {
 	private Logger logger;
 
 	protected String instance;
+	private RegisterMessage registerMessage;
 
 	private static DBusConnection connection = initializeDBusConnection();
 
@@ -132,7 +132,14 @@ public abstract class BaseThread implements Runnable {
 
 	abstract protected void close();
 	
-	abstract protected RegisterMessage getRegisterMessage();
+	abstract protected RegisterMessage genRegisterMessage();
+	
+	public RegisterMessage getRegisterMessage(){
+		if (registerMessage == null){
+			registerMessage = genRegisterMessage();
+		}
+		return registerMessage;
+	}
 	
 	protected boolean registerModule (RegisterMessage rm){
 		if (rm == null)

@@ -108,7 +108,7 @@ public class BrainObject extends BaseObjectWrapper implements BaseObject {
 			if (dtr != null){
 				//TODO
 				//think other way
-				textToParse = textToParse.replace(dtr.getDetected(), dtr.getReplaced());
+				textToParse = textToParse.replace(dtr.getDetected(), "["+entry.getValue().getType()+"]");
 				dataTypesFound.add(new DataTypeValue(entry.getValue().getType(),dtr.getReplaced()));
 			}
 		}		

@@ -51,6 +51,7 @@ public class DataTypeStore {
 	//TODO
 	//I think is not necessary to use a MAP
 	//It is possible to create a comparator to a List
+	//Moreover, this way may produce collition
 	private SortedMap<Integer, DataTypeHandler> dataTypes = new TreeMap<Integer, DataTypeHandler>(comparator);
 
 	public SortedMap<Integer, DataTypeHandler> getDataTypes() {

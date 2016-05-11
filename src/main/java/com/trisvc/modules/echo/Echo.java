@@ -39,7 +39,7 @@ public class Echo extends BaseThread {
 	}
 
 	@Override
-	protected RegisterMessage getRegisterMessage() {
+	protected RegisterMessage genRegisterMessage() {
 
 		List<String> patternList = new ArrayList<String>();
 		patternList.add("repite (.*)?");
