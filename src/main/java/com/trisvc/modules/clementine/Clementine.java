@@ -65,7 +65,7 @@ public class Clementine extends BaseThread{
 		ModuleCommand c1 = new ModuleCommand("start", patternList1, required1);
 		
 		List<String> patternList2 = new ArrayList<String>();
-		patternList2.add("(?:apaga|quita)(?:.*)(?:radio|música)");
+		patternList2.add("(?:para|apaga|quita)(?:.*)(?:radio|música)");
 		List<String> required2 = new ArrayList<String>();
 		ModuleCommand c2 = new ModuleCommand("stop", patternList2, required2);
 		

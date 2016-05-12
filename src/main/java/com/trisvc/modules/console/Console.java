@@ -99,7 +99,8 @@ public class Console extends BaseThread {
 	private void TTS(String text){
 		
 		if (text == null || text.trim().length() == 0){
-			poner un pi
+			//Play a beep?
+			return;
 		}
 		
 		Message m = new Message();
