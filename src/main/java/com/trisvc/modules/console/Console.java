@@ -3,6 +3,8 @@ package com.trisvc.modules.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +23,12 @@ import com.trisvc.core.messages.types.register.RegisterMessage;
 import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.core.messages.types.tts.TTSResponse;
 import com.trisvc.modules.RemoteObjectWrapper;
+import com.trisvc.modules.brain.parser.DTContext;
 
 public class Console extends BaseThread {
+	
+	private final static long INMEDIATE_CONTEXT_PERIOD_MS = 30 * 1000; // 30 seconds
+	private final static long NORMAL_CONTEXT_PERIOD_MS = 2 * 60 * 1000; // 2 minutes
 	
 	private Logger logger = LogManager.getLogger(this.getClass().getName());
 	
@@ -38,6 +44,9 @@ public class Console extends BaseThread {
 			RemoteObjectWrapper brain = getRemoteObject("Brain");
 
 			String line;
+			String inmediateContext = null;
+			DTContext normalContext = null;
+			Date contextTime = new GregorianCalendar().getTime();
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
 				
@@ -46,20 +55,61 @@ public class Console extends BaseThread {
 					break;
 				}				
 				
+				Date actualTime =  new GregorianCalendar().getTime();
+				Boolean inmediateContextValid = true;
+				Boolean normalContextValid = true;
+				
+				if (actualTime.getTime() - contextTime.getTime() > INMEDIATE_CONTEXT_PERIOD_MS){
+					inmediateContextValid = false;
+					logger.debug("Inmediate context expired");
+				}
+				if (actualTime.getTime() - contextTime.getTime() > NORMAL_CONTEXT_PERIOD_MS){
+					normalContextValid = false;
+					logger.debug("Normal context expired");
+				}				
+				
 				Response response = null;
 				Message m = null;
 				//Parse
 				m = new Message();
 				ParserMessage pm = new ParserMessage();
+				
+				//TODO
+				//hay qeu tomar time para el control del contexto
+				//por ahora se controla aqui, tal vez habría que permitir que 
+				//cada módulo lo controle
+				//y que cada modulo defina el tiempo que quiera?				
+				
 				pm.setTextToParse(line);
+				if (normalContextValid){
+					pm.setContext(normalContext);
+				}
 				m.setBody(pm);
 				response = brain.send(m);
 				ParserResponse pr = (ParserResponse)response.getBody();
 				
 				if (response.isSuccess()==false){
-					logger.debug(response.getInformation());
-					TTS("Lo lamento, no he entendido el comando.");
-					continue;
+					
+					//TODO
+					//con la voz también hay que tener en cuenta el nombre de Tris
+					if (inmediateContextValid && inmediateContext != null){
+						//TODO
+						//hacer un método para esto?
+						line = inmediateContext.replace("[INPUT]", line);
+						Message m2 = new Message();
+						ParserMessage pm2 = new ParserMessage();	
+						pm2.setTextToParse(line);
+						//pm.setContext(normalContext);
+						m2.setBody(pm2);
+						response = brain.send(m2);
+						pr = (ParserResponse)response.getBody();					
+					}					
+					
+					if (response.isSuccess()==false){
+						logger.debug(response.getInformation());
+						TTS("Lo lamento, no he entendido el comando.");
+						continue;
+					}
 				}
 				
 				
@@ -78,6 +128,10 @@ public class Console extends BaseThread {
 					TTS("Lo lamento, ha ocurrido un error al ejecutar la orden.");
 					continue;
 				}
+				
+				inmediateContext = ir.getInmmediateContext();
+				normalContext = ir.getNormalContext();
+				contextTime = new GregorianCalendar().getTime();
 	
 				TTS(ir.getMessage());
 				

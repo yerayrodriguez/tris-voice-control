@@ -12,18 +12,6 @@
 			</definition>
 		</definitions>
 	</dataType>
-	<dataType type="TODO_LIST" weight="9500">
-		<definitions>
-			<definition>
-				<pattern>regalos para eli</pattern>
-				<template>regalos para eli</template>
-			</definition>
-			<definition>
-				<pattern>compra</pattern>
-				<template>compra</template>
-			</definition>
-		</definitions>
-	</dataType>
 	<dataType type="PERIOD" weight="9000">
 		<definitions>
 			<definition>

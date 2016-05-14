@@ -91,11 +91,15 @@ public abstract class BaseThread implements Runnable {
 		getDBusConnection().unExportObject("/com/trisvc/modules/" + c.getSimpleName() + "/" + instance);
 	}
 
-	protected static RemoteObjectWrapper getRemoteObject(String moduleName) {
+	//TODO
+	//refacto, get rid off from here
+	public static RemoteObjectWrapper getRemoteObject(String moduleName) {
 		return getRemoteObject(moduleName, null);
 	}
 
-	protected static RemoteObjectWrapper getRemoteObject(String moduleName, String instance) {
+	//TODO
+	//refacto, get rid off from here	
+	public static RemoteObjectWrapper getRemoteObject(String moduleName, String instance) {
 		if (instance == null || instance.trim().length() == 0) {
 			instance = "default";
 		}
@@ -141,6 +145,8 @@ public abstract class BaseThread implements Runnable {
 		return registerMessage;
 	}
 	
+	//TODO
+	//create utility class and remove this method from here
 	protected boolean registerModule (RegisterMessage rm){
 		if (rm == null)
 			return true;

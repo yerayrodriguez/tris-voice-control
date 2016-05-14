@@ -17,7 +17,7 @@
             <qualifiedName>com.trisvc.modules.tts.pico.PicoTTS</qualifiedName>
         </module>
         <module instance="default">
-            <qualifiedName>com.trisvc.modules.clementine.Clementine</qualifiedName>
+            <qualifiedName>com.trisvc.modules.todo.ToDo</qualifiedName>
         </module>
     </modules>
 </launcherConfig>

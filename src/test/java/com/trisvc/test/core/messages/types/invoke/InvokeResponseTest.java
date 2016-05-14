@@ -1,4 +1,4 @@
-package com.trisvc.test.core.messages.types.parser;
+package com.trisvc.test.core.messages.types.invoke;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import com.trisvc.core.messages.Response;
-import com.trisvc.core.messages.types.parser.ParserResponse;
+import com.trisvc.core.messages.types.invoke.InvokeResponse;
 import com.trisvc.core.messages.util.MessageUtil;
-import com.trisvc.modules.brain.parser.CommandResult;
+import com.trisvc.modules.brain.parser.DTContext;
 import com.trisvc.modules.brain.parser.DataTypeValue;
 
-public class ParserResponseTest {
+public class InvokeResponseTest {
 
 	@Test
 	public void marshalAndUnmarshallShouldBeEquals() {
@@ -31,16 +31,17 @@ public class ParserResponseTest {
 	}
 
 	private Response genTestMessage() {
-
-		ArrayList<DataTypeValue> pl = new ArrayList<DataTypeValue>();
-		pl.add(new DataTypeValue("TYPE1","Phrase nº 1"));
-		pl.add(new DataTypeValue("TYPE","Phrase nº 2"));
 		
-		CommandResult cr = new CommandResult("mimodule","miinstance","mycommand",pl);
+		DTContext normalContext = new DTContext();
+		normalContext.addContextElement(new DataTypeValue("TYPE1","Phrase nº 1"));
+		normalContext.addContextElement(new DataTypeValue("TYPE2","Phrase nº 2"));
+		
+		InvokeResponse ir = new InvokeResponse();
+		ir.setMessage("my msg");
+		ir.setInmmediateContext("my inmediate context");
+		ir.setNormalContext(normalContext);
 
-		ParserResponse p = new ParserResponse(cr);
-
-		Response m = new Response("CallerID", "MessageID", p, "ListenerID", true, "OK");
+		Response m = new Response("CallerID", "MessageID", ir, "ListenerID", true, "OK");
 		m.setTime(MessageUtil.getXMLGregorianCalendar());
 
 		return m;

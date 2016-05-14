@@ -41,6 +41,9 @@ public class CommandsStore {
 	private ArrayList<CommandHandler> commands = new ArrayList<CommandHandler>();
 	
 	public void addModuleCommands(String module, String instance, List<ModuleCommand> l){
+		if (l == null)
+			return;
+		
 		for (ModuleCommand m: l){
 			addModuleCommand(module,instance,m);
 		}

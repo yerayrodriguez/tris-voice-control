@@ -2,6 +2,9 @@ package com.trisvc.modules.brain.parser;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CommandResult {
 	private String module;
 	private String instance;

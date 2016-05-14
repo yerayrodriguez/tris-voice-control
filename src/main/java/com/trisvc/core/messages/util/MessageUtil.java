@@ -23,6 +23,8 @@ import com.trisvc.core.messages.types.register.RegisterMessage;
 import com.trisvc.core.messages.types.register.RegisterResponse;
 import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.core.messages.types.tts.TTSResponse;
+import com.trisvc.modules.brain.parser.DTContext;
+import com.trisvc.modules.brain.parser.DataTypeValue;
 
 public class MessageUtil {
 
@@ -42,7 +44,10 @@ public class MessageUtil {
 					ParserMessage.class,
 					ParserResponse.class,
 					InvokeMessage.class,
-					InvokeResponse.class);
+					InvokeResponse.class,
+					DTContext.class,
+					DataTypeValue.class
+					);
 			// @formatter:on
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block

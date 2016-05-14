@@ -1,8 +1,10 @@
 package com.trisvc.modules.brain.parser;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
 //TODO
 //get rid off this class, and use a hashmap<String, String>
+@XmlRootElement
 public class DataTypeValue {
 	
 	private String dataType;
