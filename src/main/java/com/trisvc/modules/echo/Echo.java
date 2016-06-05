@@ -17,7 +17,7 @@ public class Echo extends BaseThread {
 	@Override
 	public void execute() {
 		try {
-			exportObject(new EchoObject(), this.getClass().getSimpleName());
+			exportObject(new EchoObject(), this.getClass().getSimpleName(), this.getInstance());
 		} catch (DBusException e) {
 			e.printStackTrace();
 		}

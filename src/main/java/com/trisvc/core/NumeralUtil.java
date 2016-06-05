@@ -72,7 +72,10 @@ public class NumeralUtil {
 		}
 		
 		public static String convert(String text){
-			logger.debug("Converting: "+text);
+			
+			return text;
+			
+			/*logger.debug("Converting: "+text);
 			StringBuffer sb = new StringBuffer();
 			Matcher matcher = compiledPattern.matcher(text);
 
@@ -92,7 +95,7 @@ public class NumeralUtil {
 			}	
 			matcher.appendTail(sb);
 			logger.debug("Converted: "+sb.toString());
-			return sb.toString();
+			return sb.toString();*/
 		}
 
 		public static void main(String[] args) {

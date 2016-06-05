@@ -2,14 +2,6 @@
 <dataTypes>
 	<dataType type="LOCATION" weight="10000">
 		<definitions>
-			<definition>
-				<pattern>despacho</pattern>
-				<template>despacho</template>
-			</definition>
-			<definition>
-				<pattern>habitación pequeña</pattern>
-				<template>habitacion_pequeña</template>
-			</definition>
 		</definitions>
 	</dataType>
 	<dataType type="PERIOD" weight="9000">

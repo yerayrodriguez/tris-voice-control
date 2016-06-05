@@ -19,5 +19,8 @@
         <module instance="default">
             <qualifiedName>com.trisvc.modules.todo.ToDo</qualifiedName>
         </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.openhab.OpenHab</qualifiedName>
+        </module>
     </modules>
 </launcherConfig>
