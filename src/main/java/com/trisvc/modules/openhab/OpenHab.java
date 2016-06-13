@@ -100,10 +100,11 @@ public class OpenHab extends BaseThread {
 		ModuleCommand c1 = new ModuleCommand("off", patternList1, required1);	
 		
 		List<String> patternList2 = new ArrayList<String>();
-		patternList2.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\])");
+		patternList2.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\]).*(\\[PERCENTAGE\\])");
 		List<String> required2 = new ArrayList<String>();
 		required2.add("LOCATION");
 		required2.add("OPEN_DEVICE");
+		required2.add("PERCENTAGE");
 		ModuleCommand c2 = new ModuleCommand("open", patternList2, required2);	
 		
 		List<String> patternList3 = new ArrayList<String>();
@@ -112,12 +113,20 @@ public class OpenHab extends BaseThread {
 		required3.add("LOCATION");
 		required3.add("OPEN_DEVICE");
 		ModuleCommand c3 = new ModuleCommand("close", patternList3, required3);		
+		
+		List<String> patternList4 = new ArrayList<String>();
+		patternList4.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\])");
+		List<String> required4 = new ArrayList<String>();
+		required4.add("LOCATION");
+		required4.add("OPEN_DEVICE");
+		ModuleCommand c4 = new ModuleCommand("open", patternList4, required4);		
 				
 		List<ModuleCommand> commandList = new ArrayList<ModuleCommand>();
 		commandList.add(c0);
 		commandList.add(c1);
 		commandList.add(c2);
 		commandList.add(c3);
+		commandList.add(c4);
 				
 		List<DTPatternDefinition> definitions = new ArrayList<DTPatternDefinition>();
 		List<String> locations = getListOfLocations(items);

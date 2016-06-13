@@ -68,6 +68,18 @@
 			</definition>
 		</definitions>
 	</dataType>
+	<dataType type="PERCENTAGE" weight="3000">
+		<definitions>
+			<definition>
+				<pattern>(\d{1,2}) por ciento</pattern>
+				<template>${_0}%</template>
+			</definition>
+			<definition>
+				<pattern>la mitad</pattern>
+				<template>50%</template>
+			</definition>
+		</definitions>
+	</dataType>
 	<dataType type="NUMBER" weight="2000">
 		<definitions>
 			<definition>

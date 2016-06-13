@@ -178,6 +178,14 @@ private boolean open(InvokeMessage im, InvokeResponse ir, Message m, Response r)
 			return false;
 		}
 		
+		String percentage = null;
+		for (DataTypeValue dt : im.getParameters()){
+			if (dt.getDataType().equals("PERCENTAGE")){
+				percentage = dt.getValue();
+				break;
+			}
+		}		
+		
 		String type = getType(device, location);
 		
 		if (type == null){
@@ -187,6 +195,9 @@ private boolean open(InvokeMessage im, InvokeResponse ir, Message m, Response r)
 		}
 		
 		String status = getOpenStatus(type);
+		if (percentage != null){
+			status = percentage.replace("%", "");
+		}
 		
 		OpenHabRest o = new OpenHabRest("http://localhost:8080");
 		try {
