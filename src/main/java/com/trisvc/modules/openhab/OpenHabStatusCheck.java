@@ -16,6 +16,7 @@ public class OpenHabStatusCheck extends Endpoint {
             public void onMessage(String message) {
                 OpenHabItem o = OpenHabUtil.unmarshalItem(message);
                 OpenHab.updateState(o);
+         
             }
         });
     }

@@ -94,7 +94,11 @@ public class CommandHandler {
 		fillDataTypeList(commandValues, parserResult.getDataTypesFound());
 
 		if (context != null) {
-			if (context.getModule().equals(this.getModule()) && context.getInstance().equals(this.getInstance())) {
+			//TODO
+			//context must admit fixed context from anywhere
+			//remove "*"
+			//maybe any context field must have associated the module and instance
+			if (context.getModule().equals("*") || (context.getModule().equals(this.getModule()) && context.getInstance().equals(this.getInstance()))) {
 				fillDataTypeList(commandValues, context.getElements());
 			}
 		}

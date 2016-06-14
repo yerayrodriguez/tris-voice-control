@@ -9,6 +9,8 @@ import java.net.URL;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.trisvc.core.launcher.Launcher;
+
 public class OpenHabRest {
 
 	private final String USER_AGENT = "Mozilla/5.0";
@@ -22,7 +24,7 @@ public class OpenHabRest {
 
 	public static void main(String[] args) throws Exception {
 
-		OpenHabRest http = new OpenHabRest("http://localhost:8080");
+		OpenHabRest http = new OpenHabRest("http://"+Launcher.config.getOpenHAB());
 
 		
 		System.out.println("\nTesting 2 - Send Http POST request");

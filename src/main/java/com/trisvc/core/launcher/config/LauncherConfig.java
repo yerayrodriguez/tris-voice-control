@@ -8,22 +8,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = { "busAddress", "location", "modules" })
+@XmlType(propOrder = { "busAddress", "location", "openHAB", "modules" })
 public class LauncherConfig {
 
 	private String busAddress;
 	private String location;
+	private String openHAB;
 	private List<ModuleToLoad> modules;
 
 	public LauncherConfig() {
 		super();
 	}
 
-	public LauncherConfig(List<ModuleToLoad> modules, String busAddress, String location) {
+	public LauncherConfig(List<ModuleToLoad> modules, String busAddress, String location, String openHAB) {
 		super();
 		this.modules = modules;
 		this.busAddress = busAddress;
 		this.location = location;
+		this.openHAB = openHAB;
 	}
 
 	@XmlElementWrapper(name = "modules")
@@ -56,4 +58,13 @@ public class LauncherConfig {
 		this.location = location;
 	}
 
+	public String getOpenHAB() {
+		return openHAB;
+	}
+
+	public void setOpenHAB(String openHAB) {
+		this.openHAB = openHAB;
+	}
+
+	
 }

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.mpris.MediaPlayer2.Struct1;
 
 import com.trisvc.core.NumeralUtil;
+import com.trisvc.core.launcher.Launcher;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.Response;
 import com.trisvc.core.messages.types.invoke.InvokeMessage;
@@ -40,7 +41,10 @@ public class OpenHabObject extends BaseObjectWrapper implements BaseObject {
 			break;
 		case "close":
 			r.setSuccess(close(im,ir,m,r));
-			break;			
+			break;		
+		case "status_open":
+			r.setSuccess(status_open(im,ir,m,r));
+			break;				
 		default:
 			ir.setMessage("Comando desconocido");
 			r.setSuccess(false);
@@ -90,7 +94,7 @@ public class OpenHabObject extends BaseObjectWrapper implements BaseObject {
 		
 		String status = getOnStatus(type);
 		
-		OpenHabRest o = new OpenHabRest("http://localhost:8080");
+		OpenHabRest o = new OpenHabRest("http://"+Launcher.config.getOpenHAB());
 		try {
 			o.sendStatus(device+"_"+location, status);
 		} catch (Exception e) {
@@ -139,7 +143,7 @@ public class OpenHabObject extends BaseObjectWrapper implements BaseObject {
 		
 		String status = getOffStatus(type);
 		
-		OpenHabRest o = new OpenHabRest("http://localhost:8080");
+		OpenHabRest o = new OpenHabRest("http://"+Launcher.config.getOpenHAB());
 		try {
 			o.sendStatus(device+"_"+location, status);
 		} catch (Exception e) {
@@ -199,7 +203,7 @@ private boolean open(InvokeMessage im, InvokeResponse ir, Message m, Response r)
 			status = percentage.replace("%", "");
 		}
 		
-		OpenHabRest o = new OpenHabRest("http://localhost:8080");
+		OpenHabRest o = new OpenHabRest("http://"+Launcher.config.getOpenHAB());
 		try {
 			o.sendStatus(device+"_"+location, status);
 		} catch (Exception e) {
@@ -248,7 +252,7 @@ private boolean open(InvokeMessage im, InvokeResponse ir, Message m, Response r)
 		
 		String status = getCloseStatus(type);
 		
-		OpenHabRest o = new OpenHabRest("http://localhost:8080");
+		OpenHabRest o = new OpenHabRest("http://"+Launcher.config.getOpenHAB());
 		try {
 			o.sendStatus(device+"_"+location, status);
 		} catch (Exception e) {
@@ -258,6 +262,72 @@ private boolean open(InvokeMessage im, InvokeResponse ir, Message m, Response r)
 	
 		return true;
 	}	
+	
+	private boolean status_open(InvokeMessage im, InvokeResponse ir, Message m, Response r){
+		
+		String location = null;
+		for (DataTypeValue dt : im.getParameters()){
+			if (dt.getDataType().equals(OpenHab.LOCATION)){
+				location = dt.getValue();
+				break;
+			}
+		}
+		
+		if (location == null){
+			logger.error("Location missing");
+			return false;			
+		}
+		
+		String device = null;
+		for (DataTypeValue dt : im.getParameters()){
+			if (dt.getDataType().equals(OpenHab.OPEN_DEVICE)){
+				device = dt.getValue();
+				break;
+			}
+		}		
+		
+		if (device == null){
+			logger.error("Device missing");
+			return false;
+		}
+		
+		String type = getType(device, location);
+		
+		if (type == null){
+			ir.setMessage("Dispositivo no encontrado");
+			r.setSuccess(false);	
+			return true;
+		}
+		
+		String state = "";
+		for (OpenHabItem item: OpenHab.getItems().getItemList()){
+			String aux = device+"_"+location;
+			if (item.getName().toLowerCase().equals(aux.toLowerCase())){
+				state = item.getState();
+				
+				ir.setMessage("está "+getWordOpenState(state));
+				r.setSuccess(true);
+				return true;
+			}
+		}
+
+		ir.setMessage("Estado no encontrado");
+		r.setSuccess(true);
+		return true;
+	}	
+	
+	private String getWordOpenState(String state){
+		if ("0".equals(state)){
+			return "abierto";
+		}else if ("100".equals(state)){
+			return "cerrado";
+		}else if ("50".equals(state)){
+			return "abierto hasta la mitad";
+		}else{
+			return "abierto hasta el "+state+" por ciento";
+		}
+		
+	}
 	
 	private String getType(String device, String location){
 		for (OpenHabItem item : OpenHab.getItems().itemList)

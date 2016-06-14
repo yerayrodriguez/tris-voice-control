@@ -3,6 +3,7 @@
 	 <busAddress>SESSION</busAddress>
     <busAddress2>tcp:host=pi,port=55556</busAddress2>
     <location>despacho</location>
+	 <openHAB>localhost:8080</openHAB>
     <modules>
         <module instance="default">
             <qualifiedName>com.trisvc.modules.brain.Brain</qualifiedName>

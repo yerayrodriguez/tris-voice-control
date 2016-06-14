@@ -10,9 +10,8 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 import org.freedesktop.dbus.exceptions.DBusException;
-import org.mpris.MediaPlayer2.Struct1;
 
-import com.trisvc.core.NumeralUtil;
+import com.trisvc.core.launcher.Launcher;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.launcher.thread.ThreadUtil;
 import com.trisvc.core.messages.types.register.RegisterMessage;
@@ -20,6 +19,7 @@ import com.trisvc.core.messages.types.register.structures.DTPatternDefinition;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinition;
 import com.trisvc.core.messages.types.register.structures.DataTypeDefinitionList;
 import com.trisvc.core.messages.types.register.structures.ModuleCommand;
+
 
 public class OpenHab extends BaseThread {
 
@@ -76,7 +76,7 @@ public class OpenHab extends BaseThread {
 	@Override
 	protected RegisterMessage genRegisterMessage() {			
 		
-		OpenHabRest rest= new OpenHabRest("http://localhost:8080");
+		OpenHabRest rest= new OpenHabRest("http://"+Launcher.config.getOpenHAB());
 
 		try {
 			items = OpenHabUtil.unmarshalItems(rest.getItems());
@@ -87,6 +87,7 @@ public class OpenHab extends BaseThread {
 		
 		List<String> patternList0 = new ArrayList<String>();
 		patternList0.add("(?:\\[ON\\]).*(\\[ON_DEVICE\\]).*(\\[LOCATION\\])");
+		patternList0.add("(?:\\[ON\\]).*(\\[ON_DEVICE\\])");
 		List<String> required0 = new ArrayList<String>();
 		required0.add("LOCATION");
 		required0.add("ON_DEVICE");
@@ -94,6 +95,7 @@ public class OpenHab extends BaseThread {
 		
 		List<String> patternList1 = new ArrayList<String>();
 		patternList1.add("(?:\\[OFF\\]).*(\\[ON_DEVICE\\]).*(\\[LOCATION\\])");
+		patternList1.add("(?:\\[OFF\\]).*(\\[ON_DEVICE\\])");
 		List<String> required1 = new ArrayList<String>();
 		required1.add("LOCATION");
 		required1.add("ON_DEVICE");
@@ -101,6 +103,7 @@ public class OpenHab extends BaseThread {
 		
 		List<String> patternList2 = new ArrayList<String>();
 		patternList2.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\]).*(\\[PERCENTAGE\\])");
+		patternList2.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\]).*(\\[PERCENTAGE\\])");
 		List<String> required2 = new ArrayList<String>();
 		required2.add("LOCATION");
 		required2.add("OPEN_DEVICE");
@@ -109,6 +112,7 @@ public class OpenHab extends BaseThread {
 		
 		List<String> patternList3 = new ArrayList<String>();
 		patternList3.add("(?:\\[CLOSE\\]).*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\])");
+		patternList3.add("(?:\\[CLOSE\\]).*(\\[OPEN_DEVICE\\])");
 		List<String> required3 = new ArrayList<String>();
 		required3.add("LOCATION");
 		required3.add("OPEN_DEVICE");
@@ -116,10 +120,19 @@ public class OpenHab extends BaseThread {
 		
 		List<String> patternList4 = new ArrayList<String>();
 		patternList4.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\])");
+		patternList4.add("(?:\\[OPEN\\]).*(\\[OPEN_DEVICE\\])");
 		List<String> required4 = new ArrayList<String>();
 		required4.add("LOCATION");
 		required4.add("OPEN_DEVICE");
-		ModuleCommand c4 = new ModuleCommand("open", patternList4, required4);		
+		ModuleCommand c4 = new ModuleCommand("open", patternList4, required4);	
+		
+		List<String> patternList5 = new ArrayList<String>();
+		patternList5.add("cómo está .*(\\[OPEN_DEVICE\\]).*(\\[LOCATION\\])");
+		patternList5.add("cómo está .*(\\[OPEN_DEVICE\\])");
+		List<String> required5 = new ArrayList<String>();
+		required5.add("LOCATION");
+		required5.add("OPEN_DEVICE");
+		ModuleCommand c5 = new ModuleCommand("status_open", patternList5, required5);			
 				
 		List<ModuleCommand> commandList = new ArrayList<ModuleCommand>();
 		commandList.add(c0);
@@ -127,6 +140,8 @@ public class OpenHab extends BaseThread {
 		commandList.add(c2);
 		commandList.add(c3);
 		commandList.add(c4);
+		commandList.add(c5);
+		
 				
 		List<DTPatternDefinition> definitions = new ArrayList<DTPatternDefinition>();
 		List<String> locations = getListOfLocations(items);
@@ -293,6 +308,7 @@ public class OpenHab extends BaseThread {
 		return off;
 	}	
 	
+    
 	public void statusCheck() {
 		WebSocketContainer container = null;//
 		Session session = null;
@@ -308,7 +324,7 @@ public class OpenHab extends BaseThread {
 					.configurator(new MyClientConfigurator()).build();
 
 			session = container.connectToServer(OpenHabStatusCheck.class, customCec,
-					URI.create("ws://localhost:8080/rest/items?Accept=application/xml"));
+					URI.create("ws://"+Launcher.config.getOpenHAB()+"/rest/items?Accept=application/xml"));
 			wait4TerminateSignal();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -335,8 +351,10 @@ public class OpenHab extends BaseThread {
 	}	
 	
 	public static void updateState(OpenHabItem o){
+
 		for (OpenHabItem item: items.getItemList()){
 			if (item.getName().equals(o.getName())){
+
 				item.setState(o.getState());
 			}
 		}

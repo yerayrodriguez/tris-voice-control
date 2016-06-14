@@ -3,6 +3,7 @@ package com.trisvc.modules.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -12,6 +13,7 @@ import org.freedesktop.dbus.exceptions.DBusException;
 
 import com.trisvc.core.PlaySoundFile;
 import com.trisvc.core.Signal;
+import com.trisvc.core.launcher.Launcher;
 import com.trisvc.core.launcher.thread.BaseThread;
 import com.trisvc.core.messages.Message;
 import com.trisvc.core.messages.Response;
@@ -24,6 +26,7 @@ import com.trisvc.core.messages.types.tts.TTSMessage;
 import com.trisvc.core.messages.types.tts.TTSResponse;
 import com.trisvc.modules.RemoteObjectWrapper;
 import com.trisvc.modules.brain.parser.DTContext;
+import com.trisvc.modules.brain.parser.DataTypeValue;
 
 public class Console extends BaseThread {
 	
@@ -46,6 +49,7 @@ public class Console extends BaseThread {
 			String line;
 			String inmediateContext = null;
 			DTContext normalContext = null;
+			String location = Launcher.config.getLocation();
 			Date contextTime = new GregorianCalendar().getTime();
 			System.out.print("Comando: ");
 			while (!stop && (line = readLine()) != null) {
@@ -78,7 +82,34 @@ public class Console extends BaseThread {
 				//hay qeu tomar time para el control del contexto
 				//por ahora se controla aqui, tal vez habría que permitir que 
 				//cada módulo lo controle
-				//y que cada modulo defina el tiempo que quiera?				
+				//y que cada modulo defina el tiempo que quiera?	
+				
+				if (location != null && location.trim().length()>0){
+					if (normalContext == null){
+						normalContext = new DTContext("*","");
+						normalContextValid = true;
+					}
+					
+					if (normalContext.getElements()==null){
+						normalContext.setElements(new ArrayList<DataTypeValue>());
+					}
+					
+					boolean locationFound = false;
+					for (DataTypeValue o: normalContext.getElements()){
+						if (o.getDataType().equals("LOCATION")){
+							locationFound = true;
+							break;
+						}
+					}
+					if (locationFound == false){
+						DataTypeValue dtv = new DataTypeValue("LOCATION",location);
+						if (normalContextValid == false){
+							normalContext = new DTContext("*","");
+							normalContextValid = true;							
+						}
+						normalContext.addContextElement(dtv);
+					}
+				}
 				
 				pm.setTextToParse(line);
 				if (normalContextValid){
