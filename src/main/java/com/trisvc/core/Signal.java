@@ -26,4 +26,15 @@ public interface Signal extends DBusInterface {
 
 	}	
 	
+	public class STTSignal extends DBusSignal{
+
+		public final String text;
+		
+		public STTSignal(String path, String text) throws DBusException {
+			super(path, text);
+			this.text = text;
+		}
+
+	}	
+	
 }

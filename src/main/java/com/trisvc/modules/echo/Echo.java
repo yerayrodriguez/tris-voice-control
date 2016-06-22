@@ -28,7 +28,7 @@ public class Echo extends BaseThread {
 		try {
 			unExportObject(EchoObject.class);
 			// TODO
-			// Think a way to wait for others thread finish
+			// Think a way to wait for others thread finish			
 			ThreadUtil.sleep(WAIT_CLOSE_MS);
 			getLogger().info("Exit");
 			System.exit(0);
