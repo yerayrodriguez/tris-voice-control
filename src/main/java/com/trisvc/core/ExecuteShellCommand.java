@@ -11,13 +11,13 @@ public class ExecuteShellCommand {
 
 	
 	public static String execute(String[] command) {
-		System.out.println(command);
+		
 
 		StringBuffer output = new StringBuffer();
 
 		Process p;
 		try {
-			System.out.println(command);
+		
 			p = Runtime.getRuntime().exec(command);
 			p.waitFor();
 			BufferedReader reader = 

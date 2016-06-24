@@ -176,7 +176,7 @@ public class CommandHandler {
 	// TODO
 	// Remove
 	public void dump() {
-		System.out.println("Command: " + this.getCommand());
+		
 		for (CommandPattern p : this.getPatternList()) {
 			p.dump();
 		}
@@ -184,7 +184,6 @@ public class CommandHandler {
 
 	public static void main(String[] args) {
 
-		LogManager.getLogger("entrada").debug("empezando");
 
 		List<String> commandPattern = new ArrayList<String>();
 		commandPattern.add("añade(?:.*lista)?(?:.*\\[LIST_LIST\\])? (.*)");
@@ -203,7 +202,6 @@ public class CommandHandler {
 		
 		CommandResult r=c.eval(dtc, p);
 
-			System.out.println(r);
 
 	}
 

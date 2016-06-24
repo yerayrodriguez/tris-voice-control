@@ -29,9 +29,9 @@ public class RemoteObjectWrapper {
 		}
 		m.setMessageID(UUID.randomUUID().toString());
 		String xmlMessage = m.toString();
-		System.out.println(xmlMessage);
+		//System.out.println(xmlMessage);
 		String xmlResponse = o.send(xmlMessage);
-		System.out.println(xmlResponse);
+		//System.out.println(xmlResponse);
 		Response r = (Response) MessageUtil.unmarshal(xmlResponse);
 		return r;
 	}

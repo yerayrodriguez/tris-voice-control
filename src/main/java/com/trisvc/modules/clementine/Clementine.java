@@ -60,12 +60,13 @@ public class Clementine extends BaseThread{
 		ModuleCommand c0 = new ModuleCommand("sintonize", patternList0, required0);		
 		
 		List<String> patternList1 = new ArrayList<String>();
-		patternList1.add("(?:pon|enciende)(?:.*)(?:radio|música)");
+		patternList1.add("(?:pon)(?:.*)(?:radio|música)");
 		List<String> required1 = new ArrayList<String>();
 		ModuleCommand c1 = new ModuleCommand("start", patternList1, required1);
 		
 		List<String> patternList2 = new ArrayList<String>();
-		patternList2.add("(?:para|apaga|quita)(?:.*)(?:radio|música)");
+		patternList2.add("(?:quita)(?:.*)(?:radio|música)");
+		patternList2.add("(?:\\[OFF\\])(?:.*)(?:radio|música)");
 		List<String> required2 = new ArrayList<String>();
 		ModuleCommand c2 = new ModuleCommand("stop", patternList2, required2);
 		

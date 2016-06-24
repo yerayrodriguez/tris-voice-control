@@ -45,7 +45,7 @@ public class OpenHab extends BaseThread {
 	public static final Integer OPEN_WEIGHT = 9500;	
 	
 	public static final String CLOSE = "CLOSE";
-	public static final Integer CLOSE_WEIGHT = 9400;		
+	public static final Integer CLOSE_WEIGHT = 9450;		
 
 	@Override
 	public void execute() {
@@ -286,7 +286,7 @@ public class OpenHab extends BaseThread {
 	private List<String> getListOff(){
 		List<String> off = new ArrayList<String>();
 		off.add("apagar");
-		off.add("apaga");
+		off.add("apaga");		
 		return off;
 	}
 	

@@ -13,6 +13,9 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.darkprograms.speech.recognizer.GoogleResponse;
 import com.darkprograms.speech.recognizer.Recognizer;
 import com.darkprograms.speech.util.Complex;
@@ -23,9 +26,11 @@ import net.sourceforge.javaflacencoder.FLACFileWriter;
 
 public class STTGoogleRecognizer {
 	
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
+	
 	final int FREQ_LIMIT = 150;
 	final int WINDOW_UP_LIMIT = 1;
-	final int WINDOW_DOWN_LIMIT = 5;
+	final int WINDOW_DOWN_LIMIT = 8;
 	final int WINDOW_OVERFLOW_LIMIT = 50;
 	final double CONFIDENCE_LIMIT = 0.85;
 	final String FILE_PATH = "/tmp/trisvc.flac";
@@ -91,7 +96,10 @@ public class STTGoogleRecognizer {
 					contadorAbajo = 0;
 				}
 			}
-			//System.out.println(contadorArriba+" "+contadorAbajo);
+			
+			if (contadorArriba != 0 || contadorAbajo != 0){
+				logger.trace("Counters: "+contadorArriba+" "+contadorAbajo);
+			}	
 			
 			if (contadorArriba > WINDOW_OVERFLOW_LIMIT){
 				contadorArriba = 0;
@@ -113,6 +121,7 @@ public class STTGoogleRecognizer {
 					out = new ByteArrayOutputStream();					
 					
 					if (result != null){
+						logger.debug(result);
 						return result;
 					}
 
@@ -153,7 +162,9 @@ public class STTGoogleRecognizer {
 				GOOGLE_KEY);
 		try {
 			GoogleResponse gr = rec.getRecognizedDataForFlac(FILE_PATH);
-			//displayResponse(ja);
+			if (logger.isDebugEnabled()){
+				displayResponse(gr);
+			}
 			if (gr != null && gr.getConfidence()!= null){
 				if (Double.parseDouble(gr.getConfidence())>=CONFIDENCE_LIMIT) {
 					return gr.getResponse();
@@ -168,14 +179,14 @@ public class STTGoogleRecognizer {
 
 	private void displayResponse(GoogleResponse gr) {
 		if (gr.getResponse() == null) {
-			System.out.println((String) null);
+			logger.debug("Google Response: null");
 			return;
 		}
-		System.out.println("Google Response: " + gr.getResponse());
-		System.out.println("Google is " + Double.parseDouble(gr.getConfidence()) * 100 + "% confident in" + " the reply");
-		System.out.println("Other Possible responses are: ");
+		logger.debug("Google Response: " + gr.getResponse());
+		logger.debug("Google is " + Double.parseDouble(gr.getConfidence()) * 100 + "% confident in" + " the reply");
+		logger.debug("Other Possible responses are: ");
 		for (String s : gr.getOtherPossibleResponses()) {
-			System.out.println("\t" + s);
+			logger.debug("\t" + s);
 		}
 	}
 

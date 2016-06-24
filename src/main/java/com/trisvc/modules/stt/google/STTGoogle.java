@@ -28,7 +28,6 @@ public class STTGoogle extends BaseThread {
 		try {
 			Signal.STTSignal s = new Signal.STTSignal("/com/trisvc/modules/stt",text);
 			getDBusConnection().sendSignal(s);
-			System.out.println("send: "+text);
 		} catch (DBusException e) {
 			e.printStackTrace();
 		}

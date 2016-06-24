@@ -181,16 +181,13 @@ public class VoiceIF extends BaseThread {
 				contextTime = new GregorianCalendar().getTime();
 	
 				TTS(ir.getMessage());
-				
-				System.out.flush();
+
 
 
 				if (line.equals("memoryDump")){
 					//memory.send(MessageType.MemoryDumpMessage.getType(), "");
 				}
-				System.out.print("Comando: ");
-			
-			System.out.println("fuera");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,7 +199,7 @@ public class VoiceIF extends BaseThread {
 
 			@Override
 			public void handle(Signal.STTSignal sig) {
-				System.out.println("received:"+sig.text);
+				logger.info("Voice command:"+sig.text);
 				handleSTT(sig.text);
 
 

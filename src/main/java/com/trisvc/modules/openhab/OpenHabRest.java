@@ -30,7 +30,7 @@ public class OpenHabRest {
 		System.out.println("\nTesting 2 - Send Http POST request");
 		//100 close
 		//0 open
-		//http.sendStatus("Persiana_Dormitorio","100");
+		http.sendStatus("persiana_dormitorio","0");
 		OpenHabItems o = OpenHabUtil.unmarshalItems(http.getItems());
 		System.out.println(OpenHabUtil.marshalItems(o));
 

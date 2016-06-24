@@ -51,7 +51,7 @@ public class Console extends BaseThread {
 			DTContext normalContext = null;
 			String location = Launcher.config.getLocation();
 			Date contextTime = new GregorianCalendar().getTime();
-			System.out.print("Comando: ");
+			System.out.print("Enter command: ");
 			while (!stop && (line = readLine()) != null) {
 				
 				if (line.equalsIgnoreCase("quit") || line.equalsIgnoreCase("exit")) {
@@ -172,9 +172,9 @@ public class Console extends BaseThread {
 				if (line.equals("memoryDump")){
 					//memory.send(MessageType.MemoryDumpMessage.getType(), "");
 				}
-				System.out.print("Comando: ");
+				System.out.print("Enter command: ");
 			}
-			System.out.println("fuera");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

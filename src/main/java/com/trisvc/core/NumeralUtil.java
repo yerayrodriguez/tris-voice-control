@@ -100,7 +100,7 @@ public class NumeralUtil {
 
 		public static void main(String[] args) {
 
-			convert("es la una y cinco con treinta y TRes y dieciseis o dieciséis ta");
+			System.out.println(convert("es la una y enciende cinco con treinta y TRes y dieciseis o dieciséis ta"));
 
 		}
 
