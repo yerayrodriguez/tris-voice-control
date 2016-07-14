@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<launcherConfig>
+    <busAddress>SESSION</busAddress>
+    <location>despacho</location>
+	 <openHAB>localhost:8080</openHAB>
+	 <googleKey>AIzaSyCKdQ4Ktck8DzawW7trZQPnkZ_xd5Upx-4</googleKey>
+    <modules>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.brain.Brain</qualifiedName>
+        </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.tts.pico.PicoTTS</qualifiedName>
+        </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.todo.ToDo</qualifiedName>
+        </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.openhab.OpenHab</qualifiedName>
+        </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.stt.google.STTGoogle</qualifiedName>
+        </module>
+        <module instance="default">
+            <qualifiedName>com.trisvc.modules.voiceif.VoiceIF</qualifiedName>
+        </module>
+    </modules>
+</launcherConfig>

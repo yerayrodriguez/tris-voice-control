@@ -114,14 +114,14 @@ public class STTGoogleRecognizer {
 			if (contadorArriba > 0 && contadorAbajo > WINDOW_DOWN_LIMIT) {
 				if (contadorArriba > WINDOW_UP_LIMIT) {
 
-					String result = dumpAndRecognize();
 					
+					String result = dumpAndRecognize();
+					logger.debug("Voice detected: "+result);
 					contadorArriba = 0;
 					contadorAbajo = 0;
 					out = new ByteArrayOutputStream();					
 					
 					if (result != null){
-						logger.debug(result);
 						return result;
 					}
 
@@ -179,14 +179,14 @@ public class STTGoogleRecognizer {
 
 	private void displayResponse(GoogleResponse gr) {
 		if (gr.getResponse() == null) {
-			logger.debug("Google Response: null");
+			logger.trace("Google Response: null");
 			return;
 		}
-		logger.debug("Google Response: " + gr.getResponse());
-		logger.debug("Google is " + Double.parseDouble(gr.getConfidence()) * 100 + "% confident in" + " the reply");
-		logger.debug("Other Possible responses are: ");
+		logger.trace("Google Response: " + gr.getResponse());
+		logger.trace("Google is " + Double.parseDouble(gr.getConfidence()) * 100 + "% confident in" + " the reply");
+		logger.trace("Other Possible responses are: ");
 		for (String s : gr.getOtherPossibleResponses()) {
-			logger.debug("\t" + s);
+			logger.trace("\t" + s);
 		}
 	}
 

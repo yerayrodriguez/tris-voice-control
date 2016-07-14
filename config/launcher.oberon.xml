@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <launcherConfig>
-	 <busAddress>SESSION</busAddress>
-    <busAddress2>tcp:host=pi,port=55556</busAddress2>
-    <location>despacho</location>
-	 <openHAB>localhost:8080</openHAB>
+    <busAddress>tcp:host=pi,port=55557</busAddress>
+    <location>dormitorio</location>
     <modules>
         <module instance="default">
-            <qualifiedName>com.trisvc.modules.brain.Brain</qualifiedName>
-        </module>
-        <module instance="default">
-            <qualifiedName>com.trisvc.modules.echo.Echo</qualifiedName>
+            <qualifiedName>com.trisvc.modules.clementine.Clementine</qualifiedName>
         </module>
         <module instance="default">
             <qualifiedName>com.trisvc.modules.console.Console</qualifiedName>
-        </module>
-        <module instance="default">
-            <qualifiedName>com.trisvc.modules.tts.pico.PicoTTS</qualifiedName>
-        </module>
-        <module instance="default">
-            <qualifiedName>com.trisvc.modules.todo.ToDo</qualifiedName>
-        </module>
-        <module instance="default">
-            <qualifiedName>com.trisvc.modules.openhab.OpenHab</qualifiedName>
         </module>
     </modules>
 </launcherConfig>

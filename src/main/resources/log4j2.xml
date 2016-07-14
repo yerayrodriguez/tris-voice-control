@@ -2,14 +2,20 @@
 <Configuration monitorInterval="30">
   <Appenders>
     <Console name="STDOUT" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d %-5p [%c{1}] (%F:%L) - %m%n"/>
+    <PatternLayout pattern="%d %-5p - %m%n"/>
+
     </Console>
   </Appenders>
   <Loggers>
     <Root level="info">
       <AppenderRef ref="STDOUT"/>
     </Root>
-		   
+  <Logger name="com.trisvc.modules.voiceif.VoiceIF" level="debug" additivity="false"> 
+    <AppenderRef ref="STDOUT"/> 
+  </Logger>  	
+  <Logger name="com.trisvc.modules.stt.google.STTGoogleRecognizer" level="debug" additivity="false"> 
+    <AppenderRef ref="STDOUT"/> 
+  </Logger>    	   
   </Loggers>
 
 </Configuration>

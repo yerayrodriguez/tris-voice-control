@@ -23,7 +23,7 @@ public class Launcher {
 	}
 
 	private static void startThread(ModuleToLoad m) {
-		logger.debug("Starting "+m.getQualifiedName()+"-"+m.getInstance());
+		logger.info("Starting "+m.getQualifiedName()+"-"+m.getInstance());
 		BaseThread tb = ThreadFactory.getThreadBase(m);
 		Thread t = new Thread(tb);
 		t.start();

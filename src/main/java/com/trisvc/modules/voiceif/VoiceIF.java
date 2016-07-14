@@ -130,6 +130,7 @@ public class VoiceIF extends BaseThread {
 				
 				ParserResponse pr = null;
 				if (line.trim().toLowerCase().startsWith(idName)){
+					logger.debug("Command prefix '"+idName+"' detected");
 					pm.setTextToParse(line);
 					if (normalContextValid){
 						pm.setContext(normalContext);
@@ -140,7 +141,9 @@ public class VoiceIF extends BaseThread {
 				} else if (inmediateContextValid && inmediateContext != null){
 						//TODO
 						//hacer un método para esto?
+						
 						line = inmediateContext.replace("[INPUT]", line);
+						logger.debug("Trying to use inmediate context: "+line);
 						Message m2 = new Message();
 						ParserMessage pm2 = new ParserMessage();	
 						pm2.setTextToParse(line);
@@ -149,6 +152,7 @@ public class VoiceIF extends BaseThread {
 						response = brain.send(m2);
 						pr = (ParserResponse)response.getBody();					
 				}else{
+					logger.debug("No operation found");
 					return;
 				}
 					
@@ -199,7 +203,7 @@ public class VoiceIF extends BaseThread {
 
 			@Override
 			public void handle(Signal.STTSignal sig) {
-				logger.info("Voice command:"+sig.text);
+				//logger.debug("Voice detected: "+sig.text);
 				handleSTT(sig.text);
 
 
